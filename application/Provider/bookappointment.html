@@ -1,0 +1,245 @@
+	
+    <div ng-controller="providerbookAppointmentController">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar-two">
+        <div class="container">
+            <div class="row align-items-center inner-banner">
+                <div class="col-md-12 col-12 text-center">
+                    <h2 class="breadcrumb-title">Booking</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Booking</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+        <!-- Loading -->
+        <div class="container loaderprogress_Container" ng-show="isLoading">
+            <div class="clearfix text-center loaderprogress" >
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+            </div>
+        <!-- /Loading -->
+    
+    <!-- Page Content -->
+    <div ng-show="!isLoading">
+    <div class="content">
+        <div class="container">
+        
+            <div class="row">
+                <div class="col-12" ng-if="isDoctorFound">
+                
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="booking-doc-info" ng-if="isDoctorFound">
+                                <a href="javascript:void(0)" class="booking-doc-img">
+                                    <img src="{{doctor.DoctorImage}}" alt="User Image">
+                                </a>
+                                <div class="booking-info">
+                                    <h4><a href="javascript:void(0)">{{doctor.Title}} {{doctor.DoctorName}}</a></h4>
+                                    <p class="doc-speciality">{{doctor.Education}}</p>
+                                    <p class="doc-department">{{doctor.Specialty}}</p>
+                                    <p class="doc-location">
+                                                        
+                                        <i class="feather-award"></i> <span>{{doctor.Experience}}</span>{{doctor.Experience>1?' Years':' Year'}} of Experience
+                                    </p>
+
+                                    <div class="rating">
+                                        <i class="fas fa-star filled" ng-repeat="x in stars=((doctor.Ratings)| stars)  track by $index"></i>
+                                        <i class="fas fa-star" ng-repeat="x in stars=((doctor.Ratings) | unstars)  track by $index"></i>
+                                        <span class="d-inline-block average-rating">{{doctor.Feedbacks}}</span>
+                                    </div>
+                                    <div class="clinic-details">
+                                        <ul class="nav nav-tabs nav-tabs-bottom" role="tablist">
+                                            <li class="nav-item" role="presentation" ng-repeat="s in doctor.Locations.split('@,') track by $index"><a class="nav-link" href="#locationtab{{doctor.DoctorId}}{{$index}}" ng-click="fetchSlotsTab($index);" data-bs-toggle="tab" aria-selected="true" role="tab" ng-class="$index==0?'active':''">Location {{($index+1)}}</a></li>
+                                        </ul>
+    
+                                        <div class="tab-content">
+                                            <div class="tab-pane show" id="locationtab{{doctor.DoctorId}}{{$index}}" role="tabpanel" ng-repeat="s in doctor.Locations.split('@,') track by $index" ng-class="$index==0?'active':''">
+                                                <p class="doc-location" >
+                                        
+                                                    <span><i class="feather-map-pin"></i>{{s}}</span>
+                                                    <!-- <span><i class="feather-map-pin"></i>{{s | split:'@-@':0}}</span> -->
+                                                    
+                                                    
+                                                </p>
+                                            </div>
+    
+                                        </div>
+                                       
+                                    </div>
+                                    <p style="display: none;" class="text-muted mb-0" ng-repeat="s in doctor.Locations.split('@,')"><i class="fas fa-map-marker-alt"></i>{{s}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-12 col-sm-12 col-md-12 mb10"  >
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-6 row">
+                            <div class="col-12 col-sm-3 col-md-3 mt10">
+                            <label class="payment-radio credit-card-option">
+                                <input type="radio" name="visitType" ng-model="rdovisitType" value="Clinic Visit">
+                                <span class="checkmark"></span>
+                                <i class="feather-calendar online-icon"></i> Clinic Visit
+                            </label>
+                        </div>
+                        <div class="col-12 col-sm-3 col-md-3 mt10">
+                            <label class="payment-radio credit-card-option">
+                                <input type="radio" name="visitType" ng-model="rdovisitType" value="Tele Visit" disabled>
+                                <span class="checkmark"></span>
+                                <i class="feather-video online-icon"></i> Tele Visit
+                            </label>
+                        </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6">
+                            <!-- <label class="credit-card-option">
+                              <span class="mt10" style="display:inline-block;  width: 8%;position: relative; float: left;">   <i class="fas fa-map-marker-alt"></i></span>
+                              <span style="width: 92%; display:inline-block; position: relative;  float: left;"> 
+                                <select ng-model="cmblocation" class="form-select form-control" id="cmbLocation" ng-change="fetchSlots();">
+                                    <option ng-repeat="location in clients"   value="{{location.HospitalId}}">{{location.HospitalName}}</option>
+                                </select>
+                                </span>
+
+                                </label> -->
+                    </div>
+                        </div>
+                        <!-- <div class="col-12 col-sm-4 col-md-4 text-sm-end">
+                            <div class="bookingrange btn btn-white btn-sm mb-3">
+                                <i class="far fa-calendar-alt me-2"></i>
+                                <span></span>
+                                <i class="fas fa-chevron-down ms-2"></i>
+                            </div>
+                        </div> -->
+                    </div>
+                    <!-- Schedule Widget -->
+                    <div class="card booking-schedule schedule-widget">
+                    
+                        <!-- Schedule Header -->
+                        <div class="schedule-header">
+                            <div class="row">
+                                <div class="col-md-12">
+                                
+                                    <!-- Day Slot -->
+                                    <div class="day-slot">
+                                        <ul>
+                                            <li class="left-arrow" >
+                                                <button ng-click="adjustdate('s');" class="btn-booking" ng-disabled="((!(sDate>minDate)) || (sDate==minDate))">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </button>
+                                                
+                                               
+                                            </li>
+                                            <li>
+                                                <span>{{sDate | date:'EEEE'}}, {{sDate | date:'dd MMMM '}} {{sDate | date:'yyyy'}}
+                                                       <i class="fas fa-calendar-alt fa-cal" aria-hidden="true"></i> 
+                                                       <input type="text" class="form-control txtCal" id="hdnAppointmentDate" datepickerappointment style="opacity: 0.0;">
+                                                  <!-- <div class="cal-icon" ng-click="openCalender();">
+                                                         <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                                    </div> -->
+                                                </span>
+                                            </li>
+
+                                            <li class="right-arrow" >
+                                                <button ng-click="adjustdate('a');" class="btn-booking" ng-disabled="(sDate>maxDate)">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /Day Slot -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Schedule Header -->
+                        
+                        <!-- Schedule Content -->
+                        <div class="schedule-cont">
+                            <div class="row">
+                                <div class="col-md-12">
+                                                <!-- Loading Time Slot -->
+                                                    <div class="container loaderprogress_Container" ng-show="isTimeSlotLoading">
+                                                        <div class="clearfix text-center loaderprogress" >
+                                                            <div class="spinner-border" role="status" ng-show="isSloatsFound">
+                                                                <span class="visually-hidden">Loading...</span>
+                                                            </div>
+                                                            <div ng-show="!isSloatsFound"> Slots Not Found for {{sDate | date:'dd MMMM yyyy'}}</div>
+                                                            </div>
+                                                        </div>
+                                                    <!-- /Loading Time Slot -->
+                                    <!-- Time Slot -->
+                                    <div class="time-slot" ng-show="((!isTimeSlotLoading) && (isSloatsFound))">
+                                        <ul class="clearfix" ng-if="IsMorningScheule">
+                                            <h4><i class="fa-solid fa-cloud-sun"></i> Morning</h6>
+                                            <li ng-repeat="slot in morningTimeSloats">
+                                                <a class="timing {{slot.SlotAvailablity=='B'?'Booked-Time-Slot':slot.SlotAvailablity=='T'?'Disable-Time-Slot':slot.SlotAvailablity=='L'?'Disable-Time-Slot':slot.SlotAvailablity=='H'?'Disable-Time-Slot':''}}" ng-disabled="{{slot.SlotAvailablity=='A'?false:true}}" ng-click="selectSlot($event,slot.FromTime,slot.EndTime,slot.SlotUTCDateTime,slot.SlotAvailablity)">
+                                                    <span>{{slot.FromTime | split:' ':0}}</span> <span>{{slot.FromTime | split:' ':1}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="clearfix" ng-if="IsAfternoonScheule">
+                                            <h4><i class="fa-sharp fa-solid fa-sun fa-fade"></i> Afternoon</h6>
+                                            <li ng-repeat="slot in afternoonTimeSloats">
+                                                <a class="timing {{slot.SlotAvailablity=='B'?'Booked-Time-Slot':slot.SlotAvailablity=='T'?'Disable-Time-Slot':slot.SlotAvailablity=='L'?'Disable-Time-Slot':slot.SlotAvailablity=='H'?'Disable-Time-Slot':''}}" ng-disabled="{{slot.SlotAvailablity=='A'?false:true}}" ng-click="selectSlot($event,slot.FromTime,slot.EndTime,slot.SlotUTCDateTime,slot.SlotAvailablity)">
+                                                    <span>{{slot.FromTime | split:' ':0}}</span> <span>{{slot.FromTime | split:' ':1}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="clearfix" ng-if="IsEveningScheule">
+                                            <h4><i class="fas fa-cloud-moon"></i> Evening</h6>
+                                            <li ng-repeat="slot in eveningTimeSloats">
+                                                <a class="timing {{slot.SlotAvailablity=='B'?'Booked-Time-Slot':slot.SlotAvailablity=='T'?'Disable-Time-Slot':slot.SlotAvailablity=='L'?'Disable-Time-Slot':slot.SlotAvailablity=='H'?'Disable-Time-Slot':''}}" ng-disabled="{{slot.SlotAvailablity=='A'?false:true}}" ng-click="selectSlot($event,slot.FromTime,slot.EndTime,slot.SlotUTCDateTime,slot.SlotAvailablity)">
+                                                    <span>{{slot.FromTime | split:' ':0}}</span> <span>{{slot.FromTime | split:' ':1}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div ng-show="!isSloatsFound"> Slots Not Found!</div>
+                                    </div>
+                                    <!-- /Time Slot -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Schedule Content -->
+                        
+                    </div>
+                    <!-- /Schedule Widget -->
+                    
+                    <!-- Submit Section -->
+                    <div class="submit-section proceed-btn text-end">
+                        <button ng-click="goforBook();" class="btn btn-primary submit-btn" ng-disabled="(!selectedSlot)"><i class="fa fa-step-forward" aria-hidden="true"></i> Proceed to Book Appointment</button>
+                    </div>
+                    <!-- /Submit Section -->
+                    
+                </div>
+            </div>
+                <div class="col-12" ng-if="!isDoctorFound">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="doctor-widget">
+                                <h4>Provider Not Found</h4>
+                                </div>
+                        </div>
+                        </div>
+
+                </div>
+            
+        </div>
+
+    </div>	
+    </div>	
+    <!-- /Page Content -->
+
+
+    </div>

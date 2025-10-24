@@ -1,0 +1,306 @@
+
+
+<!-- Page Content -->
+<div class="login-content-info" ng-controller="patientregistrationController">
+    <div class="container">
+
+        <!-- Patient Signup -->
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6 login-left">
+                <img src="assets/img/login-banner.png" class="img-fluid" alt="Doccure Login">	
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="account-content">
+                    <div class="login-shapes">
+                        <div class="shape-img-left">
+                            <img src="assets/img/shape-01.png" alt="shape-image">
+                        </div>
+                        <div class="shape-img-right">
+                            <img src="assets/img/shape-02.png" alt="shape-image">
+                        </div>
+                    </div>
+                    <div class="account-info">
+                        <div class="login-back">
+                            <a href="Registration"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
+                        </div>
+                        <div class="login-title">
+                            <h3>Patient Signup</h3>
+                            <p class="mb-0">Welcome back! Please enter your details.</p>
+                        </div>
+                        <form name="frmPatientRegistration" ng-submit="registerUser();">
+                            <div class="row">
+                                
+                        
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">First Name</label>
+                                <input type="text" class="form-control" name="firstName" ng-model="txtfirstName" ng-class="((frmPatientRegistration.firstName.$touched && frmPatientRegistration.firstName.$invalid)?'is-invalid':(( frmPatientRegistration.firstName.$valid)?'is-valid':''))" placeholder="Enter Your First Name" maxlength="50" minlength="2" required only-aplhanumeric>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">Middle Name</label>
+                                <input type="text" class="form-control" name="middleName" ng-model="txtmiddleName" placeholder="Enter Your Middle Name" maxlength="50" minlength="2" only-aplhanumeric>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">Last Name</label>
+                                <input type="text" class="form-control" name="lastName" ng-model="txtlastName" ng-class="((frmPatientRegistration.lastName.$touched && frmPatientRegistration.lastName.$invalid)?'is-invalid':((frmPatientRegistration.lastName.$valid)?'is-valid':''))" placeholder="Enter Your Last Name" maxlength="50" minlength="2" required only-aplhanumeric>
+                            </div>
+                        </div>
+                
+                        
+                                    <div class="col-12 col-md-6">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Gender</label>
+                                            
+                                            <div class="row">
+                                                <div class="col-12 col-sm-4 col-md-4" ng-repeat="gender in Genders">
+                                                <label class="payment-radio credit-card-option txtRadio">
+                                                    <input type="radio" name="gender" ng-value="gender" ng-model="$parent.selectedGender">
+                                                    <span class="checkmark"></span>
+                                                    {{ gender.gendername }}
+                                                </label>
+                                               
+                                            </div>
+                                            
+                 
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                    
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">Date of Birth</label>
+                                <div class="cal-icon">
+                                    <input type="text"  name="dateofbirth" ng-model="txtDateofBirth" ng-class="((frmPatientRegistration.dateofbirth.$touched &&  (!regDOBinWords))?'is-invalid':((regDOBinWords)?'is-valid':''))"  class="form-control"  placeholder="Select Your Date Of Birth" maxlength="10"   datepicker>
+                                </div>
+                                {{txtDateofBirth}}
+                                {{regDOBinWords}}
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3 txtLogin">
+                                <label class="mb-2">Phone Number</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isMobileChecking"></i>
+                                <input class="form-control form-control-lg group_formcontrol" ng-disabled="isMobileChecking" acode="patient-registration" placeholder="Enter Your Phone Number"  id="phone" name="phone" type="text" ng-model="txtPhoneNumber" ng-class="(((frmPatientRegistration.phone.$touched && frmPatientRegistration.phone.$invalid) ||  ((!isMobileValid) && (isMobileChecked)))?'is-invalid':(((frmPatientRegistration.phone.$valid) && (isMobileValid) && (isMobileChecked))?'is-valid':''))" ng-blur="checkMobileNumber();" minlength="7" maxlength="12" only-numeric required>
+                                <span class="lblError" style="color: brown;" ng-show="((frmPatientRegistration.phone.$error.minlength))">Minimum 7 characters.</span>
+                                <span class="lblError"  style="color: brown;" ng-show="((!isMobileValid) && (isMobileChecked) && (!isMobileChecking) && (!frmPatientRegistration.phone.$error.minlength) && (!frmPatientRegistration.phone.$error.required))">Mobile Number with Coutry Already Exists!</span>
+                                
+                            </div>
+                           
+                            
+                        </div>
+                            
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">Email Id</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isEmailChecking"></i>
+                                <input type="text" class="form-control" placeholder="Enter Your Email Id" ng-disabled="isEmailChecking" name="emailid" ng-model="txtEmailid" ng-class="(((frmPatientRegistration.emailid.$touched && frmPatientRegistration.emailid.$invalid) ||  ((!isEmailValid) && (isEmailChecked)))?'is-invalid':(((frmPatientRegistration.emailid.$valid)&& (isEmailValid) && (isEmailChecked))?'is-valid':''))" ng-blur="checkEmailAddress();"  minlength="6" maxlength="150" only-email required>
+                                <span class="lblError"  style="color: brown;" ng-show="((!isEmailValid) && (isEmailChecked) && (!isEmailChecking) &&(!frmPatientRegistration.emailid.$error.required) && (!frmPatientRegistration.emailid.$error.emailPattern) )">Email Id Already Exists!</span>
+                                <span class="lblError" style="color: brown;" ng-show="frmPatientRegistration.emailid.$dirty&&frmPatientRegistration.emailid.$error.emailPattern">Please Enter Valid Email</span>
+                            </div>
+                           
+                        </div>
+                        
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">City</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isCityFetching"></i>
+                                <select class="form-select form-control" ng-disabled="isCityFetching" name="city" ng-model="cmbCity" ng-class="((frmPatientRegistration.city.$touched && frmPatientRegistration.city.$invalid)?'is-invalid':((frmPatientRegistration.city.$valid)?'is-valid':''))"  required>
+                                    <option value="">Select City</option>  
+                                    <option ng-repeat="city in cityList" value="{{city.ctID}}">{{city.ctName}}</option>
+
+                                </select>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">National Id</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isSSNChecking"></i>
+                                <!-- ng-class="(((frmPatientRegistration.celulaid.$touched && frmPatientRegistration.celulaid.$invalid)||   ((!isSSNValid) && (isSSNChecked)))?'is-invalid':(((frmPatientRegistration.celulaid.$valid)&& (isSSNValid) && (isSSNChecked))?'is-valid':''))"  -->
+                                <input type="text" class="form-control" placeholder="Enter Your National Id" name="celulaid" ng-model="txtcelulaid"
+                                ng-class="((frmPatientRegistration.celulaid.$touched) && (isSSNChecked)&& ((!isSSNValid))?'is-invalid':(((frmPatientRegistration.celulaid.$valid) && (isSSNChecked) && (txtcelulaid.trim()!='') )?'is-valid':''))"
+                                 ng-blur="checkSSN();" ng-change="handleSSNChange();" minlength="4" maxlength="10" only-aplhanumeric>
+                                <span class="lblError"  style="color: brown;" ng-show="((!isSSNValid) && (isSSNChecked) && (!isSSNChecking))">Celula Id Already Exists!</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">Password
+                                </label>
+                                <div class="pass-group">
+                                    <input type="password" class="form-control pass-input-sub" placeholder="*************" name="password" ng-model="txtPassword" id="txtPassword"  ng-class="((frmPatientRegistration.password.$touched && frmPatientRegistration.password.$invalid)?'is-invalid':((frmPatientRegistration.password.$valid)?'is-valid':''))" minlength="6" maxlength="10" required>
+                                    <span class="feather-eye-off toggle-password" ng-click="tooglePasswordView(1);"></span>
+                                    <span class="lblError"  style="color: brown;" ng-show="((frmPatientRegistration.password.$error.minlength))">Minimum 6 characters.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="mb-2">Confirm Password
+                                </label>
+                                <div class="pass-group">
+                                    <input type="password" class="form-control pass-input-sub" placeholder="*************" name="confirmpassword" ng-model="txtconfirmPassword" id="txtconfirmPassword" ng-class="(((frmPatientRegistration.confirmpassword.$touched && frmPatientRegistration.confirmpassword.$invalid) || (frmPatientRegistration.confirmpassword.$touched && (frmPatientRegistration.confirmpassword.$error.compareTo)))?'is-invalid':((frmPatientRegistration.confirmpassword.$valid)?'is-valid':''))" compare-to="txtPassword" minlength="6" maxlength="10" required>
+                                    <span class="feather-eye-off toggle-password" ng-click="tooglePasswordView(2);"></span>
+                                    
+                                    <span class="lblError"  style="color: brown;" ng-show="((frmPatientRegistration.confirmpassword.$dirty)&&(!(frmPatientRegistration.confirmpassword.$error.minlength))&&(frmPatientRegistration.confirmpassword.$error.compareTo))">Passwords do not match.</span>
+                             
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <div class="mb-3 form-check-box terms-check-box">
+                                <div class="form-group">
+                                    
+                                        <input type="checkbox" name="terms" class="form-check-input" ng-model="ckbTerms" ng-class="(!frmPatientRegistration.terms.$dirty)?'':((ckbTerms)?'is-valid':'is-invalid')"  required>
+                                        <label class="form-check-label">
+                                        I have read and agree to eHospital’s <a href="#modal_formTC" data-bs-toggle="modal"  tabindex="0">Terms of Service</a> and <a href="#modal_formPP" data-bs-toggle="modal"  tabindex="0">Privacy Policy.</a>                       
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 justify-content-center text-center ">
+                            <div class="mb-3 ">
+                                <button class="btn w-30" type="submit" ng-disabled="((frmPatientRegistration.$invalid) || (isProcessing) || (!isMobileValid) || (!isEmailValid) || ((!isSSNValid) )      || (!regDOB))"  style="width: 250px;">
+                                    
+                                    <i class="{{ isProcessing?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                    {{isProcessing?'Processing..':'Register Now'}}
+                                </button>
+                                
+                                <!-- <br><span ng-show="(frmPatientRegistration.$invalid)">Form Disable</span>
+                                <br><span ng-show="(isProcessing)">Is Processing</span>
+                                <br><span ng-show="(!isMobileValid)">Mobile Invalid</span>
+                                <br><span ng-show="(!isEmailValid)">Email Invalid</span>
+                                <br><span ng-show="(!isSSNValid)">SSN Invalid</span>
+                                <br><span ng-show="(!regDOB)">DOB Invalid</span>
+                                <hr>
+                                <strong>list of Errors</strong>
+                                <hr>
+                                <ul>
+                                    <li ng-repeat="(key, errors) in frmPatientRegistration.$error track by $index"> <strong>{{ key }}</strong> errors
+                                      <ul>
+                                        <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                <hr>
+                                 -->
+                            </div>
+                        </div>
+                            
+                            <div class="account-signup">
+                                <p>Already a Member? <a href="login">Sign in</a></p>
+                            </div>
+                        
+                    </div>
+                    <input type="hidden" id="PATIENTREGISTRATION345345454984654">
+                        </form>
+                    </div>
+                </div>
+            </div>
+       
+        <!-- /Patient Signup -->
+
+    </div>
+</div>		
+<!-- /Page Content -->
+<!-- Add Terms & Condition-->
+<div id="modal_formTC" class="modal fade bd-example-modal-xl"  role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Terms of Service</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            </button>
+        </div>
+        <div class="modal-body mb-3" style="height: calc(100vh - 150px);overflow: auto;">
+<!-- Terms -->
+<div class="terms-section" style="padding: 0px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="terms-content">
+                    <div class="terms-text">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. </p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                    <div class="terms-text terms-list">
+                        <p><i class="fas fa-circle-check"></i> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et</p>
+                        <p><i class="fas fa-circle-check"></i> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,</p>
+                        <p><i class="fas fa-circle-check"></i> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                        <p><i class="fas fa-circle-check"></i> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et</p>
+                        <p><i class="fas fa-circle-check"></i> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,</p>
+                        <p><i class="fas fa-circle-check"></i> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                    </div>
+                    <div class="terms-text">
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. </p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
+                <div class="terms-btn">
+                    <!-- <a href="javascript:void(0);" class="btn btn-right-now">Not right now...</a>
+                    <a href="javascript:void(0);" class="btn btn-primary prime-btn">I agree with terms</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Terms -->			
+
+            </div>
+      </div>
+    </div>
+</div>	
+<!-- ! Terms & Condition-->
+<!-- Add Privacy Policy-->
+<div id="modal_formPP" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-modal="true">
+<div class="modal-dialog modal-xl modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Privacy Policy</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+    </div>
+    <div class="modal-body mb-3" style="height: calc(100vh - 150px);overflow: auto;">
+        
+            <!-- Privacy Policy -->
+            <div class="terms-section" style="padding: 0px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="terms-content pb-0">
+                                <div class="terms-text">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. </p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="terms-text terms-list">
+                                    <p><i class="fas fa-circle-check"></i> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et</p>
+                                    <p><i class="fas fa-circle-check"></i> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,</p>
+                                    <p><i class="fas fa-circle-check"></i> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                                    <p><i class="fas fa-circle-check"></i> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et</p>
+                                    <p><i class="fas fa-circle-check"></i> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,</p>
+                                    <p><i class="fas fa-circle-check"></i> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                                </div>
+                                <div class="terms-text">
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. </p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Privacy Policy -->			
+
+</div>
+  </div>
+</div>
+</div>
+<!-- ! Privacy Policy-->
+
+</div>
+	

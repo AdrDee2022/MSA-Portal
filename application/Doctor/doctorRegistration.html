@@ -1,0 +1,212 @@
+<!-- Page Content -->
+<div class="login-content-info" ng-controller="doctorregistrationController">
+    <div class="container">
+
+        <!-- Doctor Signup -->
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6 login-left">
+                <img src="assets/img/login-banner.png" class="img-fluid" alt="Doccure Login">	
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="account-content">
+                    <div class="login-shapes">
+                        <div class="shape-img-left">
+                            <img src="assets/img/shape-01.png" alt="shape-image">
+                        </div>
+                        <div class="shape-img-right">
+                            <img src="assets/img/shape-02.png" alt="shape-image">
+                        </div>
+                    </div>
+                    <div class="widget-set">
+                        <div class="account-info">
+                            <div class="widget-content multistep-form">
+                                <fieldset id="first" ng-show="isRegistrationScreen">
+                                    <div class="login-back">
+                                        <a href="Registration"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
+                                    </div>
+                                    <div class="login-title">
+                                        <h3>Doctor Signup</h3>
+                                        <p class="mb-0">Welcome! Please enter your details.</p>
+                                    </div>
+                                    <div class="widget-setcount">
+                                        <ul id="progressbar">
+                                            <li class="progress-active">
+                                                <div class="step-box">
+                                                    <div class="step-icon">
+                                                        <span>
+                                                            <img src="assets/img/icons/signup-users.svg" alt="icon">
+                                                        </span>
+                                                    </div>
+                                                    <div class="step-content">
+                                                        <p>Step 1</p>
+                                                        <h4>Create Account</h4>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="step-box">
+                                                    <div class="step-icon">
+                                                        <span>
+                                                            <img src="assets/img/icons/signup-unlock.svg" alt="icon">
+                                                        </span>
+                                                    </div>
+                                                    <div class="step-content">
+                                                        <p>Step 2</p>
+                                                        <h4>Verify Account</h4>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <form name="frmdoctorregistration">
+                                        <div class="mb-3">
+                                            <label class="mb-2">First Name</label>
+                                            <input type="text" class="form-control" name="firstname" ng-model="txtfirstname" placeholder="Enter Your First Name" ng-class="((frmdoctorregistration.firstname.$touched && frmdoctorregistration.firstname.$invalid)?'is-invalid':(( frmdoctorregistration.firstname.$valid)?'is-valid':''))" maxlength="50" minlength="2" required only-aplhanumeric>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Middle Name</label>
+                                            <input type="text" class="form-control" name="middlename" ng-model="txtmiddlename" placeholder="Enter Your Middle Name"  maxlength="50" minlength="2"  only-aplhanumeric>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Last Name</label>
+                                            <input type="text" id="txtcheck" class="form-control" name="lastname" ng-model="txtlastname" placeholder="Enter Your Last Name" ng-class="((frmdoctorregistration.lastname.$touched && frmdoctorregistration.lastname.$invalid)?'is-invalid':(( frmdoctorregistration.lastname.$valid)?'is-valid':''))" maxlength="50" minlength="2" required only-aplhanumeric>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Gender</label>
+                                            
+                                            <div class="row">
+                                                <div ng-repeat="gender in Genders">
+                                                <label class="payment-radio credit-card-option txtRadio">
+                                                    <input type="radio" name="gender" ng-value="gender" ng-model="$parent.selectedGender">
+                                                    <span class="checkmark"></span>
+                                                    {{ gender.gendername }}
+                                                </label>
+                                               
+                                            </div>
+                                            
+                 
+                                        </div>
+                                    </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Email</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isEmailChecking"></i>
+                                            <input type="text" class="form-control" placeholder="Enter Your Email" ng-disabled="isEmailChecking" name="emailid" ng-model="txtEmailid" ng-class="(((frmdoctorregistration.emailid.$touched && frmdoctorregistration.emailid.$invalid) ||  ((!isEmailValid) && (isEmailChecked)))?'is-invalid':(((frmdoctorregistration.emailid.$valid)&& (isEmailValid) && (isEmailChecked))?'is-valid':''))" ng-blur="checkEmailAddress();"  minlength="6" maxlength="150" only-email required>
+                                            <span  style="color: brown;" ng-show="((!isEmailValid) && (isEmailChecked) && (!isEmailChecking) &&(!frmdoctorregistration.emailid.$error.required) && (!frmdoctorregistration.emailid.$error.emailPattern) )">Email Id Already Exists!</span>
+                                            <span style="color: brown;" ng-show="((frmdoctorregistration.emailid.$dirty)&&(frmdoctorregistration.emailid.$error.emailPattern))">Please Enter Valid Email</span>
+                                        </div>
+                                        <div class="mb-3 txtLogin">
+                                            <label class="mb-2">Phone Number</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isMobileChecking"></i>
+                                            <input class="form-control form-control-lg group_formcontrol form-control-phone" id="phone" placeholder="Enter Your Phone Number" name="phone" type="text"  ng-disabled="isMobileChecking" acode="doctor-registration" ng-model="txtPhoneNumber" ng-class="(((frmdoctorregistration.phone.$touched && frmdoctorregistration.phone.$invalid) ||  ((!isMobileValid) && (isMobileChecked)))?'is-invalid':(((frmdoctorregistration.phone.$valid) && (isMobileValid) && (isMobileChecked))?'is-valid':''))" ng-blur="checkMobileNumber();" minlength="7" maxlength="12" only-numeric required>
+                                            <span  style="color: brown;" ng-show="((frmdoctorregistration.phone.$error.minlength))">Minimum 7 characters.</span>
+                                            <span  style="color: brown;" ng-show="((!isMobileValid) && (isMobileChecked) && (!isMobileChecking))">Mobile Number with Coutry Already Exists!</span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Password
+                                            </label>
+                                            <div class="pass-group">
+                                                <input type="password" class="form-control pass-input-sub" placeholder="*************" name="password" ng-model="txtPassword" id="txtPassword"  ng-class="((frmdoctorregistration.password.$touched && frmdoctorregistration.password.$invalid)?'is-invalid':((frmdoctorregistration.password.$valid)?'is-valid':''))" minlength="6" maxlength="10" required>
+                                                <span class="feather-eye-off toggle-password" ng-click="tooglePasswordView(1);"></span>
+                                                <span  style="color: brown;" ng-show="((frmdoctorregistration.password.$error.minlength))" class="lblError">Minimum 6 characters.</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Confirm Password
+                                            </label>
+                                            <div class="pass-group">
+                                                <input type="password" class="form-control pass-input-sub" placeholder="*************" name="confirmpassword" ng-model="txtconfirmPassword" id="txtconfirmPassword" ng-class="(((frmdoctorregistration.confirmpassword.$touched && frmdoctorregistration.confirmpassword.$invalid) || (frmdoctorregistration.confirmpassword.$touched && (frmdoctorregistration.confirmpassword.$error.compareTo)))?'is-invalid':((frmdoctorregistration.confirmpassword.$valid)?'is-valid':''))" compare-to="txtPassword" minlength="6" maxlength="10" required>
+                                                <span class="feather-eye-off toggle-password" ng-click="tooglePasswordView(2);" class="lblError"></span>
+                                                <span class="lblError" style="color: brown;" ng-show="((frmdoctorregistration.confirmpassword.$dirty)&&(!(frmdoctorregistration.confirmpassword.$error.minlength))&&(frmdoctorregistration.confirmpassword.$error.compareTo))">Passwords do not match.</span>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="DOCTORREGISTRATION345792345778235">
+                                    </form><div class="widget-btn" ng-show="false">
+                                        <a class="btn btn-primary w-100 next_btn" id="alwForword"></a>
+                                    </div>
+                                    <div class="widget-btn pt-4">
+                                       
+                                        <button class="btn w-30" type="button" ng-disabled="((frmdoctorregistration.$invalid) || (isProcessing) || (!isMobileValid) || (!isEmailValid) )" ng-click="verificationScreen();"  style="width: 250px;">
+                                    
+                                            <i class="{{ isProcessing?'fa fa-spinner fa-spin': 'fas fa-forward'}}"></i>
+                                            {{isProcessing?'Processing..':'Next'}}
+                                        </button>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="field-card" ng-show="!isRegistrationScreen">
+                                    <div class="login-back">
+                                        <a href="javascript:void(0);"  class="prev_btn" ng-click="registrationScreen();">
+                                            <i class="fa-solid fa-arrow-left-long"></i> Back
+                                        </a>
+                                    </div>
+                                    <div class="login-title">
+                                        <h3>Security Verification</h3>
+                                        <p class="mb-0">To Secure your Account create complete the following verify request.</p>
+                                    </div>
+                                    <div class="widget-setcount">
+                                        <ul id="progressbar1">
+                                            <li class="progress-active">
+                                                <div class="step-box">
+                                                    <div class="step-icon">
+                                                        <span>
+                                                            <img src="assets/img/icons/signup-users.svg" alt="icon">
+                                                        </span>
+                                                    </div>
+                                                    <div class="step-content">
+                                                        <p>Step 1</p>
+                                                        <h4>Create Account</h4>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="step-box">
+                                                    <div class="step-icon">
+                                                        <span>
+                                                            <img src="assets/img/icons/signup-unlock.svg" alt="icon">
+                                                        </span>
+                                                    </div>
+                                                    <div class="step-content">
+                                                        <p>Step 2</p>
+                                                        <h4>Verify Account</h4>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <form name="frmdoctorregistrationVerification" ng-submit="registerDoctorUser();">
+                                        <div class="mb-3">
+                                            <div class="form-group-flex">
+                                                <label class="mb-2">Phone Number Verfication Code</label>
+                                                <a href="javascript:void(0);" class="forgot-link">Get Code</a>
+                                            </div>
+                                            <div class="pass-group">
+                                                <input class="form-control form-control-lg" type="password" placeholder="OTP"  name="phoneotp" ng-class="((frmdoctorregistrationVerification.phoneotp.$touched && frmdoctorregistrationVerification.phoneotp.$invalid)?'is-invalid':(( frmdoctorregistrationVerification.phoneotp.$valid)?'is-valid':''))" ng-model="phoneotp"  minlength="6" maxlength="6" only-numeric required>
+                                            </div>
+                                            <p class="signup-code">Enter the 6 digit OTP code sent to your number</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-group-flex">
+                                                <label class="mb-2">Email Verfication Code</label>
+                                                <a href="javascript:void(0);" class="forgot-link">Get Code</a>
+                                            </div>
+                                            <div class="pass-group">
+                                                <input type="password" class="form-control" name="emailotp" ng-class="((frmdoctorregistrationVerification.emailotp.$touched && frmdoctorregistrationVerification.emailotp.$invalid)?'is-invalid':(( frmdoctorregistrationVerification.emailotp.$valid)?'is-valid':''))" ng-model="emailotp" placeholder="OTP" minlength="6" maxlength="6" only-numeric required>
+                                            </div>
+                                            <p class="signup-code">Enter the 6 digit code sent to your email</p>
+                                        </div>
+                                        <div class="mb-0">
+                                            <button class="btn btn-primary w-100" type="submit" ng-disabled="((frmdoctorregistration.$invalid) || (frmdoctorregistrationVerification.$invalid) || (isProcessing) || (!isMobileValid) || (!isEmailValid) )">
+                                                <i class="{{ isProcessing?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                                {{isProcessing?'Processing..':'Submit'}}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Doctor Signup -->
+
+    </div>
+</div>		
+<!-- /Page Content -->	

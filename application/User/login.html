@@ -1,0 +1,149 @@
+<!-- Page Content -->
+<div class="login-content-info" ng-controller="LoginController">
+    <div class="container">
+
+        <!-- Login Phone -->
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6 login-left">
+                <img src="assets/img/login-banner.png" class="img-fluid" alt="Doccure Login">	
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="account-content">
+                   
+                    <div class="login-shapes">
+                        <div class="shape-img-left">
+                            <img src="assets/img/shape-01.png" alt="shape-image">
+                        </div>
+                        <div class="shape-img-right">
+                            <img src="assets/img/shape-02.png" alt="shape-image">
+                        </div>
+                    </div>
+                    
+                   
+                    <div class="account-info">
+                        
+                        <div class="login-back">
+                            <a href="/"><i class="fa-solid fa-arrow-left-long"></i> Home</a>
+                        </div>
+                        
+                        <div class="login-title">
+                            <h3>Sign in</h3>
+                            <p>We'll send a confirmation code to your Phone.</p>
+                            <p>
+                                <div class="form-group">
+
+                                    <input type="checkbox" name="Doctor" ng-model="ckhisdoctor" class="form-check-input">
+                                    <label class="form-check-label"  style="padding-left:5px;">
+                                        I am a Doctor
+                                    </label>
+                                </div>
+                            </p>
+                        <!--	<span>Sign in with <a href="login-email.html">Email</a></span>-->
+                        </div>
+                        <form name="frmLogin" ng-show="!ckhisdoctor" ng-submit="loginUser();">                  
+                            <div class="mb-3 txtLogin">
+                                <label class="mb-2">Phone Number</label>
+                                <input class="form-control form-control-lg group_formcontrol" ng-class="((frmLogin.loginPhoneNumber.$touched && frmLogin.loginPhoneNumber.$invalid)?'is-invalid':((frmLogin.loginPhoneNumber.$touched && frmLogin.loginPhoneNumber.$valid)?'is-valid':''))" acode="screen-login" id="phone" name="loginPhoneNumber" ng-model="loginPhoneNumber" placeholder="Enter Phone Number"  type="text"  minlength="4" maxlength="13" required only-numeric>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group-flex">
+                                    <label class="mb-2">Password</label>
+                                    <a href="Forgot-Password" class="forgot-link">Forgot password?</a>
+                                </div>
+                                <div class="pass-group">
+                                    <input type="password" id="txtPassword" class="form-control" ng-class="((frmLogin.loginPassword.$touched && frmLogin.loginPassword.$invalid)?'is-invalid':((frmLogin.loginPassword.$touched && frmLogin.loginPassword.$valid)?'is-valid':''))" name="loginPassword" ng-model="loginPassword" placeholder="*************" minlength="4" maxlength="10" required>
+                                    <span class="feather-eye-off toggle-password" ng-click="tooglePasswordView();"></span>
+                                </div>
+                            </div>
+                            <!-- <div class="mb-3 form-check-box">
+                                <div class="form-group-flex">
+                                    <label class="custom_check d-inline-flex"> Remember Me  
+                                        <input type="checkbox" name="login">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="custom_check d-inline-flex"> Login with OTP  
+                                        <input type="checkbox" name="login">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div> -->
+                            <div class="mb-3">
+                                <button class="btn w-100" ng-disabled="((frmLogin.$invalid) || (isProcessing))" type="submit">
+                                 <i class="{{ isProcessing?'fa fa-spinner fa-spin': 'fa fa-sign-in'}}"></i>
+                                 {{isProcessing?'Processing..':'Sign in'}}
+                                </button>
+                                
+                            </div>
+                            <div class="login-or" >
+                                <span class="or-line"></span>
+                                <span class="span-or">or</span>
+                            </div>
+                            <div class="social-login-btn" style="display: none;">
+                                <a href="javascript:void(0);" class="btn w-100">
+                                    <img src="assets/img/icons/google-icon.svg" alt="google-icon"> Log in with Google
+                                </a>
+                            </div>
+                            <div class="account-signup">
+
+                                <p ng-if="(returnUrl=='checkout')">Don't have an account ? <a href="/patient-registration?return=checkout">Sign up</a></p>
+                                <p ng-if="(!returnUrl)">Don't have an account ? <a href="/patient-registration">Sign up</a></p>
+                                
+                               
+
+                            </div>
+                            <input type="hidden" id="SCREENLOGIN345569214637856">
+                        </form>
+                        <form name="frmDoctorLogin" ng-show="ckhisdoctor"  ng-submit="loginDoctor();">
+                            <div class="mb-3 txtLogin">
+                                <label class="mb-2">Username</label>
+                                <input class="form-control form-control-lg group_formcontrol" ng-class="((frmDoctorLogin.loginusername.$touched && frmDoctorLogin.loginusername.$invalid)?'is-invalid':((frmDoctorLogin.loginusername.$touched && frmDoctorLogin.loginusername.$valid)?'is-valid':''))" acode="screen-login" id="phone" name="loginusername" ng-model="loginusername" placeholder="Enter Username" type="text" minlength="4" maxlength="13">
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-group-flex">
+                                    <label class="mb-2">Password</label>
+                                    <a href="Forgot-Password" class="forgot-link">Forgot password?</a>
+                                </div>
+                                <div class="pass-group">
+                                    <input type="password" id="txtPassword" class="form-control" ng-class="((frmDoctorLogin.loginPassword.$touched && frmDoctorLogin.loginPassword.$invalid)?'is-invalid':((frmDoctorLogin.loginPassword.$touched && frmDoctorLogin.loginPassword.$valid)?'is-valid':''))" name="loginPassword" ng-model="loginDoctorPassword" placeholder="*************" minlength="4" maxlength="10" required>
+                                    <span class="feather-eye-off toggle-password" ng-click="tooglePasswordView();"></span>
+                                </div>
+                            </div>
+                            <!-- <div class="mb-3 form-check-box">
+            <div class="form-group-flex">
+                <label class="custom_check d-inline-flex"> Remember Me
+                    <input type="checkbox" name="login">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="custom_check d-inline-flex"> Login with OTP
+                    <input type="checkbox" name="login">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div> -->
+                            <div class="mb-3">
+                                <button class="btn w-100" ng-disabled="((frmDoctorLogin.$invalid) || (isProcessing))" type="submit">
+                                    <i class="{{ isProcessing?'fa fa-spinner fa-spin': 'fa fa-sign-in'}}"></i>
+                                    {{isProcessing?'Processing..':'Sign in'}}
+                                </button>
+
+                            </div>
+                            <!--<div class="login-or">
+                                <span class="or-line"></span>
+                                <span class="span-or">or</span>
+                            </div>-->
+                            <div class="social-login-btn" style="display: none;">
+                                <a href="javascript:void(0);" class="btn w-100">
+                                    <img src="assets/img/icons/google-icon.svg" alt="google-icon"> Log in with Google
+                                </a>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Login Phone -->
+
+    </div>
+</div>		
+<!-- /Page Content -->

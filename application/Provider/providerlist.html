@@ -1,0 +1,533 @@
+	
+    <div ng-controller="providerlistController">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar-two">
+        <div class="container">
+            <div class="row align-items-center inner-banner">
+                <div class="col-md-12 col-12 text-center">
+                    <h2 class="breadcrumb-title">Search Doctors</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Search Doctors</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+
+    
+    <!-- Page Content -->
+    <div class="doctor-content content">
+    
+        <div class="container">
+
+            <!-- Doctor Search List -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 map-view">  
+                    <div class="row">
+                        <div class="col-lg-3  theiaStickySidebar">
+                            <div class="filter-contents">
+                                <div class="filter-header">
+                                    <h4 class="filter-title">Filter</h4>
+                                </div>
+                                <div class="filter-details">
+
+                                    <!-- Filter Grid -->
+                                    <div class="filter-grid">
+                                        <h4>
+                                            <a href="#collapseone" data-bs-toggle="collapse">Gender</a>
+                                        </h4>
+                                        <div id="collapseone" class="collapse show">
+                                            <div class="filter-collapse">
+                                                <ul>
+                                                    <li>
+                                                        
+                                                    </li>
+                                              
+                                                    <li>
+                                                        <label class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.gender.Male" action-type="filter" filter-type="GENDER" value="Male" ng-change="filterList();">
+                                                            <span class="fltr-1">
+                                                            Male
+                                                        </span>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.gender.Female" action-type="filter" filter-type="GENDER" value="Female" ng-change="filterList();">
+                                                            <span class="fltr-1">
+                                                            Female
+                                                        </span>
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Filter Grid -->
+
+    
+
+                                    
+
+                                    <!-- Filter Grid -->
+                                    <div class="filter-grid">
+                                        <h4>
+                                            <a href="#collapsefour" data-bs-toggle="collapse">Speciality</a>
+                                        </h4>
+                                        <div id="collapsefour" class="collapse show">
+                                            <div class="filter-collapse">
+                                                <ul>
+                                                    <!-- <li ng-repeat="((sp in specialties) | orderBy ((specialty==0) || (specialty==sp.SpecialtyName.toLowerCase())))"> -->
+                                                    
+                                                        <li ng-repeat="sp in specialties" ng-if="(((specialty==='0') || (specialty===sp.SpecialtyName.toLowerCase())) &&(!isLoading))">
+                                                        <label class="d-inline-flex">  
+                                                           
+                                                            <input type="checkbox" ng-model="specialtyllol" ng-disabled="(specialty!=='0')" ng-checked="{{(specialty===sp.SpecialtyName.toLowerCase())}}" action-type="filter" filter-type="SPECIALTY"  value="{{sp.SpecialtyID}}" ng-change="filterList();">
+                                                            <span class="fltr-1">
+                                                            <img class="avatar-img rounded-circle" style="width: 20px; height: 20px;" src="{{sp.IconUrl}}" alt="{{sp.SpecialtyName}}">
+                                                            {{sp.SpecialtyName}}
+                                                        </span>
+                                                        </label>
+                                                        
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Filter Grid -->
+
+                                    <!-- Filter Grid -->
+                                    <div class="filter-grid">
+                                        <h4>
+                                            <a href="#collapsefive" data-bs-toggle="collapse">Experience</a>
+                                        </h4>
+                                        <div id="collapsefive" class=" collapse show">
+                                            <div class="filter-collapse">
+                                                <ul>
+                                                   
+                                                    <li>
+                                                        <label class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.experience.upto5" action-type="filter" filter-type="EXPERIENCE"  value="1TO5" ng-change="filterList();">
+                                                            <span class="fltr-1">
+                                                            1-5 Years
+                                                        </span>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.experience.upto10" action-type="filter" filter-type="EXPERIENCE"  value="5TO10" ng-change="filterList();">
+                                                            <span class="fltr-1">
+                                                            5-10 Years
+                                                        </span>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.experience.More5" action-type="filter" filter-type="EXPERIENCE"  value="MORE10" ng-change="filterList();">
+                                                            <span class="fltr-1">
+                                                            10+ Years
+                                                        </span>
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Filter Grid -->
+
+                                    <!-- Filter Grid -->
+                                    <div class="filter-grid">
+                                        <h4>
+                                            <a href="#collapsesix" data-bs-toggle="collapse">Appointment Type</a>
+                                        </h4>
+                                        <div id="collapsesix" class="collapse show">
+                                            <div class="filter-collapse">
+                                                <ul>
+                                                    
+                                                    <li>
+                                                        <label class="d-inline-flex">  
+                                                            <input type="checkbox"   ng-model="filter.visittype.TELE" action-type="filter" filter-type="VISITTYPE"  value="TELE" ng-change="filterList();">
+                                                          
+                                                            <i class="feather-video online-icon fltr-1"></i> TeleVisit
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.visittype.CLINIC" action-type="filter" filter-type="VISITTYPE"   value="CLINIC" ng-change="filterList();">
+                                                           
+                                                            <i class="feather-calendar online-icon fltr-1"></i> Clinic Visit
+                                                        </label>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Filter Grid -->
+
+                                    <!-- Filter Grid -->
+                                    <div class="filter-grid">
+                                        <h4>
+                                            <a href="#collapseseven" data-bs-toggle="collapse">By Rating</a>
+                                        </h4>
+                                        <div id="collapseseven" class="collapse show">
+                                            <div class="filter-collapse">
+                                                <ul>
+                                                    <li>
+                                                        <div class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.ratings.Five" action-type="filter" filter-type="RATINGS"    value=5 ng-change="filterList();">
+                                                         <!--  <span class="checkmark"></span>--> 
+                                                            <div class="rating rating-1">
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <span class="rating-count"></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.ratings.Four" action-type="filter" filter-type="RATINGS"  value=4 ng-change="filterList();">
+                                                         
+                                                            <div class="rating rating-1">
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <span class="rating-count"></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.ratings.Three" action-type="filter" filter-type="RATINGS"   value=3 ng-change="filterList();">
+                                                            
+                                                            <div class="rating rating-1">
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <span class="rating-count"></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-inline-flex">  
+                                                            <input type="checkbox"  ng-model="filter.ratings.Two" action-type="filter" filter-type="RATINGS"   value=2 ng-change="filterList();">
+                                                           
+                                                            <div class="rating rating-1">
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <span class="rating-count"></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="d-inline-flex">  
+                                                            <input type="checkbox"   ng-model="filter.ratings.One" action-type="filter" filter-type="RATINGS" value=1 ng-change="filterList();">
+                                                         
+                                                            <div class="rating rating-1">
+                                                                <i class="fas fa-star filled"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <span class="rating-count"></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Filter Grid -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                                <!-- Loading -->
+                                <div class="col-lg-9" ng-if="isLoading">
+                                <div class="container loaderprogress_Container" >
+                                    <div class="clearfix text-center loaderprogress" >
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Loading -->
+                        <!-- <div class="col-lg-9" ng-if="!isLoading"> -->
+                            <div class="col-lg-9">
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9">
+                                   
+                                    <div class="search-box-one_p" style="padding: 10px 15px;">
+                                 
+                                        <form name="startSearch"> 
+                                            <input type="hidden" id="LISTSEARCH234234234234244">
+                    
+                                             <div class="search-input search-calendar-line  srchCountry">
+                                                <!--<input class="form-control form-control-lg group_formcontrol"   id="phone" acode="list-search" name="city"  placeholder="Enter your city"  type="text" style="display: none;">-->
+                                                <!-- <input class="form-control form-control-lg group_formcontrol"   id="phone" acode="list-search" name="city"  placeholder="Enter your city"  type="text" style="display: none;"> -->
+                                                <!--<angucomplete-alt  id="txtautoCity" class="autocomplete-City" input-name="txtCity" placeholder="Search City" local-data="cityList"  selected-object="selectedCityObj"  search-fields="ctName" title-field="ctName"   minlength="0" inputclass="form-control" match-class="highlight" pause="100" override-suggestions="false"/>-->
+                                                
+                                                </div>
+                                            <div class="search-input ">
+                                                
+                                                <div class="mb-0 autocomplete-City-code">
+                                                    
+                                                    <angucomplete-alt id="txtautoDoctorClinicSpecialty" placeholder="Search Doctor by Name or Specialty" local-data="combineDataList"  selected-object="selectedSearchedObj" search-fields="searchText" title-field="Text" description-field="DescDisplay" image-field="Avtar" minlength="0" pause="100" inputclass="form-control" match-class="highlight" override-suggestions="false"/>
+                                                </div>
+                                            </div>
+                                             
+                                            
+                                            <div class="form-search-btn-1">
+                                                <button class="btn btn-info" type="button" ng-show="( (!isSpecialtyDoctorFetching) && (!isCityFetching))" ng-disabled="(((selectedSearchedItem===undefined)||(selectedSearchedItem===null)))" ng-click="setSearch_eHospital('custom','0');"><i class="fa fa-search"></i></button>
+                                                <div class="container loaderprogress_Container loaderprogress_Container_1"  ng-show="( (isSpecialtyDoctorFetching) || (isCityFetching))">
+                                                    <div class="clearfix text-center loaderprogress loaderprogress_Doctor" >
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                              
+                              </div>
+
+                            </div>
+                                <div class="row">
+                                    <div class="doctor-filter-info">
+                                        <div class="doctor-filter-inner">
+                                            <div>
+                                                <div class="doctors-found">
+                                                    <p><span>{{Message}}</span></p>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="doctor-filter-option" >
+                                            
+                                                
+                                                <div class="doctor-filter-sort">
+                                                    <ul class="nav">
+                                                        <!--<li>
+                                                            <a href="javascript:void(0);" id="map-list">
+                                                                <i class="feather-map-pin"></i>
+                                                            </a>
+                                                        </li>-->
+                                                        <li>
+                                                            <a ng-click="toggleView('list');" class="{{!isgridview?'active': ''}}">
+                                                                <i class="feather-list"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a ng-click="toggleView('grid');" class="{{isgridview?'active': ''}}">
+                                                                <i class="feather-grid"></i>
+                                                            </a>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="!isLoading">
+                            <div class="clearfix" id="ListView" ng-if="!isgridview" ng-show="isFound">
+
+                         
+                            <div class="card doctor-card" ng-repeat="doctor in providersListFiltered  | orderBy : '-Experience'">
+                                <div class="card-body">
+                                    <div class="doctor-widget-one">
+                                        <div class="doc-info-left">
+                                            <div class="doctor-img">
+                                                <a href="/provider/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}">
+                                                    <img src="{{doctor.DoctorImage}}" class="img-fluid" alt="John Doe">
+                                                </a>
+                                                <div class="favourite-btn">
+                                                    <a href="javascript:void(0)" class="favourite-icon">
+                                                        <i class="fas fa-heart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="doc-info-cont">
+                                                <h4 class="doc-name">
+                                                    <a href="/provider/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}">{{doctor.Title}} {{doctor.DoctorName}}</a>
+                                                    <i class="fas fa-circle-check"></i>
+                                                </h4>
+                                                <p class="doc-speciality">{{doctor.Education}}</p>
+                                                    <p class="doc-department  SplColor">{{doctor.SpecialtyName}}</p>
+                                                <p class="doc-location">
+                                               <i class="feather-award"></i><span>{{doctor.Experience}}</span>{{doctor.Experience>1?' Years':' Year'}} of Experience
+                                                </p>
+                                                <div class="reviews-ratings">
+                                                    <p>
+                                                        <span><i class="fas fa-star"></i> {{doctor.Ratings}}</span> ({{doctor.Feedbacks}} Reviews)
+                                                    </p>
+                                                </div>
+                                                <div class="clinic-details">
+                                                    
+                                                   
+                                                        <ul class="nav nav-tabs nav-tabs-bottom" role="tablist">
+                                                            <li class="nav-item" role="presentation" ng-repeat="s in doctor.Locations.split('@,') track by $index"><a class="nav-link" href="#locationtab{{doctor.DoctorId}}{{$index}}" data-bs-toggle="tab" aria-selected="true" role="tab" ng-class="$index==0?'active':''">Location {{($index+1)}}</a></li>
+                                                        </ul>
+            
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane show" id="locationtab{{doctor.DoctorId}}{{$index}}" role="tabpanel" ng-repeat="s in doctor.Locations.split('@,') track by $index" ng-class="$index==0?'active':''">
+                                                                <p class="doc-location" >
+                                                        
+                                                                    <span><i class="feather-map-pin"></i>{{s}}</span>
+                                                                    
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="doc-info-right">
+                                            <div class="clini-infos">
+                                                <ul>
+                                                    <li style="display: none;">
+                                                        <i class="feather-clock available-icon"></i> 
+                                                        <span class="available-date available-today">{{doctor.Availablity}}</span>
+                                                    </li>
+                                                    <li><i class="feather-thumbs-up available-icon"></i> {{doctor.Likes}}% <span class="votes">({{doctor.Votes}} Votes)</span></li>
+                                                    
+                                                </ul>
+                                            </div>
+                                            <div class="clinic-booking book-appoint">
+                                                <a class="btn btn-primary" href="/book-appointment/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}"><i class="feather-calendar online-icon pe-2"></i>Book Appointment</a>
+                                                <a class="btn btn-primary-light" href="/provider/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}"><i class="fas fa-user-md pe-2"></i>View profile</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                           
+                            </div>
+                            <div class="clearfix"  id="GridView" ng-if="isgridview" ng-show="isFound">
+                            
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-6 col-md-6" ng-repeat="doctor in providersListFiltered">
+                                        <div class="doctor-profile-widget doc-grid">
+                                            <div class="doc-pro-img">
+                                                <a href="/provider/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}">
+                                                    <div class="doctor-profile-img">
+                                                        <img src="{{doctor.DoctorImage}}" class="img-fluid" alt="John Doe">
+                                                    </div>
+                                                </a>
+                                                <div class="reviews-ratings">
+                                                    <p>
+                                                        <span><i class="fas fa-star"></i> {{doctor.Ratings}}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="favourite-btn">
+                                                    <a href="javascript:void(0)" class="favourite-icon">
+                                                        <i class="fas fa-heart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="doc-content">
+                                                <div class="doc-pro-info">
+                                                    <div class="doc-pro-name">
+                                                        <h4><a href="/provider/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}">{{doctor.Title}} {{doctor.DoctorName}}</a><i class="fas fa-circle-check"></i></h4>
+                                                        <p class="doc-speciality">{{doctor.Education}}</p>
+                                                        <p class="doc-department mt10 SplColor">{{doctor.SpecialtyName}}</p>
+                                                    </div>
+                                                    <div class="review-price" style="display: none;">
+                                                        
+                                                        <p>${{doctor.maxFee}}-${{doctor.minFee}}<i class="fas fa-info-circle" data-bs-toggle="tooltip" title="First Visit Charges ${{doctor.maxFee}}   Followup Visit Charges ${{doctor.minFee}}"></i></p>
+                                                    </div>
+                                                </div>
+                                                <div class="doc-pro-location">
+                                                    
+                                                    <p><i class="feather-award"></i> <span>{{doctor.Experience}}</span>{{doctor.Experience>1?' Years':' Year'}} of Experience</p>
+                                                 </div>
+                                                <div class="doc-pro-location mb10">
+                                                    
+                                                   
+                                                    <ul class="nav nav-tabs nav-tabs-bottom" role="tablist">
+                                                        <li class="nav-item" role="presentation" ng-repeat="s in doctor.Locations.split('@,') track by $index"><a class="nav-link" href="#locationtab{{doctor.DoctorId}}{{$index}}" data-bs-toggle="tab" aria-selected="true" role="tab" ng-class="$index==0?'active':''">Location {{($index+1)}}</a></li>
+                                                    </ul>
+        
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane show" id="locationtab{{doctor.DoctorId}}{{$index}}" role="tabpanel" ng-repeat="s in doctor.Locations.split('@,') track by $index" ng-class="$index==0?'active':''">
+                                                            <p class="doc-location" >
+                                                    
+                                                                <span><i class="feather-map-pin"></i>{{s}}</span>
+                                                                
+                                                                
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                
+                                            </div>
+                                           
+                                                <div class="clinic-booking book-appoint mt10">
+                                                    <a class="btn btn-primary" href="/book-appointment/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}"><i class="feather-calendar online-icon pe-2"></i>Book Appointment</a>
+                                                    <a class="btn btn-primary" href="/provider/{{doctor.DoctorName.replaceAll(' ', '-').replaceAll(' ','').toLowerCase()}}"><i class="fas fa-user-md pe-2"></i>View profile</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="row" style="display: none;">
+                                <div class="col-sm-12">
+                                    <div class="blog-pagination rev-page">
+                                        <nav>
+                                            <ul class="pagination justify-content-center">
+                                                <li class="page-item disabled">
+                                                    <a class="page-link page-prev" href="#" tabindex="-1"><i class="feather-chevrons-left me-1"></i> PREV</a>
+                                                </li>
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="#">1</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#">2</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#">...</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#">10</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link page-next" href="#">NEXT <i class="feather-chevrons-right ms-1"></i></a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Doctor Search List -->
+
+        </div>
+    </div>		
+    <!-- /Page Content -->	
+</div>

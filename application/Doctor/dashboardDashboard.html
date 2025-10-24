@@ -1,0 +1,1573 @@
+<div ng-controller="doctordashboardController">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar-two">
+        <div class="container">
+            <div class="row align-items-center inner-banner">
+                <div class="col-md-12 col-12 text-center">
+                    <h2 class="breadcrumb-title">Doctor Dashboard</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+    <!-- Dashboard Loader  -->	
+    <div class="container loaderprogress_Container" ng-show="(isDashboardloading)">
+        <div class="clearfix text-center loaderprogress" >
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+   </div>
+    <!-- /Dashboard Loader  -->
+    <!-- Page Content -->
+    <div class="content" ng-show="(!isDashboardloading)">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                    <!-- Profile Sidebar -->
+                    <div class="profile-sidebar">
+                        <div class="widget-profile pro-widget-content">
+                            <div class="profile-info-widget">
+                                <a href="#" class="booking-doc-img">
+                                    <img src="{{useravtar}}" alt="User Image">
+                                </a>
+                                <div class="profile-det-info">
+                                    <h3>Dr. {{username}}</h3>
+                                    
+                                    <div class="patient-details">
+                                        <h5 class="mb-0">{{Education}}</h5>
+                                    </div>
+                                    <div class="patient-details">
+                                        <i Class="{{ProfileStatus?'':'fa-regular fa-bell fa-beat-fade'}}" style="color: #ea0b38;"></i>
+                                        <p style="color:#ea0b38;">{{ProfileStatus?'':'Profile Not updated!'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-widget">
+                            <nav class="dashboard-menu">
+                                <ul>
+                                    <li ng-repeat="item in menu" ng-click="handleView($event,item.ServiceCode,item.ServiceName);" class="{{item.ServiceCode=='DASH'?'active':''}}">
+                                        <a href="#"  >
+                                            <i class="{{item.IconClass}}"></i>
+                                            <span>{{item.ServiceName}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- /Profile Sidebar -->
+                </div>
+                <div class="col-md-7 col-lg-8 col-xl-9">
+                        <!-- Dashboard -->
+                        <div ng-if="(renderCode=='DASH')">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card dash-card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 col-lg-4">
+                                                <div class="dash-widget dct-border-rht">
+                                                    <div class="circle-bar circle-bar1">
+                                                        <div class="circle-graph1" data-percent="75">
+                                                            <img src="assets/img/fontawesome_svgs/duotone/user-injured.svg" class="img-fluid w40" alt="patient">
+                                                        </div>
+                                                    </div>
+                                                    <div class="dash-widget-info">
+                                                        <h6>Total Patient</h6>
+                                                        <h3>{{TotalPatient}}</h3>
+                                                        <p class="text-muted">Till Today</p>
+                                                    </div>
+                                                </div>
+                                            </div>                                                        
+                                            <div class="col-md-12 col-lg-4">
+                                                <div class="dash-widget dct-border-rht">
+                                                    <div class="circle-bar circle-bar2">
+                                                        <div class="circle-graph2" data-percent="65">
+                                                            <img src="assets/img/fontawesome_svgs/duotone/bed-pulse.svg" class="img-fluid w40" alt="Patient">
+                                                        </div>
+                                                    </div>
+                                                    <div class="dash-widget-info">
+                                                        <h6>Today Patient</h6>
+                                                        <h3>{{TodayPatient}}</h3>
+                                                        <p class="text-muted">{{currentdate | date:'dd MMMM yyyy (EEEE)'}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>                                                        
+                                            <div class="col-md-12 col-lg-4">
+                                                <div class="dash-widget">
+                                                    <div class="circle-bar circle-bar3">
+                                                        <div class="circle-graph3" data-percent="50">
+                                                            <img src="assets/img/fontawesome_svgs/duotone/calendar-days.svg" class="img-fluid w40" alt="Patient">
+                                                        </div>
+                                                    </div>
+                                                    <div class="dash-widget-info">
+                                                        <h6>Appoinments</h6>
+                                                        <h3>{{AppointmentCount}}</h3>
+                                                        <p class="text-muted">{{currentdate | date:'dd MMMM yyyy (EEEE)'}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <!--/ Dashboard -->
+                    <!-- Appointment -->
+                    <div class="appointments" ng-if="(renderCode=='APPO')" ng-controller="doctordashboardappointmentController">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="mb-4">{{renderTitle}}</h4>
+                                <div class="appointment-tab">                                        
+                                    <!-- Appointment Tab -->
+                                    <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#today-appointments" data-bs-toggle="tab">Today</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#upcoming-appointments" data-bs-toggle="tab">Upcoming 15 Days</a>
+                                        </li> 
+                                    </ul>
+                                    <!-- /Appointment Tab -->                                            
+                                    <div class="tab-content">
+                                        <!-- Today Appointment Tab -->
+                                    <div class="tab-pane show active" id="today-appointments">
+                                        <div class="card card-table mb-0">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>                                                                        
+                                                                <th>Appointment Date</th>
+                                                                <th>Patient Name</th>
+                                                                <th>Phone</th>
+                                                                <!--  <th>Email</th>-->
+                                                                <th>Gender</th>
+                                                                <th>Purpose</th>
+                                                                <th>Type</th>
+                                                                <th>Hospital</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="appointment in todaysAppointments">
+                                                                
+                                                                <td>{{appointment.AppointmentDate}} <span class="d-block text-info">{{appointment.AppointmentTime}}</span></td>
+                                                                <td>
+                                                                    <h2 class="table-avatar">
+                                                                        <a  class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{appointment.UserAvtar}}" alt="{{appointment.PatientName}}"></a>
+                                                                        <a>{{appointment.PatientName}} <span>#{{appointment.AppointmentNumber}}</span></a>
+                                                                    </h2>
+                                                                </td>
+                                                                <td>{{appointment.MobileNo}}</td>
+                                                                <!-- <td>{{appointment.EmailId}}</td>-->
+                                                                <td>{{appointment.GenderName}}</td>
+                                                                <td>{{appointment.Remark}}</td>
+                                                                <td><i class="{{appointment.IsVideoVisit?'feather-video online-icon':'feather-calendar online-icon'}}"></i>{{appointment.IsVideoVisit?'Televisit':'Clinic'}}</td>
+                                                                <td>{{appointment.HospitalName}}</td>
+                                                                <td>{{appointment.AppointmentStatus}}</td>
+                                                                <td>
+                                                                    <div class="table-action">
+                                                                        <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-eye"></i> View
+                                                                        </a>
+                                                                        
+                                                                        <!-- <a href="javascript:void(0);" class="btn btn-sm bg-success-light">
+                                                                            <i class="fas fa-check"></i> Accept
+                                                                        </a>
+                                                                        <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i> Cancel
+                                                                        </a> -->
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>		
+                                                </div>	
+                                            </div>	
+                                        </div>	
+                                    </div>
+                                    <!-- /Today Appointment Tab -->                                            
+                                    <!-- Upcoming Appointment Tab -->
+                                    <div class="tab-pane" id="upcoming-appointments">
+                                        <div class="card card-table mb-0">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                                                                
+                                                                <th>Appointment Date</th>
+                                                                <th>Patient Name</th>
+                                                                <th>Phone</th>
+                                                                <!-- <th>Email</th> -->
+                                                                <th>Gender</th>
+                                                                <th>Purpose</th>
+                                                                <th>Type</th>
+                                                                <th>Hospital</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="appointment in upcomingAppointments">
+                                                                                                                
+                                                                <td>{{appointment.AppointmentDate}} <span class="d-block text-info">{{appointment.AppointmentTime}}</span></td>
+                                                                <td>
+                                                                    <h2 class="table-avatar">
+                                                                        <a  class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="{{appointment.UserAvtar}}" alt="{{appointment.PatientName}}"></a>
+                                                                        <a>{{appointment.PatientName}} <span>#{{appointment.AppointmentNumber}}</span></a>
+                                                                    </h2>
+                                                                </td>
+                                                                <td>{{appointment.MobileNo}}</td>
+                                                                <!--  <td>{{appointment.EmailId}}</td> -->
+                                                                <td>{{appointment.GenderName}}</td>
+                                                                <td>{{appointment.Remark}}</td>
+                                                                <td><i class="{{appointment.IsVideoVisit?'feather-video online-icon':'feather-calendar online-icon'}}"></i>{{appointment.IsVideoVisit?'Televisit':'Clinic'}}</td>
+                                                                <td>{{appointment.HospitalName}} </td>
+                                                                <td>{{appointment.AppointmentStatus}}</td>
+                                                                <td>
+                                                                    <div class="table-action">
+                                                                        <a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-eye"></i> View
+                                                                        </a>
+                                                                        
+                                                                        <!-- <a href="javascript:void(0);" class="btn btn-sm bg-success-light">
+                                                                            <i class="fas fa-check"></i> Accept
+                                                                        </a>
+                                                                        <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i> Cancel
+                                                                        </a> -->
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>		
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Upcoming Appointment Tab -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ Appointment -->
+                    <!-- Profile Settings -->
+                    <div class="card" ng-if="(renderCode=='PROF')">
+                        <div class="card-header">
+                            <h4 class="card-title">{{renderTitle}}</h4>
+                        </div>
+                        <div class="card-body pt-0">                                
+                            <!-- Tab Menu -->
+                            <nav class="user-tabs mb-4">
+                                <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#dr_PersonalInformation" ng-click="loadTab('PROFILE');" data-bs-toggle="tab">Personal Information</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#dr_ProfessionalInformation"  ng-click="loadTab('PROFESSIONAL');" data-bs-toggle="tab">Professional Information</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#dr_clinic" ng-click="loadTab('CLINIC');" data-bs-toggle="tab"><span class="med-records">Clinic</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#dr_Time" ng-click="loadTab('TIME');" data-bs-toggle="tab"><span class="med-records">Time</span></a>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" href="#dr_LeaveOff" data-bs-toggle="tab">LeaveOff</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#dr_Holiday" data-bs-toggle="tab">Holiday</a>
+                                    </li>--> 
+                                </ul>
+                            </nav>
+                            <!-- /Tab Menu -->                                    
+                            <!-- Tab Content -->
+                            <div class="tab-content pt-0">
+                                <!-- PersonalInformation Tab -->
+                                <div id="dr_PersonalInformation" class="tab-pane fade show active"  >
+                                    
+                                    <div ng-if="(tabCode=='docprofile')" ng-controller="doctorProfileInfoController">
+                                    <h4 class="card-title">Personal Information
+                                        <span style="text-align:right; float: right;">{{lblSAASUniqueCode}}</span>
+                                    </h4>
+                                    <form name="frmdoctorProfiles">
+                                        <div class="row" >
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <div class="change-avatar">
+                                                        <div class="profile-img">
+                                                            <img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+                                                        </div>
+                                                        <div class="upload-img">
+                                                            <div class="change-photo-btn">
+                                                                <span><i class="fa fa-upload"></i> Upload Photo</span>
+                                                                <input type="file" class="upload">
+                                                            </div>
+                                                            <small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">First Name
+                                                        <span class="text-danger">*</span></label>
+                                                    <div class="row">
+
+                                                        <div  class="col-12 col-sm-4 col-md-4">
+                                                            <input type="text" class="form-control"  name="Title" ng-model="txtTitle" placeholder="Enter Your Title" ng-class="((frmdoctorProfiles.Title.$touched && frmdoctorProfiles.Title.$invalid)?'is-invalid':((frmdoctorProfiles.Title.$touched && frmdoctorProfiles.Title.$valid)?'is-valid':''))" maxlength="50" minlength="2" required only-aplhanumeric>
+                                                   
+                                                        </div>
+                                                        <div  class="col-12 col-sm-8 col-md-8">
+                                                            <input type="text" class="form-control"  name="EmployeeFirstName" ng-model="txtEmployeeFirstName" placeholder="Enter Your First Name" ng-class="((frmdoctorProfiles.EmployeeFirstName.$touched && frmdoctorProfiles.EmployeeFirstName.$invalid)?'is-invalid':((frmdoctorProfiles.EmployeeFirstName.$touched &&  frmdoctorProfiles.EmployeeFirstName.$valid)?'is-valid':''))" maxlength="200" minlength="2" required only-aplhanumeric>
+                                              
+                                                        </div>
+                                                    </div>
+                                                      </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Middle Name</label>
+                                                    <input type="text" class="form-control"  name="EmployeeMiddleName" ng-model="txtEmployeeMiddleName" placeholder="Enter Your Middle Name" ng-class="((frmdoctorProfiles.EmployeeMiddleName.$touched && frmdoctorProfiles.EmployeeMiddleName.$invalid)?'is-invalid':((frmdoctorProfiles.EmployeeMiddleName.$touched &&  frmdoctorProfiles.EmployeeMiddleName.$valid)?'is-valid':''))" maxlength="200" minlength="0"  only-aplhanumeric>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Last Name<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control"  name="EmployeeLastName" ng-model="txtEmployeeLastName" placeholder="Enter Your Last Name" ng-class="((frmdoctorProfiles.EmployeeLastName.$touched && frmdoctorProfiles.EmployeeLastName.$invalid)?'is-invalid':((frmdoctorProfiles.EmployeeLastName.$touched &&  frmdoctorProfiles.EmployeeLastName.$valid)?'is-valid':''))" maxlength="200" minlength="2" required  only-aplhanumeric>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Date Of Birth<span class="text-danger">*</span></label>
+                                                    <div class="cal-icon">
+                                                        <input type="text"  name="dateofbirth" ng-model="txtDateofBirth" ng-class="((frmdoctorProfiles.dateofbirth.$touched &&  (!DoctorDOB))?'is-invalid':((DoctorDOB)?'is-valid':''))"  class="form-control"  placeholder="Select Your Date Of Birth" maxlength="10"   datepicker>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Gender <span class="text-danger">*</span></label>
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4 col-md-4" ng-repeat="gender in Genders">
+                                                        <label class="payment-radio credit-card-option txtRadio">
+                                                            <input type="radio" name="gender" ng-value="gender" ng-model="$parent.selectedGender">
+                                                            <span class="checkmark"></span>
+                                                            {{ gender.gendername }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Nationality Header <span class="text-danger">*</span></label>
+                                                    <select class="form-select form-control" name="Nationality" ng-model="cmbNationality" ng-class="((frmdoctorProfiles.Nationality.$touched && frmdoctorProfiles.Nationality.$invalid)?'is-invalid':((frmdoctorProfiles.Nationality.$touched && frmdoctorProfiles.Nationality.$valid)?'is-valid':''))"  required>
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Nationality in NationalityList"  value="{{Nationality.NationalityId}}">{{Nationality.NationalityName}}</option>
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Speciality <span class="text-danger">*</span></label>
+                                                    <select class="form-select form-control" name="Speciality" ng-model="cmbSpeciality" ng-class="((frmdoctorProfiles.Speciality.$touched && frmdoctorProfiles.Speciality.$invalid)?'is-invalid':((frmdoctorProfiles.Speciality.$touched && frmdoctorProfiles.Speciality.$valid)?'is-valid':''))"  required>
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Speciality in SpecialityList"  value="{{Speciality.SpecialityId}}">{{Speciality.SpecialityName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Qualification <span class="text-danger">*</span></label>
+                                                    <input type="text"  name="Qualification" ng-model="txtQualification" ng-class="((frmdoctorProfiles.Qualification.$touched && frmdoctorProfiles.Qualification.$invalid)?'is-invalid':((frmdoctorProfiles.Qualification.$touched &&  frmdoctorProfiles.Qualification.$valid)?'is-valid':''))"  class="form-control"  placeholder="Enter Your Qualification" maxlength="500" required>
+                                                </div>
+                                            </div>
+                                        <!--    <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Doctor Licence # <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Provider ID<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">NPI<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">SSN<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">TIN <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Insurance Accepted <span class="text-danger">*</span></label>
+                                                    <select class="form-select form-control" name="Insurance" ng-model="cmbInsurance" ng-class="((frmdoctorProfiles.Insurance.$touched && frmdoctorProfiles.Insurance.$invalid)?'is-invalid':((frmdoctorProfiles.Insurance.$valid)?'is-valid':''))"  required>
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Insurance in InsuranceList" value="{{Insurance.InsuranceId}}">{{Insurance.InsuranceName}}</option>
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>-->
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Practice start date<span class="text-danger">*</span></label>
+                                                    <div class="cal-icon">
+                                                        <input type="text"  name="PracticeStartDate" ng-model="txtPracticeStartDate" ng-class="((frmdoctorProfiles.PracticeStartDate.$touched &&  (!practiceStartDateSelected))?'is-invalid':((practiceStartDateSelected)?'is-valid':''))"  class="form-control"  placeholder="Select Your Practice Start Date" maxlength="10"   datepickertwo required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- </div>-->
+                                                
+                                            <!--  <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2">DEA Number <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>-->
+                                            
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <h4 class="card-title">Contact Details</h4>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2">Address Line 1</label>
+                                                        <input type="text"  name="Address1" ng-model="txtAddress1" ng-class="((frmdoctorProfiles.Address1.$touched && frmdoctorProfiles.Address1.$invalid)?'is-invalid':((frmdoctorProfiles.Address1.$touched &&  frmdoctorProfiles.Address1.$valid)?'is-valid':''))"  class="form-control"  placeholder="Enter Your Address Line 1" maxlength="500">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="control-label">Address Line 2</label>
+                                                        <input type="text"  name="Address2" ng-model="txtAddress2" ng-class="((frmdoctorProfiles.Address2.$touched && frmdoctorProfiles.Address2.$invalid)?'is-invalid':((frmdoctorProfiles.Address2.$touched &&  frmdoctorProfiles.Address2.$valid)?'is-valid':''))"  class="form-control"  placeholder="Enter Your Address Line 2" maxlength="500">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="control-label">City <span class="text-danger">*</span></label>
+                                                        <angucomplete-alt  id="txtautoCity" input-name="City" placeholder="Search City" selected-object="selectedCityObj" local-data="CityList" search-fields="CityName" title-field="CityName"   minlength="1" inputclass="form-control" match-class="highlight" pause="100" field-required="true" override-suggestions="false" initial-value="selectedCity" ng-class="((frmdoctorProfiles.City.$touched && frmdoctorProfiles.City.$invalid)?'is-invalid':((frmdoctorProfiles.City.$touched && frmdoctorProfiles.City.$valid)?'is-valid':''))"/>
+                                                        <!-- <select class="form-select form-control" name="City" ng-model="cmbCity" ng-change="getCity()"  ng-class="((frmdoctorProfiles.City.$touched && frmdoctorProfiles.City.$invalid)?'is-invalid':((frmdoctorProfiles.City.$touched && frmdoctorProfiles.City.$valid)?'is-valid':''))"  required>
+                                                            <option value="">Select</option>
+                                                            <option   ng-repeat="City in CityList"  value="{{City.CityId}}">{{City.CityName}}</option>                                                    
+                                                        </select> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="control-label">State / Province</label>
+                                                        <input type="text" name="State" ng-disabled="true" ng-model="txtStateName" class="form-control" value="{{StateId}}"  ng-class="((frmdoctorProfiles.State.$touched && frmdoctorProfiles.State.$invalid)?'is-invalid':((frmdoctorProfiles.State.$touched && frmdoctorProfiles.State.$valid)?'is-valid':''))" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="control-label">Country</label>
+                                                        <input type="text" name="Country"   ng-disabled="true" ng-model="txtCountryName" class="form-control" value="{{CountryId}}"  ng-class="((frmdoctorProfiles.Country.$touched && frmdoctorProfiles.Country.$invalid)?'is-invalid':((frmdoctorProfiles.Country.$touched && frmdoctorProfiles.Country.$valid)?'is-valid':''))" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="control-label">Postal Code</label>
+                                                        <input type="text" name="PostalCode" ng-model="txtPostalCode" class="form-control"  ng-class="((frmdoctorProfiles.PostalCode.$touched && frmdoctorProfiles.PostalCode.$invalid)?'is-invalid':((frmdoctorProfiles.PostalCode.$touched && frmdoctorProfiles.PostalCode.$valid)?'is-valid':''))" maxlength="6" only-numeric  >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <h4 class="card-title">Language Spoken
+                                            </h4>
+                                            <div class="Language-info">
+                                                <div class="row Language-cont">
+                                                    <div class="col-12 col-md-10 col-lg-11">
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-4 col-lg-4">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">Language Spoken
+                                                                    </label>
+                                                                    <select class="form-select form-control" name="Languages" ng-model="cmbLanguage" ng-class="((frmdoctorProfiles.Languages.$touched && frmdoctorProfiles.Languages.$invalid)?'is-invalid':((frmdoctorProfiles.Languages.$touched && frmdoctorProfiles.Languages.$valid)?'is-valid':''))" >
+                                                                        <option value="">Select</option>
+                                                                        <option ng-repeat="Lang in MLanguageList" value="{{Lang.LangId}}">{{Lang.Language}}</option>
+                                                                        
+                                                                    </select>
+                                                                </div> 
+                                                            </div>
+                                                            <div class="col-12 col-md-6 col-lg-6">
+                                                                <div class="mt-4 pt-3">
+                                                                    <div class="add-more mb-3">
+                                                                        <a  ng-click="AddLanguage()" class="add-Language"><i class="fa fa-plus-circle"></i> Add More</a>
+                                                                    </div>
+                                                                </div> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="Language-List">
+                                                <div class="card card-table mb-0">
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover table-center mb-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                                                                        
+                                                                        <th>SN</th>
+                                                                        <th>Language</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="Languages in DoctorLanguagesList">
+                                                                        <td>{{$index + 1}}</td>
+                                                                        <td>{{Languages.Language}}</td>
+                                                                        
+                                                                        <td>
+                                                                            <div class="table-action">                                                               
+                                                                                <a href="javascript:void(0);" title="Cancel" ng-click="RemoveLanguage(Languages.LanguagesSpokenID)" class="btn btn-sm bg-danger-light">
+                                                                                    <i class="fas fa-times"></i> 
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>		
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <h4 class="card-title">About Me</h4>
+                                            <div class="mb-0">
+                                                <label class="mb-2">Biography</label>
+                                                <textarea class="form-control" rows="10"  name="Biography" ng-model="txtBiography"  ng-class="((frmdoctorProfiles.Biography.$touched && frmdoctorProfiles.Biography.$invalid)?'is-invalid':((frmdoctorProfiles.Biography.$touched &&  frmdoctorProfiles.Biography.$valid)?'is-valid':''))" placeholder="Enter Your Biography" maxlength="4000"></textarea>
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="submit-section submit-btn-bottom mt-3">
+                                            <button type="submit"   ng-click="ManageDoctorDetails()" class="btn btn-primary prime-btn">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                </div>
+                                <!-- /PersonalInformation Tab -->
+
+                                <!-- ProfessionalInformation Tab -->
+                                <div class="tab-pane fade" id="dr_ProfessionalInformation">
+                                    <div ng-if="(tabCode=='docprofessionalinfo')" ng-controller="DoctorProfileProfessionalInfoController">
+                                    <!--Services-->
+                                    <div class="row">
+                                        <form name="frmServices">
+                                            <h4 class="card-title">Services</h4>
+                                            <div class="mb-3">
+                                                <label class="mb-2">Services</label>                                                
+                                                <input type="text" class="form-control"  name="Services" ng-model="txtServices" ng-class="((frmServices.Services.$touched && frmServices.Services.$invalid)?'is-invalid':((frmServices.Services.$touched && frmServices.Services.$valid)?'is-valid':''))" placeholder="Enter Services"  maxlength="200" minlength="2" required only-aplhanumeric>
+                                                <small class="form-text text-muted">Note : Type & Press enter to add new services</small>
+                                            </div> 
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddDoctrService()" ng-disabled="frmServices.$invalid"  class="add-education"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Services</th>                                                               
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Services in DoctorServiceslist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Services.DoctorServices}}</td>
+                                                                <td>
+                                                                    <div class="table-action">                                                                        
+                                                                        <a ng-click="DeleteDoctorService(Services.ID)" title="Cancel" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i> 
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>                                    
+                                     <!--Specialization-->
+                                    <div class="row">
+                                        <form name="frmSpecialization">
+                                            <h4 class="card-title">Specialization</h4>
+                                            <div class="mb-3">
+                                                <label class="mb-2">Specialization </label>
+                                                <input type="text" class="input-tags form-control"  name="Specialization" ng-model="txtSpecialization" ng-class="((frmSpecialization.Specialization.$touched && frmSpecialization.Specialization.$invalid)?'is-invalid':((frmSpecialization.Specialization.$touched && frmSpecialization.Specialization.$valid)?'is-valid':''))" placeholder="Enter Specialization"  maxlength="200" minlength="2" required only-aplhanumeric>
+                                                <small class="form-text text-muted">Note : Type & Press  enter to add new specialization</small>
+                                            </div> 
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddSpecialization()" ng-disabled="frmSpecialization.$invalid" class="add-education"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Specialization</th>                                                               
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Specialization in DoctorSpecializationlist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Specialization.Expertise}}</td>
+                                                                <td>
+                                                                    <div class="table-action">
+                                                                        
+                                                                        <a ng-click="DeleteSpecialization(Specialization.Id)" title="Cancel" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--Education-->
+                                    <div class="row">
+                                        <form name="frmEducation">
+                                            <h4 class="card-title">Education</h4>
+                                            <div class="education-info">
+                                                <div class="row education-cont">
+                                                    <div class="col-12 col-md-10 col-lg-11">
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-6 col-lg-4">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">Degree</label>
+                                                                    <input type="text" class="form-control"  name="Degree" ng-model="txtDegree" ng-class="((frmEducation.Degree.$touched && frmEducation.Degree.$invalid)?'is-invalid':((frmEducation.Degree.$touched && frmEducation.Degree.$valid)?'is-valid':''))" placeholder="Enter Degree"  maxlength="200" minlength="1" required only-aplhanumeric>
+                                                                </div> 
+                                                            </div>
+                                                            <div class="col-12 col-md-6 col-lg-4">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">College/Institute</label>
+                                                                    <input type="text" class="form-control"  name="College" ng-model="txtCollege" ng-class="((frmEducation.College.$touched && frmEducation.College.$invalid)?'is-invalid':((frmEducation.College.$touched && frmEducation.College.$valid)?'is-valid':''))" placeholder="Enter College/Institute"  maxlength="200" minlength="1" required only-aplhanumeric>
+                                                                </div> 
+                                                            </div>
+                                                            <div class="col-12 col-md-6 col-lg-4">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">Year of Completion</label>
+                                                                    <input type="text" class="form-control"  name="YearofCompletion" ng-model="txtYearofCompletion" ng-class="((frmEducation.YearofCompletion.$touched && frmEducation.YearofCompletion.$invalid)?'is-invalid':((frmEducation.YearofCompletion.$touched && frmEducation.YearofCompletion.$valid)?'is-valid':''))" placeholder="Enter Year of Completion"  maxlength="4" minlength="1" required only-numeric>
+                                                                </div> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddEducation()"  ng-disabled="frmEducation.$invalid" class="add-education"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Degree</th>
+                                                                <th>College/Institute</th>
+                                                                <th class="th-white-space">Year of Completion</th>
+                                                                <th class="th-white-space">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Education in DoctorEducationlist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Education.Education}}</td>
+                                                                <td>{{Education.College_Institute}}</td>
+                                                                <td>{{Education.YearofCompletion}}</td>
+                                                                <td class="th-white-space">
+                                                                    <div class="table-action">
+                                                                        <a title="Edit" ng-click="EditEducation(Education.DoctorEducationID,Education.Education,Education.College_Institute,Education.YearofCompletion)" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </a>
+                                                                        <a ng-click="DeleteEducation(Education.DoctorEducationID)" title="Cancel" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>	
+                                    <!--Awards-->
+                                    <div class="row">
+                                        <form name="frmAwards">
+                                            <h4 class="card-title">Awards</h4>
+                                            <div class="awards-info">
+                                                <div class="row awards-cont">
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Awards</label>
+                                                            <input type="text" class="form-control"  name="Awards" ng-model="txtAwards" ng-class="((frmAwards.Awards.$touched && frmAwards.Awards.$invalid)?'is-invalid':((frmAwards.Awards.$touched && frmAwards.Awards.$valid)?'is-valid':''))"
+                                                            placeholder="Enter Awards"  maxlength="200" minlength="1" required only-aplhanumeric>
+                                                        </div> 
+                                                    </div>
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Year</label>
+                                                            <input type="text" class="form-control"  name="AwardsYear" ng-model="txtAwardsYear" ng-class="((frmAwards.AwardsYear.$touched && frmAwards.AwardsYear.$invalid)?'is-invalid':((frmAwards.AwardsYear.$touched && frmAwards.AwardsYear.$valid)?'is-valid':''))" placeholder="Enter Year"  maxlength="4" minlength="1" required only-numeric>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddAward()" ng-disabled="frmAwards.$invalid" class="add-award"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Awards</th> 
+                                                                <th>Year</th>                                                              
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Awards in DoctoAwardslist">
+                                                            <td>{{$index + 1}}</td>                                                               
+                                                            <td>{{Awards.Awards}}</td>
+                                                            <td>{{Awards.Years}}</td>
+                                                            <td class="th-white-space">
+                                                                <div class="table-action">
+                                                                    <a title="Edit" ng-click="EditAwards(Awards.ID,Awards.Awards,Awards.Years)" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-edit"></i>
+                                                                    </a>
+                                                                    <a ng-click="DeleteAwards(Awards.ID)" title="Cancel" class="btn btn-sm bg-danger-light">
+                                                                        <i class="fas fa-times"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>                                                                   
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--Experience-->
+                                    <div class="row">
+                                        <form name="frmExperience">
+                                            <h4 class="card-title">Experience</h4>
+                                            <div class="experience-info">
+                                                <div class="row experience-cont">
+                                                    <div class="col-12 col-md-10 col-lg-11">
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-4 col-lg-4">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">Hospital Name</label>
+                                                                <input type="text" class="form-control" name="HospitalName" ng-model="txtHospitalName" ng-class="((frmExperience.HospitalName.$touched && frmExperience.HospitalName.$invalid)?'is-invalid':((frmExperience.HospitalName.$touched && frmExperience.HospitalName.$valid)?'is-valid':''))"  placeholder="Enter Your Hospital Name" maxlength="1000" minlength="1" required>
+                                                                </div> 
+                                                            </div>
+                                                            <div class="col-12 col-md-2 col-lg-2">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">From</label>
+                                                                    <input type="text"  name="FomDate" ng-model="txtFomDate" ng-class="(((frmExperience.FomDate.$touched) && (!mdlFomDate) )?'is-invalid':((frmExperience.FomDate.$touched) && (mdlFomDate))?'is-valid':'')"  class="form-control"  placeholder="From Date" maxlength="10"   datepickerone>
+                                                                </div> 
+                                                            </div>
+                                                            <div class="col-12 col-md-2 col-lg-2">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">To</label>
+                                                                    <input type="text"  name="TODate" ng-model="txtToDate" ng-class="(((frmExperience.TODate.$touched) && (!mdlToDate) )?'is-invalid':((frmExperience.TODate.$touched) && (mdlToDate))?'is-valid':'')" class="form-control"  placeholder="To Date" datepickertwo>
+                                                                </div> 
+                                                            </div>
+                                                            <div class="col-12 col-md-4 col-lg-4">
+                                                                <div class="mb-3">
+                                                                    <label class="mb-2">Designation</label>
+                                                                    <input type="text" class="form-control" name="Designation" ng-model="txtDesignation" ng-class="((frmExperience.Designation.$touched && frmExperience.Designation.$invalid)?'is-invalid':((frmExperience.Designation.$touched && frmExperience.Designation.$valid)?'is-valid':''))"  placeholder="Enter Your Designation" maxlength="4000" minlength="=2" required >
+                                                                </div> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddExperience()" ng-disabled="frmExperience.$invalid"  class="add-experience"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Hospital Name</th>                                                                  
+                                                                <th>From</th>
+                                                                <th>To</th>                                                                  
+                                                                <th>Designation</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Experience in DoctorExperiencelist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Experience.HospitalName}}</td>
+                                                                <td>{{Experience.FromDate}}</td>
+                                                                <td>{{Experience.ToDate}}</td>
+                                                                <td>{{Experience.Designation}}</td>
+                                                                <td class="th-white-space">
+                                                                    <div class="table-action">
+                                                                        <a title="Edit" ng-click="EditExperience(Experience.ID,Experience.HospitalName,Experience.FromDate,Experience.ToDate,Experience.Designation)" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </a>
+                                                                        <a ng-click="DeleteExperience(Experience.ID)" title="Cancel" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--Publications-->
+                                    <div class="row">
+                                        <form name="frmPublications">
+                                            <h4 class="card-title">Publications
+                                            </h4>
+                                            <div class="registrations-info">
+                                                <div class="row reg-cont">
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Publications
+                                                            </label>
+                                                            <input type="text" class="form-control" name="Publications" ng-model="txtPublications" ng-class="((frmPublications.Publications.$touched && frmPublications.Publications.$invalid)?'is-invalid':((frmPublications.Publications.$touched && frmPublications.Publications.$valid)?'is-valid':''))"  placeholder="Enter Your Publications" maxlength="200" minlength="1" required >
+                                                        </div> 
+                                                    </div>
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                        <label class="mb-2">Year</label>
+                                                        <input type="text" class="form-control" name="PubYear" ng-model="txtPubYear" ng-class="((frmPublications.PubYear.$touched && frmPublications.PubYear.$invalid)?'is-invalid':((frmPublications.PubYear.$touched && frmPublications.PubYear.$valid)?'is-valid':''))"  placeholder="Enter Your Year" maxlength="4" minlength="1" required only-numeric >
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddPublication()"  ng-disabled="frmPublications.$invalid" class="add-reg"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Publications</th>
+                                                                <th>Year</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Publications in DoctorPublicationslist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Publications.Publication}}</td>
+                                                                <td>{{Publications.Years}}</td>
+                                                                <td class="th-white-space">
+                                                                    <div class="table-action">
+                                                                        <a title="Edit" ng-click="EditPublication(Publications.Id,Publications.Publication,Publications.Years);" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-edit"></i>
+                                                                        </a>
+                                                                        
+                                                                        <a ng-click="DeletePublication(Publications.Id);" title="Cancel" class="btn btn-sm bg-danger-light">
+                                                                        <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--Certifications-->
+                                    <div class="row">
+                                        <form name="frmCertifications">
+                                            <h4 class="card-title">Certifications
+                                            </h4>
+                                            <div class="registrations-info">
+                                                <div class="row reg-cont">
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Certifications
+                                                            </label>
+                                                            <input type="text" class="form-control" name="Certification" ng-model="txtCertifications" ng-class="((frmCertifications.Certification.$touched && frmCertifications.Certification.$invalid)?'is-invalid':((frmCertifications.Certification.$touched && frmCertifications.Certification.$valid)?'is-valid':''))"  placeholder="Enter Your Certifications" maxlength="200" minlength="=1" required >
+                                                        </div> 
+                                                    </div>
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Year</label>
+                                                            <input type="text" class="form-control" name="CerYear" ng-model="txtCerYear" ng-class="((frmCertifications.CerYear.$touched && frmCertifications.CerYear.$invalid)?'is-invalid':((frmCertifications.CerYear.$touched && frmCertifications.CerYear.$valid)?'is-valid':''))"  placeholder="Enter Your Year" maxlength="4" minlength="=1" required only-numeric >
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddCertification()"  ng-disabled="frmCertifications.$invalid" class="add-reg"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Certifications</th>                                                            
+                                                                <th>Year</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Certifications in DoctorCertificationslist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Certifications.CertificateandAward}}</td>
+                                                                <td>{{Certifications.Years}}</td>
+                                                                <td class="th-white-space">
+                                                                    <div class="table-action">
+                                                                        <a title="Edit" ng-click="EditCertification(Certifications.Id,Certifications.CertificateandAward,Certifications.Years)" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </a>
+                                                                        <a title="Cancel" ng-click="DeleteCertification(Certifications.Id)" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>     
+                                    <!--Asssosiations-->                              
+                                    <div class="row">
+                                        <form name="frmAsssosiations">
+                                            <h4 class="card-title">Asssosiations
+                                            </h4>
+                                            <div class="registrations-info">
+                                                <div class="row reg-cont">
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Asssosiations
+                                                            </label>
+                                                            <input type="text" class="form-control" name="Asssosiation" ng-model="txtAsssosiations" ng-class="((frmAsssosiations.Asssosiation.$touched && frmAsssosiations.Asssosiation.$invalid)?'is-invalid':((frmAsssosiations.Asssosiation.$touched && frmAsssosiations.Asssosiation.$valid)?'is-valid':''))"  placeholder="Enter Your Publications" maxlength="200" minlength="1" required >
+                                                        </div> 
+                                                    </div>
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Year</label>
+                                                            <input type="text" class="form-control" name="AssYear" ng-model="txtAssYear" ng-class="((frmAsssosiations.AssYear.$touched && frmAsssosiations.AssYear.$invalid)?'is-invalid':((frmAsssosiations.AssYear.$touched && frmAsssosiations.AssYear.$valid)?'is-valid':''))"  placeholder="Enter Your Publications" maxlength="4" minlength="1" required only-numeric >
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddAsssosiations()" ng-disabled="frmAsssosiations.$invalid" class="add-reg"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Asssosiations</th>
+                                                                <th>Year</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Asssosiations in DoctorAsssosiationslist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Asssosiations.Association}}</td>
+                                                                <td>{{Asssosiations.Years}}</td>
+                                                                <td class="th-white-space">
+                                                                    <div class="table-action">
+                                                                        <a title="Edit" ng-click="EditAsssosiations(Asssosiations.Id,Asssosiations.Association,Asssosiations.Years)" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </a>
+                                                                        <a title="Cancel" ng-click="DeleteAsssosiations(Asssosiations.Id)" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--Professional--> 
+                                    <div class="row">
+                                        <form name="frmProfessional">
+                                            <h4 class="card-title">Professional
+                                            </h4>
+                                            <div class="registrations-info">
+                                                <div class="row reg-cont">
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Professional
+                                                            </label>
+                                                            <input type="text" class="form-control" name="Professional" ng-model="txtProfessional" ng-class="((frmProfessional.Professional.$touched && frmProfessional.Professional.$invalid)?'is-invalid':((frmProfessional.Professional.$touched && frmProfessional.Professional.$valid)?'is-valid':''))"  placeholder="Enter Your Professional" maxlength="200" minlength="=1" required >
+                                                        </div> 
+                                                    </div>
+                                                    <div class="col-12 col-md-5">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Practice Details</label>
+                                                            <input type="text" class="form-control" name="PracticeDetails" ng-model="txtPracticeDetails" ng-class="((frmProfessional.PracticeDetails.$touched && frmProfessional.PracticeDetails.$invalid)?'is-invalid':((frmProfessional.PracticeDetails.$touched && frmProfessional.PracticeDetails.$valid)?'is-valid':''))"  placeholder="Enter Your Practice Details" maxlength="1000" minlength="=1" required >
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-more mb-3">
+                                                <a ng-click="AddProfessional()"  ng-disabled="frmProfessional.$invalid" class="add-reg"><i class="fa fa-plus-circle"></i> Add More</a>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Professional</th>                                                            
+                                                                <th>Practice Details</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Professional in DoctorProfessionallist">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Professional.Professional}}</td>
+                                                                <td>{{Professional.PracticeDetails}}</td>
+                                                                <td class="th-white-space">
+                                                                    <div class="table-action">
+                                                                        <a title="Edit" ng-click="EditProfessional(Professional.Id,Professional.Professional,Professional.PracticeDetails)" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </a>
+                                                                        <a title="Cancel" ng-click="DeleteProfessional(Professional.Id)" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                <!--<div class="submit-section submit-btn-bottom">
+                                        <button type="submit" class="btn btn-primary prime-btn">Save Changes</button>
+                                    </div>-->
+                                    </div>
+                                </div>
+                                <!-- /ProfessionalInformation Tab -->
+
+                                <!-- clinic Tab -->
+                                <div class="tab-pane fade" id="dr_clinic">
+                                    <div ng-if="(tabCode=='docclinic')" ng-controller="doctorProfileClinicController">
+                                    <h4 class="card-title">Clinic Info</h4>
+                                    <form name="frmdrclinic">
+                                        <div class="row">                                        
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Clinic Images</label>
+                                                    <form action="#" class="dropzone"></form>
+                                                </div>
+                                                <div class="upload-wrap">
+                                                    <div class="upload-images">
+                                                        <img src="assets/img/features/feature-01.jpg" alt="Upload Image">
+                                                        <a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                                                    </div>                                            
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Clinic Name<span class="text-danger">*</span></label>                                            
+                                                    <input type="text" class="form-control"  name="ClinicName" ng-model="txtClinicName" placeholder="Enter Your Clinic Name" ng-class="((frmdrclinic.ClinicName.$touched && frmdrclinic.ClinicName.$invalid)?'is-invalid':((frmdrclinic.ClinicName.$touched && frmdrclinic.ClinicName.$valid)?'is-valid':''))" maxlength="100" minlength="2" required only-aplhanumeric>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Clinic Address<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control"  name="ClinicAddress" ng-model="txtClinicAddress" placeholder="Enter Your Clinic Address" ng-class="((frmdrclinic.ClinicAddress.$touched && frmdrclinic.ClinicAddress.$invalid)?'is-invalid':((frmdrclinic.ClinicAddress.$touched && frmdrclinic.ClinicAddress.$valid)?'is-valid':''))" maxlength="100" minlength="2" required only-aplhanumeric>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">City<span class="text-danger">*</span></label>  
+                                                    <angucomplete-alt  id="txtautoClinicCity" input-name="ClinicCity" placeholder="Search City" selected-object="selectedClinicCityObj" local-data="CityList" search-fields="CityName" title-field="CityName"   minlength="1" inputclass="form-control" match-class="highlight" pause="100" field-required="true" override-suggestions="false" initial-value="selectedClinicCity" ng-class="((frmdrclinic.ClinicCity.$touched && frmdrclinic.ClinicCity.$invalid)?'is-invalid':((frmdrclinic.ClinicCity.$touched && frmdrclinic.ClinicCity.$valid)?'is-valid':''))"/>                                         
+                                                    <!--<select class="form-select form-control" name="ClinicCity" ng-model="cmbClinicCity" ng-class="((frmdrclinic.ClinicCity.$touched && frmdrclinic.ClinicCity.$invalid)?'is-invalid':((frmdrclinic.ClinicCity.$touched && frmdrclinic.ClinicCity.$valid)?'is-valid':''))"  required>
+                                                        <option value="">Select</option>
+                                                        <option   ng-repeat="City in CityList"  value="{{City.CityId}}">{{City.CityName}}</option>                                                    
+                                                    </select>-->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Pin Code<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control"  name="ClinicPinCode" ng-model="txtClinicPinCode" placeholder="Enter Your Pin Code" ng-class="((frmdrclinic.ClinicPinCode.$touched && frmdrclinic.ClinicPinCode.$invalid)?'is-invalid':((frmdrclinic.ClinicPinCode.$touched && frmdrclinic.ClinicPinCode.$valid)?'is-valid':''))" maxlength="6" minlength="2" required only-numeric>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Description</label>
+                                                    <input type="text" class="form-control"  name="Description" ng-model="txtClinicDescription" placeholder="Enter Your Description" ng-class="((frmdrclinic.Description.$touched && frmdrclinic.Description.$invalid)?'is-invalid':((frmdrclinic.Description.$touched && frmdrclinic.Description.$valid)?'is-valid':''))" maxlength="1000" minlength="2"  only-aplhanumeric>
+                                                </div>
+                                            </div> 
+                                            <div class="submit-section submit-btn-bottom mt-3 mb-3">
+                                                <button ng-click="ManageClinics()" ng-disabled="frmdrclinic.$invalid" type="submit" class="btn btn-primary prime-btn">Save Changes</button>
+                                            </div>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Clinic Name</th>   
+                                                                <th>Clinic Address</th>   
+                                                                <th>City</th>  
+                                                                <th>PIN Code</th>  
+                                                                <th>Description </th>                                         
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="Clicnic in ClinicList">
+                                                                <td>{{$index + 1}}</td>                                                               
+                                                                <td>{{Clicnic.ClinicName}}</td>
+                                                                <td>{{Clicnic.Clinicaddress}}</td>
+                                                                <td>{{Clicnic.cityname}}</td>
+                                                                <td>{{Clicnic.Pincode}}</td>
+                                                                <td>{{Clicnic.Description}}</td>
+                                                                <td class="th-white-space">
+                                                                    <div class="table-action">                                                                     
+                                                                        <a title="Edit" ng-click="EditClicnic(Clicnic.ClinicId)" class="btn btn-sm bg-info-light">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </a>                                                                      
+                                                                        <a title="Cancel" ng-click="DeleteClicnic(Clicnic.ClinicId)" class="btn btn-sm bg-danger-light">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </form>  
+                                    </div>  
+                                </div>
+                                <!-- /clinic Tab -->
+                               
+                                <!-- Time Tab -->
+                                <div id="dr_Time" class="tab-pane fade">
+                                    <div  ng-if="(tabCode=='doctime')" ng-controller="doctorProfileDoctorTimeController">                               
+                                    <h4 class="card-title">Time</h4>
+                                    <form name="frmDrDoctorTime">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="control-label">Doctor Name</label>
+                                                <input type="text" class="form-control"  name="DoctorName" ng-model="txtDoctorName" ng-class="((frmDrDoctorTime.DoctorName.$touched && frmDrDoctorTime.DoctorName.$invalid)?'is-invalid':((frmDrDoctorTime.DoctorName.$touched && frmDrDoctorTime.DoctorName.$valid)?'is-valid':''))" maxlength="100" minlength="2" required only-aplhanumeric>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="control-label">Clinic Name</label>
+                                                <select class="form-select form-control" name="DoctorClinic" ng-model="cmbDoctorClinic" ng-change="getDoctorClinic()" ng-class="((frmDrDoctorTime.DoctorClinic.$touched && frmDrDoctorTime.DoctorClinic.$invalid)?'is-invalid':((frmDrDoctorTime.DoctorClinic.$touched && frmDrDoctorTime.DoctorClinic.$valid)?'is-valid':''))"  required>
+                                                    <option value="">Select</option>
+                                                    <option   ng-repeat="Dclinic in DoctorClinicList"  value="{{Dclinic.ClinicId}}">{{Dclinic.ClinicName}}</option>                                                    
+                                                </select>
+                                            </div>
+                                        </div>                                        
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="control-label">Time Slot</label>
+                                                <select class="form-select form-control" name="Slot" ng-model="cmbSlot" ng-class="((frmDrDoctorTime.Slot.$touched && frmDrDoctorTime.Slot.$invalid)?'is-invalid':((frmDrDoctorTime.Slot.$touched && frmDrDoctorTime.Slot.$valid)?'is-valid':''))"  required>
+                                                    <option value="">Select</option>
+                                                    <option   ng-repeat="Slot in SlotDuationList"  value="{{Slot.Slot}}">{{Slot.Slot}}</option>                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                        </div>                                       
+                                        <div class="row" >
+                                            <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0" >
+                                                    <thead>
+                                                        <tr>
+                                                        <th scope="col" style="width:15%;">Days</th>
+                                                        <th scope="col" style="width:18%;">From</th>
+                                                        <th scope="col" style="width:18%;">To</th>
+                                                        <th scope="col" style="width:18%;">From</th>
+                                                        <th scope="col" style="width:18%;">To</th>
+                                                    
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody  >
+                                                        <tr>
+                                                            <td>Sunday</td>
+                                                            <td><input name="SundayFirstShiftFrom"  ng-disabled="!isclinic"  ng-change="checkTime(1,'Sun')"  ng-model="txtSundayFirstShiftFrom"   type="time"  MaxLength="6" class="form-control" required /></td>
+                                                            <td><input name="SundayFirstShiftTo"  ng-disabled="!isclinic" ng-change="checkTime(1,'Sun')"  ng-model="txtSundayFirstShiftTo" type="time" MaxLength="6" class="form-control" required /></td>
+                                                            <td><input name="SundaySecondShiftFrom"  ng-disabled="!isclinic" ng-change="checkTime(2,'Sun')" ng-model="txtSundaySecondShiftFrom" type="time"  MaxLength="6" class="form-control" required /></td>
+                                                            <td><input name="SundaySecondShiftTo"  ng-disabled="!isclinic" ng-change="checkTime(2,'Sun')" ng-model="txtSundaySecondShiftTo"  type="time"  MaxLength="6" class="form-control"  required/></td>
+                                                            <tr>
+
+                                                            </tr>
+                                                            <td>Monday</td>
+                                                            <td><input name="MondayFirstShiftFrom" ng-disabled="!isclinic" ng-change="checkTime(1,'Mon')"   ng-model="txtMondayFirstShiftFrom"   type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="MondayFirstShiftTo" ng-disabled="!isclinic" ng-change="checkTime(1,'Mon')"  ng-model="txtMondayFirstShiftTo" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="MondaySecondShiftFrom"  ng-disabled="!isclinic" ng-change="checkTime(2,'Mon')"  ng-model="txtMondaySecondShiftFrom" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="MondaySecondShiftTo" ng-disabled="!isclinic" ng-change="checkTime(2,'Mon')"    ng-model="txtMondaySecondShiftTo"  type="time" MaxLength="6" class="form-control" /></td>
+                                                            <tr></tr>
+                                                            <td>Tuesday</td>
+                                                            <td><input name="TuesdayFirstShiftFrom" ng-disabled="!isclinic"  ng-change="checkTime(1,'tue')"   ng-model="txtTuesdayFirstShiftFrom"   type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="TuesdayFirstShiftTo" ng-disabled="!isclinic"  ng-change="checkTime(1,'tue')" ng-model="txtTuesdayFirstShiftTo" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="TuesdaySecondShiftFrom" ng-disabled="!isclinic"  ng-change="checkTime(2,'tue')"  ng-model="txtTuesdaySecondShiftFrom" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="TuesdaySecondShiftTo" ng-disabled="!isclinic"  ng-change="checkTime(2,'tue')"  ng-model="txtTuesdaySecondShiftTo"  type="time" MaxLength="6" class="form-control" /></td>
+                                                            <tr></tr>
+                                                            <td>Wednesday</td>
+                                                            <td><input name="WednesdayFirstShiftFrom"  ng-disabled="!isclinic" ng-change="checkTime(1,'Wed')"  ng-model="txtWednesdayFirstShiftFrom"   type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="WednesdayFirstShiftTo" ng-disabled="!isclinic"  ng-change="checkTime(1,'Wed')" ng-model="txtWednesdayFirstShiftTo" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="WednesdaySecondShiftFrom"  ng-disabled="!isclinic" ng-change="checkTime(2,'Wed')"  ng-model="txtWednesdaySecondShiftFrom" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="WednesdaySecondShiftTo"  ng-disabled="!isclinic"  ng-change="checkTime(2,'Wed')" ng-model="txtWednesdaySecondShiftTo"  type="time" MaxLength="6" class="form-control" /></td>
+                                                            <tr></tr>
+                                                            <td>Thursday</td>
+                                                            <td><input name="ThursdayFirstShiftFrom"  ng-disabled="!isclinic" ng-change="checkTime(1,'tus')"  ng-model="txtThursdayFirstShiftFrom"   type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="ThursdayFirstShiftTo" ng-disabled="!isclinic"  ng-change="checkTime(1,'tus')" ng-model="txtThursdayFirstShiftTo" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="ThursdaySecondShiftFrom" ng-disabled="!isclinic"  ng-change="checkTime(2,'tus')"  ng-model="txtThursdaySecondShiftFrom" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="ThursdaySecondShiftTo" ng-disabled="!isclinic" ng-change="checkTime(2,'tus')"   ng-model="txtThursdaySecondShiftTo"  type="time" MaxLength="6" class="form-control" /></td>
+                                                            <tr></tr>
+                                                            <td>Friday</td>
+                                                            <td><input name="FridayFirstShiftFrom" ng-disabled="!isclinic" ng-change="checkTime(1,'Fri')"   ng-model="txtFridayFirstShiftFrom"   type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="FridayFirstShiftTo" ng-disabled="!isclinic"  ng-change="checkTime(1,'Fri')" ng-model="txtFridayFirstShiftTo" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="FridaySecondShiftFrom" ng-disabled="!isclinic"  ng-change="checkTime(2,'Fri')"  ng-model="txtFridaySecondShiftFrom" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="FridaySecondShiftTo" ng-disabled="!isclinic"  ng-change="checkTime(2,'Fri')"  ng-model="txtFridaySecondShiftTo"  type="time" MaxLength="6" class="form-control" /></td>
+                                                            <tr>
+                                                            <td>Saturday</td>
+                                                            <td><input name="SaturdayFirstShiftFrom" ng-disabled="!isclinic"  ng-change="checkTime(1,'Sat')"    ng-model="txtSaturdayFirstShiftFrom"   type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="SaturdayFirstShiftTo" ng-disabled="!isclinic"   ng-change="checkTime(1,'Sat')"  ng-model="txtSaturdayFirstShiftTo" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="SaturdaySecondShiftFrom" ng-disabled="!isclinic"   ng-change="checkTime(2,'Sat')"   ng-model="txtSaturdaySecondShiftFrom" type="time" MaxLength="6" class="form-control" /></td>
+                                                            <td><input name="SaturdaySecondShiftTo"  ng-disabled="!isclinic"   ng-change="checkTime(2,'Sat')"  ng-model="txtSaturdaySecondShiftTo"  type="time" MaxLength="6" class="form-control" /></td>
+                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                    </table>
+                                            </div>
+                                        </div>                                        
+                                        <div class="submit-section submit-btn-bottom mt-3">
+                                            <button type="submit" ng-click="manageDoctorTimings()" class="btn btn-primary prime-btn">Save Changes</button>
+                                        </div> 
+                                    </form>  
+                                    </div>                                      
+                                </div>
+                                <!-- /Time Tab -->                                
+                                
+                            </div>
+                            <!-- Tab Content -->
+                        </div>
+                    </div>
+                    <!--/ Profile Settings -->
+                    
+                    <div class="card" ng-if="(renderCode=='LOHO')" ng-controller="doctorProfileLeaveOffHolidayController" >
+                        <div class="card-body pt-0">      
+                            <div class="tab-content pt-0">                                                   
+                            <!-- LeaveOff Tab -->
+                            <div id="dr_LeaveOff" class="tab-pane fade show active">  
+                                <form name="frmDoctorLeaveoff">                
+                                <h4 class="card-title">Leave Off</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Doctor Name</label>
+                                            <input type="text" name="DoctorLName" ng-model='txtDoctorLName' class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">Clinic Name</label>
+                                            <select class="form-select form-control" name="DoctorLClinic" ng-model="cmbDoctorLClinic" ng-change="getDoctorClinic()" ng-class="((frmDoctorLeaveoff.DoctorLClinic.$touched && frmDoctorLeaveoff.DoctorLClinic.$invalid)?'is-invalid':((frmDoctorLeaveoff.DoctorLClinic.$touched && frmDoctorLeaveoff.DoctorLClinic.$valid)?'is-valid':''))"  required>
+                                                <option value="">Select</option>
+                                                <option   ng-repeat="Dclinic in DoctorClinicList"  value="{{Dclinic.ClinicId}}">{{Dclinic.ClinicName}}</option>                                                    
+                                            </select>
+                                        </div>
+                                    </div>    
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Type <span class="text-danger">*</span></label>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-4 col-md-4" ng-repeat="Leave in TypeOfLeaveList">
+                                                    <label class="payment-radio credit-card-option txtRadio">
+                                                        <input type="radio" name="Leave" ng-value="Leave" ng-model="$parent.selectedLeaveType" ng-change="getDoctorType()">
+                                                        <span class="checkmark"></span>
+                                                        {{ Leave.Name }}
+                                                    </label>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">From Date
+                                            </label>
+                                            <div class="cal-icon">
+                                                <input type="text"  name="LeaveFomDate" ng-model="txtLeaveFomDate" ng-class="(((frmDoctorLeaveoff.LeaveFomDate.$touched) && (!mdlLFomDate) )?'is-invalid':((frmDoctorLeaveoff.LeaveFomDate.$touched) && (mdlLFomDate))?'is-valid':'')"  class="form-control"  placeholder="From Date" maxlength="10"   datepickerfuture>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">To Date</label>
+                                            <div class="cal-icon">
+                                                <input type="text"  name="LeaveToDate" ng-model="txtLeaveToDate" ng-class="(((frmDoctorLeaveoff.LeaveToDate.$touched) && (!mdlLToDate) )?'is-invalid':((frmDoctorLeaveoff.LeaveToDate.$touched) && (mdlLToDate))?'is-valid':'')"  class="form-control"  placeholder="To Date" maxlength="10" datepickerfuturetwo>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="mb-2">From Time</label>                                            
+                                            <input name="LeaveFromTime"  ng-change="checkTime()"  ng-disabled="!isLeaveOff"  ng-model="txtLeaveFromTime"   type="time"  MaxLength="6" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">To Time</label>
+                                            <input name="LeaveToTime"  ng-change="checkTime()"  ng-disabled="!isLeaveOff"  ng-model="txtLeaveToTime"   type="time"  MaxLength="6" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">Remark</label>
+                                            <input type="text" class="form-control"  name="DoctorRemark" ng-model="txtDoctorRemark" ng-class="((frmDoctorLeaveoff.DoctorRemark.$touched && frmDoctorLeaveoff.DoctorRemark.$invalid)?'is-invalid':((frmDoctorLeaveoff.DoctorRemark.$touched && frmDoctorLeaveoff.DoctorRemark.$valid)?'is-valid':''))" maxlength="100" minlength="0" only-aplhanumeric>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">Status</label>
+                                            <select class="form-select form-control" name="DoctorLStatus" ng-model="cmbDoctorLStatus" ng-class="((frmDoctorLeaveoff.DoctorLStatus.$touched && frmDoctorLeaveoff.DoctorLStatus.$invalid)?'is-invalid':((frmDoctorLeaveoff.DoctorLStatus.$touched && frmDoctorLeaveoff.DoctorLStatus.$valid)?'is-valid':''))"  required>
+                                                <option   ng-repeat="status in StatusList"  value="{{status.Id}}">{{status.Name}}</option>                                                    
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="submit-section submit-btn-bottom mt-3 mb-3">
+                                        <button type="submit"  ng-click="ManageDoctorLeave()" class="btn btn-primary prime-btn">Save Changes</button>
+                                    </div>
+                                <div class="row">
+                                <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0">
+                                <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Clinic Name</th>
+                                <th>Type</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>From Time</th>                              
+                                <th>To Time</th>                                
+                                <th>Remarks</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="DoctorLeave in DoctorLeaveDetailsList">
+                                        <td>{{$index + 1}}</td>                                                               
+                                        <td>{{DoctorLeave.ClinicName}}</td>
+                                        <td>{{DoctorLeave.TypeofLeaveName}}</td>
+                                        <td>{{DoctorLeave.FromDateStr}}</td>
+                                        <td>{{DoctorLeave.ToDateStr}}</td>
+                                        <td>{{DoctorLeave.FromTime}}</td>                                      
+                                        <td>{{DoctorLeave.ToTime}}</td>
+                                        <td>{{DoctorLeave.Remark}}</td>
+                                        <td>{{DoctorLeave.Statusstr}}</td>
+                                        <td class="th-white-space">
+                                            <div class="table-action">
+                                                <a title="Edit" ng-click="Editleave(DoctorLeave.DoctorLeaveOffHoursID)" class="btn btn-sm bg-info-light">
+                                                    <i class="far fa-edit"></i>
+                                                </a>
+                                                <a title="Cancel" ng-click="DeleteLeave(DoctorLeave.DoctorLeaveOffHoursID)" class="btn btn-sm bg-danger-light">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>   
+                                </tbody>
+                                </table>
+                                </div>
+                                </div>
+                            </form>               
+                            </div>                                    
+                            <!-- /LeaveOff Tab -->
+                            <!-- Holiday Tab -->
+                           <!--  <div id="dr_Holiday" class="tab-pane fade">                                    
+                                <h4 class="card-title">Holiday</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Date</label>
+                                            <div class="cal-icon">
+                                                <input type="text" class="form-control datetimepicker" value="24-07-1983">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">Status</label>
+                                            <select class="form-select form-control">
+                                                <option>Select</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">Facility Name</label>
+                                            <select class="form-select form-control">
+                                                <option>Select</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="control-label">Description</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    
+                                    </div>
+                                    <div class="submit-section submit-btn-bottom mt-3 mb-3">
+                                        <button type="submit" class="btn btn-primary prime-btn">Save Changes</button>
+                                    </div>
+                                <div class="row">
+                                <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0">
+                                <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Facility Name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                <td>
+
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="th-white-space">
+                                <div class="table-action">
+                                <a href="#edit_form" class="btn btn-sm bg-info-light" data-bs-toggle="modal" title="Edit">	<i class="fas fa-edit"></i></a>
+                                <a href="javascript:void(0);" class="btn btn-sm bg-danger-light"><i class="fas fa-times" title="Deactive"></i></a>
+                                </div>
+                                </td>
+                                </tr>
+
+                                </tbody>
+                                </table>
+                                </div>
+                                </div>
+                               
+                            </div>-->
+                            <!-- /Holiday Tab -->
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Change Password -->
+                    <div class="card" ng-if="(renderCode=='PAWD')">
+                        <div class="card-header">
+                            <h4 class="card-title">{{renderTitle}}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6">                                        
+                                    <!-- Change Password Form -->
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Old Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">New Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="mb-2">Confirm Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="submit-section">
+                                            <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                                        </div>
+                                    </form>
+                                    <!-- /Change Password Form -->                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ Change Password -->
+                    
+                </div>
+            </div>
+        </div>
+        <!--/ Page Content -->
+    </div>

@@ -1,0 +1,2671 @@
+<!-- Controller -->	
+<div ng-controller="patientdashboardController">
+
+     
+         <!-- Breadcrumb -->
+    <div class="breadcrumb-bar-two">
+        <div class="container">
+            <div class="row align-items-center inner-banner">
+                <div class="col-md-12 col-12 text-center">
+                    <h2 class="breadcrumb-title">Dashboard</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+    <!-- Dashboard Loader  -->	
+    <div class="container loaderprogress_Container" ng-show="(isDashboardloading)">
+        <div class="clearfix text-center loaderprogress" >
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+   </div>
+ <!-- /Dashboard Loader  -->
+
+     <!-- Dashboard Content -->
+<div  ng-show="(!isDashboardloading)">
+
+    
+    <!-- Page Content -->
+    <div class="content">
+        <div class="container">
+
+            <div class="row">               
+                <!-- Profile Sidebar -->
+                <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                    <div class="profile-sidebar">
+                        <div class="widget-profile pro-widget-content">
+                            <div class="profile-info-widget">
+                                <a href="#" class="booking-doc-img">
+                                    <img src="{{useravter}}" alt="User Image">
+                                </a>
+                                <div class="profile-det-info">
+                                    <h3>{{username}}</h3>
+                                    <div class="patient-details">
+                                        <h5><i class="fas fa-birthday-cake"></i> {{userage}}</h5>
+                                        <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> {{useraddress}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-widget">
+
+                            
+                            <nav class="dashboard-menu">
+                                <ul>
+                                    <li ng-repeat="item in menu" ng-click="handleView($event,item.ServiceCode,item.ServiceName);" class="{{item.ServiceCode=='DASH'?'active':''}}">
+                                        <a href="#"  >
+                                            <i class="{{item.IconClass}}"></i>
+                                            <span>{{item.ServiceName}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- / Profile Sidebar -->
+
+                
+                <!-- Content Sidebar -->
+                <div class="col-md-7 col-lg-8 col-xl-9">
+                    <button class="btn btn-primary custom-components" style="display: none;" type="button" id="btnOpenPopUp" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-bs-original-title="" title="">Vertically centered</button>
+
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" aria-hidden="true">
+                       <div class="modal-dialog modal-dialog-centered" role="document">
+                         <div class="modal-content">
+                               <div class="modal-header">
+                                 <h5 class="modal-title">Information</h5>
+                                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                               </div>
+                               <div class="modal-body">
+                                 <p>Upcoming Feature.</p>
+                               </div>
+                               <div class="modal-footer">
+                                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" data-bs-original-title="" title="">Ok</button>
+                               
+                               </div>
+                         </div>
+                       </div>
+                 </div>
+                    <!--  DASHBOARD -->
+                    <div ng-if="(renderCode=='DASH')">
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <img src="assets/img/fontawesome_svgs/duotone/heart-pulse.svg" class="img-height-55" alt="heart-image">
+                                    </div>
+                                    <h5>Heart Rate</h5>
+                                    <h6>{{uservitals.HeartRate}}<sub>bpm</sub></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <img src="assets/img/fontawesome_svgs/duotone/temperature-sun.svg" alt="thermometer-image" class="img-height-55">
+                                    </div>
+                                    <h5>Body Temperature</h5>
+                                    <h6>{{uservitals.Temperature}}<sub>C</sub></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <img src="assets/img/fontawesome_svgs/duotone/monitor-waveform.svg" alt="hospital-equipment" class="img-height-55">
+                                    </div>
+                                    <h5>Respiratory Rate / SPO2</h5>
+                                    <h6>{{uservitals.RespiratoryRate}} / {{uservitals.SPO2}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-dashboard-top">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <img src="assets/img/fontawesome_svgs/duotone/fire-flame-simple.svg" alt="hospital-equipment" class="img-height-55">
+                                    </div>
+                                    <h5>Blood Pressure</h5>
+                                    <h6>{{uservitals.DBP}}/{{uservitals.SBP}} <sub>mg/dl</sub></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row patient-graph-col">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Graph Status</h4>
+                                </div>
+                                <div class="card-body pt-2 pb-2 mt-1 mb-1">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-graph-box">
+                                            <a href="#" class="graph-box" data-bs-toggle="modal" data-bs-target="#graph1">
+                                                <div>
+                                                    <h4>BMI Status</h4>
+                                                </div>
+                                                <div class="graph-img">
+                                                    <img src="assets/img/shapes/graph-01.png" alt="shapes-icon">
+                                                </div>
+                                                <div class="graph-status-result mt-3">
+                                                    <span class="graph-update-date">{{uservitals.BMI}}</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-graph-box">
+                                                <a href="#" class="graph-box pink-graph" data-bs-toggle="modal" data-bs-target="#graph2">
+                                                    <div>
+                                                        <h4>Heart Rate Status</h4>
+                                                    </div>
+                                                    <div class="graph-img">
+                                                        <img src="assets/img/shapes/graph-02.png" alt="graph-icon">
+                                                    </div>
+                                                    <div class="graph-status-result mt-3">
+                                                        <span class="graph-update-date">{{uservitals.HeartRate}}</span>
+                                                    </div>
+                                                </a>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-graph-box">
+                                            <a href="#" class="graph-box sky-blue-graph" data-bs-toggle="modal" data-bs-target="#graph3">
+                                                <div>
+                                                    <h4>Pulse / Temp</h4>
+                                                </div>
+                                                <div class="graph-img">
+                                                    <img src="assets/img/shapes/graph-03.png" alt="chart-icon">
+                                                </div>
+                                                <div class="graph-status-result mt-3">
+                                                    <span class="graph-update-date">{{uservitals.Pulse}}/{{uservitals.Temperature}}</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 patient-graph-box">
+                                            <a href="#" class="graph-box orange-graph" data-bs-toggle="modal" data-bs-target="#graph4">
+                                                <div>
+                                                    <h4>Weight</h4>
+                                                </div>
+                                                <div class="graph-img">
+                                                    <img src="assets/img/shapes/graph-04.png" alt="chart-icon">
+                                                </div>
+                                                <div class="graph-status-result mt-3">
+                                                    <span class="graph-update-date">{{uservitals.Weight}}</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                   <!--  /DASHBOARD -->
+
+                    <!--  Appointment-->
+                    <div ng-controller="patientdashboardappointmentController" ng-if="(renderCode=='APPO')">
+
+                        <div class="card">
+                            <div class="card-header">
+								
+								<h4 class="card-title">{{renderTitle}}</h4>
+									
+								</div>
+							
+                            <div class="card-body">
+
+                               
+                                
+                            <!-- Tab Menu -->
+                            <nav class="user-tabs mb-4">
+                                <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#upcomingappointments" data-bs-toggle="tab">Upcoming Appointments</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#pastappointments" ng-click="loadPastAppointments();" data-bs-toggle="tab">Past Appointments</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- /Tab Menu -->
+                            <!-- Appointment Loader  -->	
+                            <div class="container loaderprogress_Container" ng-show="(isAppointmentloading)">
+                                <div class="clearfix text-center loaderprogress" >
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    </div>
+                        </div>
+                        <!-- /Appointment Loader  -->
+                            <!-- Tab Content -->
+                            <div class="tab-content pt-0" ng-show="(!isAppointmentloading)">
+                                
+                                <!--Upcoming Appointment Tab -->
+                                <div id="upcomingappointments" class="tab-pane fade show active">
+                                   
+                                            <div class="table-responsive" ng-if="(upcomingAppointmentList.length>0)">
+                                                <table class="table table-hover table-center mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SN</th> 
+                                                            <th>Doctor</th> 
+                                                            <th class="th-white-space">Appointment Date/Time</th>
+                                                            <th>Location</th>
+                                                            <th>Status</th>
+                                                            <th>Cancel</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="app in upcomingAppointmentList">
+                                                            <td>{{($index+1)}}</td>
+                                                            <td>
+                                                                <h2 class="table-avatar">
+                                                                    <a href="javascript:void(0);" class="avatar avatar-sm me-2">
+                                                                        <img class="avatar-img rounded-circle" src="{{app.DoctorImage}}" alt="{{app.DoctorFirstName}}">
+                                                                    </a>
+                                                                    <a href="javascript:void(0);">{{app.DoctorFirstName}}<span>{{app.Specialty}}</span></a>
+                                                                </h2>
+                                                            </td>
+                                                            
+                                                            <td>{{app.AppointmentDate}} <span class="d-block text-info">{{app.FromTime}}</span></td>
+                                                            <td>{{app.AppointmentLocation}}</td>
+                                                            <td><span ng-if="(app.AppointMentStatusId!=1500)" class="badge rounded-pill bg-success-light">{{app.AppointMentStatus}}</span>
+                                                                <span ng-if="(app.AppointMentStatusId==1500)" class="badge rounded-pill bg-danger-light">{{app.AppointMentStatus}}</span>
+                                                            </td>
+                                                            <td class="th-white-space">
+                                                                <div class="table-action">
+                                                                    <!-- <a href="javascript:void(0);" title="Print" class="btn btn-sm bg-primary-light">
+                                                                        <i class="fas fa-print"></i>
+                                                                    </a> -->
+                                                                    <a href="javascript:void(0);" id="btnCancelAppointment" data-bs-toggle="modal" data-bs-target="#mdlConfirmCancel" ng-if="((app.AppointMentStatusId==1234)&&(!isAppointmentSelected))" ng-click="selectAppointmentforCancellation(app.AppointmentId);"title="Cancel Appointment" class="btn btn-sm bg-warning-light">
+                                                                        <i class="fas fa-times-circle"></i>
+                                                                    </a>
+
+                                                                    <a href="javascript:void(0);" ng-if="((isAppointmentSelected) && (app.AppointmentId==selectedAppointmentId))"  title="Wait" class="btn btn-sm bg-default-light">
+                                                                        <i class="fa-solid fa-spinner fa-spin"></i>
+                                                                    </a>
+                                                                    <a href="javascript:void(0);" ng-if="(app.AppointMentStatusId!=1234)"  title="Already Cancelled" class="btn btn-sm bg-danger-light">
+                                                                        <i class="fa fa-ban"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+
+                                                <div class="modal fade" id="mdlConfirmCancel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                      <div class="modal-content">
+                                                            <div class="modal-header">
+                                                              <h5 class="modal-title">Cancel Appointment ?</h5>
+                                                              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                              <p>Confirm, If you want to cancel this appointment.</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                
+                                                              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" data-bs-original-title="" title="">Close</button>
+                                                              <button class="btn btn-primary" type="button" ng-click="cancelAppointment();" data-bs-dismiss="modal" data-bs-original-title="" title="">Yes, Cancel Appointment</button>
+                                                              
+                                                            </div>
+                                                      </div>
+                                                    </div>
+                                              </div>
+
+
+
+
+
+                                            </div>
+                                            <div class="table-responsive" ng-if="(upcomingAppointmentList.length==0)">
+                                                <table>
+                                                    <thead>
+                                                        <th>
+                                                            <h2 class="table-avatar"> No Appointments Found!</h2>
+                                                        </th>
+                                                    </thead>
+                                                </table>
+
+                                            </div>
+
+
+                                     
+                                </div>
+                                <!--Past Appointment Tab -->
+                                <div id="pastappointments" class="tab-pane fade">
+                                   
+                                            <div class="row">
+					
+                                                <div class="col-12 col-md-5">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2">From Date</label>
+                                                        <div class="cal-icon">
+                                                            <input type="text" class="form-control" ng-model="mdlFromDate" datepickerone>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-5">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2">To Date</label>
+                                                        <div class="cal-icon">
+                                                            <input type="text" class="form-control" ng-model="mdlToDate" datepickertwo>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2">
+                                                    <div class="mt-4 pt-2">
+                                                        <button class="btn btn-primary" ng-click="fetchPastAppointment();">
+                                                            <i class="{{isPastAppointmentFetching?'fa fa-spinner fa-spin': 'fa fa-search'}}"></i>
+                                                            {{isPastAppointmentFetching?'Wait..':'Search'}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            <div class="table-responsive" ng-if="(pastAppointmentList.length>0)">
+                                                <table class="table table-hover table-center mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SN</th> 
+                                                            <th>Doctor</th> 
+                                                            <th class="th-white-space">Appointment Date/Time</th>
+                                                            <th>Location</th>
+                                                            <th>Status</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="app in pastAppointmentList">
+                                                            <td>{{($index+1)}}</td>
+                                                            <td>
+                                                                <h2 class="table-avatar">
+                                                                    <a href="javascript:void(0);" class="avatar avatar-sm me-2">
+                                                                        <img class="avatar-img rounded-circle" src="{{app.DoctorImage}}" alt="{{app.DoctorFirstName}}">
+                                                                    </a>
+                                                                    <a href="javascript:void(0);">{{app.DoctorFirstName}}<span>{{app.Specialty}}</span></a>
+                                                                </h2>
+                                                            </td>
+                                                           
+                                                            <td>{{app.AppointmentDate}} <span class="d-block text-info">{{app.FromTime}}</span></td>
+                                                            <td>{{app.AppointmentLocation}}</td>
+                                                            <td><span ng-if="(app.AppointMentStatusId!=1500)" class="badge rounded-pill bg-success-light">{{app.AppointMentStatus}}</span>
+                                                                <span ng-if="(app.AppointMentStatusId==1500)" class="badge rounded-pill bg-danger-light">{{app.AppointMentStatus}}</span></td>
+                                                            <td class="th-white-space">
+                                                                <!-- <div class="table-action">
+                                                                    <a href="javascript:void(0);" title="Print" class="btn btn-sm bg-primary-light">
+                                                                        <i class="fas fa-print"></i>
+                                                                    </a>
+                                                                    <a href="javascript:void(0);" title="View" class="btn btn-sm bg-info-light">
+                                                                        <i class="far fa-eye"></i>
+                                                                    </a>
+                                                                </div> -->
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="table-responsive" ng-if="((pastAppointmentList.length==0) && (!isPastAppointmentFetching))">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                            <h2 class="table-avatar"> No Appointments Found!</h2>
+                                                        </th>
+                                                    </tr>
+                                                   </thead>
+                                                </table>
+
+                                            </div>
+                                            <div class="table-responsive" ng-if="((isPastAppointmentFetching))">
+                                                <table>
+                                                    <thead>
+                                                        <th>
+                                                            <div class="progress progress-lg">
+                                                                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <h2 class="table-avatar"> Please Wait....</h2>
+                                                        </th>
+                                                    </thead>
+                                                </table>
+
+                                            </div>
+                                       
+                                </div>
+                                <!-- /Past Appointment Tab -->
+                            </div>
+                            <!-- Tab Content -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--  /Appointment-->
+
+
+                    <!--  Medical Hostory -->
+                    <div ng-controller="patientdashboardmedicalhistoryController"  ng-if="(renderCode=='MDHS')">
+                        <div class="card">
+                            <div class="card-header">
+								
+								<h4 class="card-title">{{renderTitle}}</h4>
+									
+								</div>
+                                                            <!-- Appointment Loader  -->	
+                                                                <div class="container loaderprogress_Container" ng-show="(ismedicalHistoryloading)">
+                                                                    <div class="clearfix text-center loaderprogress" >
+                                                                        <div class="spinner-border" role="status">
+                                                                            <span class="visually-hidden">Loading...</span>
+                                                                        </div>
+                                                                        </div>
+                                                            </div>
+                                                            <!-- /Appointment Loader  -->
+						
+                            <div class="card-body" ng-show="(!ismedicalHistoryloading)">
+                                    <!-- Medical History Form -->
+                                    <form name="frmMedicalHistory">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12">
+                                                <div class="mb-3">
+                                                
+                                                <p>
+                                                    A complete and accurate medical history is important for our providers to ensure they have information they need to provide your treatment plan.
+                                                </p>
+                                                <h3>Social History</h3>
+                                                <hr>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-12 col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Height (feet)</label>
+                                                    <input type="text" class="form-control" name="HeightInFeet" ng-model="mhdataHeightWeight.HeightInFeet" placeholder="Height (feet)" ng-class="(frmMedicalHistory.HeightInFeet.$invalid?'is-invalid':(frmMedicalHistory.HeightInFeet.$dirty?'is-valid':''))"  minlength="1" maxlength="3" only-numeric required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Height (inches)</label>
+                                                    <input type="text" class="form-control" name="HeightInInch" ng-model="mhdataHeightWeight.HeightInInch" placeholder="Height (inches)" ng-class="(frmMedicalHistory.HeightInInch.$invalid?'is-invalid':(frmMedicalHistory.HeightInInch.$dirty?'is-valid':''))" minlength="1" maxlength="3" only-numeric required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Weight (lbs)</label>
+                                                    <input type="text" class="form-control" name="Weight" ng-model="mhdataHeightWeight.Weight" placeholder="Weight (lbs)" ng-class="(frmMedicalHistory.Weight.$invalid?'is-invalid':(frmMedicalHistory.Weight.$dirty?'is-valid':''))" minlength="1" maxlength="3" only-numeric required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div class="row">
+                                            
+                                        <div class="col-12 col-md-12">
+                                            <div class="mb-1">
+                                                
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6 col-md-6">
+                                                        <label class="mb-2 font-weight-500">
+                                                        Are you taking any medications?
+                                                    </label>
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-sm-2 col-md-2">
+                                                    <label class="payment-radio credit-card-option txtRadio">
+                                                        <input type="radio" name="isMedication" ng-value="true" ng-model="isMedication">
+                                                        <span class="checkmark"></span>
+                                                        Yes
+                                                    </label>
+                                                </div>
+                                                <div class="col-12 col-sm-3 col-md-2">
+                                                    <label class="payment-radio credit-card-option txtRadio">
+                                                        <input type="radio" name="isMedication" ng-value="false" ng-model="isMedication" ng-disabled="(mhdataBasicContent.IsMedication)">
+                                                        <span class="checkmark"></span>
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card"  ng-show="isMedication">
+                                            <div class="card-header">
+								
+                                                <h4 class="card-title ng-binding">Medications</h4>
+                                                    
+                                                </div>
+                                            <div class="card-body">
+                                                <div class="col-12 col-md-12 row">
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Medication</label>
+                                                            <angucomplete-alt id="txtautoMedicine" placeholder="Search Medicine" local-data="WholeScreenData.MedicineItemMaster"  selected-object="onMedicineSelect" search-fields="MedicineName" ng-class="selectedMedicineId.trim()=='0'?'is-invalid':(selectedMedicineId.trim()==undefined)?'':'is-valid'" title-field="MedicineName" minlength="1" pause="100" inputclass="form-control" match-class="highlight" override-suggestions="false"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Dosage</label>
+                                                            <input type="text" class="form-control" ng-class="mdlMedicationDosage.trim()==''?'is-invalid':(mdlMedicationDosage.trim()==undefined)?'':'is-valid'" ng-model="mdlMedicationDosage" placeholder="Dosage" only-aplhanumeric maxlength="25">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Directions</label>
+                                                            <select class="form-select form-control" ng-model="mdlMedicationDirection" ng-class="mdlMedicationDirection.trim()==''?'is-invalid':(mdlMedicationDirection.trim()==undefined)?'':'is-valid'">
+                                                                <option value="">Select</option>
+                                                                <option ng-repeat="ms in WholeScreenData.MedicineDirection" value="{{ms.Value}}">{{ms.Text}}</option>
+                                                            
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="mb-2">Status</label>
+                                                            <select class="form-select form-control" ng-model="mdlMedicationStatus" ng-class="mdlMedicationStatus.trim()==''?'is-invalid':(mdlMedicationStatus.trim()==undefined)?'':'is-valid'">
+                                                                <option value="">Select</option>
+                                                                <option ng-repeat="ms in WholeScreenData.MedicineStatus" value="{{ms.SetupId}}">{{ms.SetupName}}</option>
+                                                            <input type="hidden" ng-model="hdnMedicalRecordRowID" >
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="mt-4 pt-1">
+                                                            <div class="mt-2" style="color: red;">{{msgAddMedication}}
+                                                            </div>
+                                                            </div>
+        
+                                                            </div>
+        
+        
+        
+                                                    <div class="col-12 col-md-4 text-right">
+                                                        <div class="mt-4 pt-1">
+                                                            
+
+                                                
+                                                            <button class="btn btn-primary submit-btn mt-2" type="button" ng-disabled="isAddingMedication" ng-click="addMedication();">
+                                                                <i class="{{isAddingMedication?'fa fa-spinner fa-spin': 'fa fa-plus'}}"></i>
+                                                                {{isAddingMedication?'wait..':'Add'}}
+        
+                                                            </button>
+                                                           
+                                                        </div>
+                                                       
+                                                    </div>
+                                                   
+                                                </div>
+        
+                                                <div class="col-12 col-md-12 row" ng-show="isMedication">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover table-center mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>SN</th>
+                                                                    <th>Medicine</th>
+                                                                    <th>Dosage</th>
+                                                                    <th>Directions</th>
+                                                                    <th>Status</th>
+                                                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="med in WholeScreenData.Medication">
+                                                                    <td>{{($index+1)}}</td>
+                                                                    <td>{{med.MedicineName}}</td>
+                                                                    <td>{{med.Dosage}}</td>
+                                                                    <td>{{med.DirectionName}}</td>
+                                                                    <td>
+                                                                       
+                                                                        <select class="form-select form-control" ng-model="med.StatusId" ng-change="updateMedicationStatus(med.PatientMedicineId,med.StatusId);">
+                                                                            <option ng-repeat="ms in WholeScreenData.MedicineStatus" value="{{ms.SetupId}}">{{ms.SetupName}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                        </tr>
+                                                                
+                                                            </tbody>
+                                                        </table>
+        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                        <div class="mb-1">
+                                            
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6 col-md-6">
+                                                    <label class="mb-2 font-weight-500">
+                                                        Do you have any allergies?
+                                                    </label>
+                                                    
+                                                
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-md-2">
+                                                <label class="payment-radio credit-card-option txtRadio">
+                                                    <input type="radio" name="isAllergy" ng-value="true" ng-model="isAllergy">
+                                                    <span class="checkmark"></span>
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="col-12 col-sm-3 col-md-2">
+                                                <label class="payment-radio credit-card-option txtRadio">
+                                                    <input type="radio" name="isAllergy" ng-value="false" ng-model="isAllergy" ng-disabled="(mhdataBasicContent.IsAllergy)">
+                                                    <span class="checkmark"></span>
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card" ng-show="isAllergy">
+                                        <div class="card-header">
+                            
+                                            <h4 class="card-title">Allergy</h4>
+                                                
+                                            </div>
+                                        <div class="card-body">
+
+                                    <div class="col-12 col-md-12 row">
+                                        <div class="col-12 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="mb-2">Allergy Type</label>
+                                                <select class="form-select form-control" ng-model="mdlddlAllergyType" ng-class="mdlddlAllergyType.trim()==''?'is-invalid':(mdlddlAllergyType.trim()==undefined)?'':'is-valid'" ng-change="changeAllergyType(mdlddlAllergyType)">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="at in WholeScreenData.AllergyType" value="{{at.AllergyTypeId}}">{{at.AllergyTypeName}}</option>
+                                                    
+                                                </select>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="mb-2">Allergy</label>
+                                                <div ng-show="mdlddlAllergyType!=12">
+                                                <angucomplete-alt  id="txtautoAllergy" placeholder="Search Allergy" local-data="AllergyMasterList"  selected-object="onAllergySelect" search-fields="AllergyName" ng-class="selectedAllergyId.trim()=='0'?'is-invalid':(selectedAllergyId.trim()==undefined)?'':'is-valid'" title-field="AllergyName" minlength="1" pause="100" inputclass="form-control" match-class="highlight" override-suggestions="false"/>
+                                                </div>
+                                                <div ng-show="mdlddlAllergyType==12">
+                                                <input type="text" ng-show="mdlddlAllergyType==12"  class="form-control" ng-model="mdltxtAllergyReactionOther" ng-class="mdltxtAllergyReactionOther.trim()==''?'is-invalid':(mdltxtAllergyReactionOther.trim()==undefined)?'':'is-valid'" placeholder="Other Allergy" maxlength="50">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="mb-2">Reaction</label>
+                                                <input type="text" class="form-control" ng-model="mdltxtAllergyReaction" ng-class="mdltxtAllergyReaction.trim()==''?'is-invalid':(mdltxtAllergyReaction.trim()==undefined)?'':'is-valid'" placeholder="Reaction" maxlength="50">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="mb-2">Status</label>
+                                                <select class="form-select form-control" ng-model="mdlddlAllergyStatus" ng-class="mdlddlAllergyStatus.trim()==''?'is-invalid':(mdlddlAllergyStatus.trim()==undefined)?'':'is-valid'">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="ast in WholeScreenData.AllergyStatus" value="{{ast.SetupId}}">{{ast.SetupName}}</option>
+                                                    
+                                                </select>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="mt-4 pt-1">
+                                                <div class="mt-2" style="color: red;">{{msgAddAllergy}}
+                                                </div>
+                                                </div>
+
+                                                </div>
+                                        <div class="col-12 col-md-4 text-right">
+                                            <div class="mt-4 pt-1">
+                                            <button class="btn btn-primary submit-btn mt-2" type="button" ng-disabled="isAddingAllergy" ng-click="addAllergy();">
+                                                <i class="{{isAddingAllergy?'fa fa-spinner fa-spin': 'fa fa-plus'}}"></i>
+                                                {{isAddingAllergy?'wait..':'Add'}}
+
+                                            </button>
+                                            
+
+                                        </div>
+                                        
+                                            </div>
+
+                                    </div>
+
+                                    <div class="col-12 col-md-12 row" ng-show="isAllergy">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-center mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Allergy Type</th>
+                                                        <th>Allergy</th>
+                                                        <th>Reaction</th>
+                                                        <th>Status</th>
+                                                        
+                                                        
+                                                    
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="alg in WholeScreenData.Allergy">
+                                                        <td>{{($index+1)}}</td>
+                                                        <td>{{alg.AllergyTypeName}}</td>
+                                                        <td>{{alg.AllergyName}}</td>
+                                                        <td>{{alg.REMARKS}}</td>
+                                                        <td>
+                                                            <select class="form-select form-control" ng-model="alg.StatusId" ng-change="updateAllergyStatus(alg.PatientAllergyId,alg.StatusId);">
+                                                                <option ng-repeat="ast in WholeScreenData.AllergyStatus" value="{{ast.SetupId}}">{{ast.SetupName}}</option>
+                                                            
+                                                            </select>
+                                                            
+                                                        </td>
+                                          
+                                                       
+                                                            </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </div>
+
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+                                        
+                                        <div class="row">
+                                            <div class="col-12 col-sm-6 col-md-6">
+                                                <label class="mb-2 font-weight-500">
+                                                    Do you smoke / use tabacco?
+                                                </label>
+                                                
+                                            </label>
+                                        </div>
+                                        <div class="col-12 col-sm-2 col-md-2">
+                                            <label class="payment-radio credit-card-option txtRadio">
+                                                <input type="radio"  name="isTabacco" ng-value="true" ng-model="isTabacco">
+                                                <span class="checkmark"></span>
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="col-12 col-sm-3 col-md-2">
+                                            <label class="payment-radio credit-card-option txtRadio">
+                                                <input type="radio"  name="isTabacco" ng-value="false" ng-model="isTabacco">
+                                                <span class="checkmark"></span>
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 row" ng-show="isTabacco">
+                                    <div class="col-12 col-md-6">
+                                        <div class="mb-3">
+                                            <label class="mb-2">How often do you use tabacco?</label>
+                                            <select class="form-select form-control" name="mdlddlTobacoOften" ng-model="mdlddlTobacoOften" ng-class="((mdlddlTobacoOften==''))?'is-invalid':(frmMedicalHistory.mdlddlTobacoOften.$dirty?'is-valid':'')">
+                                                <option value="">Select</option>
+                                                <option ng-repeat="ut in WholeScreenData.UseOfTobacco" value="{{ut.SetupId}}">{{ut.SetupName}}</option>
+                                            
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="mb-3">
+                                            <label class="mb-2">How many years have you been using tabacco?</label>
+                                            <select class="form-select form-control" name="mdlddlTobacoYears" ng-model="mdlddlTobacoYears" ng-class="((mdlddlTobacoYears==''))?'is-invalid':(frmMedicalHistory.mdlddlTobacoYears.$dirty?'is-valid':'')">
+                                                <option value="">Select</option>
+                                                <option ng-repeat="ut in WholeScreenData.YearsOfTobacco" value="{{ut.SetupId}}">{{ut.SetupName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    </div>
+
+
+                                    </div>
+                                    <div class="col-12 col-md-12" ng-show="isTabacco">
+                                    <div class="mb-3">
+
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6 col-md-6">
+                                            <label class="mb-2 font-weight-500">
+                                                Do you want quit Tobacoo?
+                                            </label>
+                                            
+                                        </label>
+                                    </div>
+                                    <div class="col-12 col-sm-2 col-md-2">
+                                        <label class="payment-radio credit-card-option txtRadio">
+                                            <input type="radio"  name="isQuitTabacco" ng-value="true" ng-model="isWantToQuitTobaco">
+                                            <span class="checkmark"></span>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="col-12 col-sm-3 col-md-2">
+                                        <label class="payment-radio credit-card-option txtRadio">
+                                            <input type="radio"  name="isQuitTabacco" ng-value="false" ng-model="isWantToQuitTobaco">
+                                            <span class="checkmark"></span>
+                                            No
+                                        </label>
+                                    </div>
+                                    
+                                    </div>
+                                    </div>
+
+
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+
+                                    <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-6">
+                                        <label class="mb-2 font-weight-500">
+                                            Do you drink alcohol?	
+                                        </label>
+                                        
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-2 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                        <input type="radio"  name="isAlcohol" ng-value="true" ng-model="isAlcohol">
+                                        <span class="checkmark"></span>
+                                        Yes
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-3 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                        <input type="radio"  name="isAlcohol" ng-value="false" ng-model="isAlcohol">
+                                        <span class="checkmark"></span>
+                                        No
+                                    </label>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 row" ng-show="isAlcohol">
+                                    <div class="col-12 col-md-4">
+                                    <div class="mb-3">
+                                    <label class="mb-2 ">How often do you drink alcohol?</label>
+                                    <select class="form-select form-control" ng-model="mdlddlOftenDrinkAlcohol" name="mdlddlOftenDrinkAlcohol" ng-class="((mdlddlOftenDrinkAlcohol==''))?'is-invalid':(frmMedicalHistory.mdlddlOftenDrinkAlcohol.$dirty?'is-valid':'')">
+                                        <option value="">Select</option>
+                                        <option ng-repeat="ut in WholeScreenData.UseOfAlcohol" value="{{ut.SetupId}}">{{ut.SetupName}}</option>
+
+                                    </select>
+
+                                    </div>
+                                    </div>
+
+
+                                    </div>
+
+
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+
+                                    <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-6">
+                                    <label class="mb-2 font-weight-500">
+                                        Do you Exercise?
+                                    </label>
+
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-2 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                    <input type="radio"   name="isExercise" ng-value="true" ng-model="isExercise">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-3 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                    <input type="radio"   name="isExercise" ng-value="false" ng-model="isExercise">
+                                    <span class="checkmark"></span>
+                                    No
+                                    </label>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 row" ng-show="isExercise">
+                                    <div class="col-12 col-md-4">
+                                    <div class="mb-3">
+                                    <label class="mb-2">Exercise How many times per week?</label>
+                                    <select class="form-select form-control" ng-model="mdlddlTimeExercise" name="mdlddlTimeExercise" ng-class="((mdlddlTimeExercise==''))?'is-invalid':(frmMedicalHistory.mdlddlTimeExercise.$dirty?'is-valid':'')">
+                                        <option value="">Select</option>
+                                        <option ng-repeat="ut in WholeScreenData.ExcerciseFrequency" value="{{ut.ExcerciseTimeID}}">{{ut.ExcerciseTimeName}}</option>
+
+                                    </select>
+
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                    <div class="mb-3">
+                                    <label class="mb-2">What type of exercise?</label>
+                                    <select class="form-select form-control" ng-model="mdlddlTypeOfExercise" name="mdlddlTypeOfExercise" ng-class="((mdlddlTypeOfExercise==''))?'is-invalid':(frmMedicalHistory.mdlddlTypeOfExercise.$dirty?'is-valid':'')">
+                                        <option value="">Select</option>
+                                        <option ng-repeat="ut in WholeScreenData.ExcerciseType" value="{{ut.ExcerciseTypeID}}">{{ut.ExcerciseTypeName}}</option>
+
+                                    </select>
+                                    </div>
+                                    </div>
+
+
+                                    </div>
+
+
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+
+                                    <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-6">
+                                    <label class="mb-2 font-weight-500">
+                                    Do you Had Covid?
+                                    </label>
+
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-2 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                    <input type="radio"  name="isCovid" ng-value="true" ng-model="isCovid">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-3 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                    <input type="radio"  name="isCovid" ng-value="false" ng-model="isCovid">
+                                    <span class="checkmark"></span>
+                                    No
+                                    </label>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 row" ng-show="isCovid">
+                                    <div class="col-12 col-md-4">
+                                    <div class="mb-3">
+                                    <label class="mb-2">Covid Comment</label>
+                                    <input type="text" class="form-control" ng-model="mhdatamedicalHistory.CovidInfection">
+
+                                    </div>
+                                    </div>
+
+
+                                    </div>
+
+
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+
+                                    <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-6">
+                                    <label class="mb-2 font-weight-500">
+                                    Have you traveled overseas in the past 2 month?
+                                    </label>
+
+                                    
+                                    </div>
+                                    <div class="col-12 col-sm-2 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                    <input type="radio"  name="isTraveledOverseas" ng-value="true" ng-model="isTraveledOverseas">
+                                    <span class="checkmark"></span>
+                                    Yes
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-3 col-md-2">
+                                    <label class="payment-radio credit-card-option txtRadio">
+                                    <input type="radio"  name="isTraveledOverseas" ng-value="false" ng-model="isTraveledOverseas">
+                                    <span class="checkmark"></span>
+                                    No
+                                    </label>
+                                    </div>
+                                    </div>
+                                    </div>
+
+
+
+                                    </div>
+                                    <div class="col-12 col-md-12">
+
+                                    <div class="col-12 col-md-12 row">
+                                    <div class="col-12 col-md-4">
+                                    <div class="mb-3">
+                                    <label class="mb-2">When was your last visit to the doctor?</label>
+                                    <div class="cal-icon">
+                                    <input type="text" class="form-control datetimepicker" placeholder="dd/mm/yyyy" ng-model="mhdatamedicalHistory.LastVisitDate" datepicker>
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                    <div class="mb-3">
+                                    <label class="mb-2">Other</label>
+                                    <input type="text" class="form-control" ng-model="mhdatamedicalHistory.LastVisitOther">
+                                    </div>
+                                    </div>
+
+
+                                    </div>
+
+
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+                                    <h3>Past Medical History</h3>
+                                    <hr>
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+
+                                    <div class="row" ng-repeat="pmh in WholeScreenData.PastMedicalHistoryMasterData">
+                                    <div class="col-12 col-sm-2 col-md-2">
+                                    <label class="mb-2 font-weight-500">
+                                    {{pmh.MedicalDiseasesName}}
+                                    </label>
+
+                                    </label>
+                                    </div>
+                                    <div class="col-12 col-sm-10 col-md-10">
+                                        <div class="row">
+                                    <div class="col-12 col-sm-5 col-md-5" ng-repeat="pmd in WholeScreenData.PastMedicalHistory | filter :{MedicalDiseasesID : pmh.MedicalDiseasesID,MedicalDiseasesName:pmh.MedicalDiseasesName}">
+                                    <div class="mb-3 form-check-box terms-check-box">
+                                    <div class="form-group-flex">
+                                    <label class="custom_check">
+                                        {{pmd.MedicalDiseaseDetails}}
+                                        <input type="checkbox" ng-model="pmd.IsChecked" ng-change="(pmh.SelectionCount=(pmd.IsChecked?(pmh.SelectionCount+1):(pmh.SelectionCount-1)))">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-sm-2 col-md-2">
+                                        <label class="mb-2 font-weight-500">
+    
+                                        </label>
+    
+                                        </label>
+                                        </div>
+                                        <div class="col-12 col-sm-1 col-md-1">
+                                        <div class="mb-3">
+                                        <label class="mb-2">{{pmd.MedicalDiseaseDetails}} Other</label>
+                                        </div>
+    
+                                        </div>
+    
+    
+    
+                                        <div class="col-12 col-sm-9 col-md-9">
+                                        <div class="mb-3">
+    
+                                        <input type="text" class="form-control" ng-model="pmh.MedicalDiseaseOther">
+                                        </div>
+                                        </div>
+    
+                                        </div>
+                                    </div>
+
+
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    <div class="row" style="display: none;" ng-if="((Gender=='FEMALE') && (Age>=12))">
+                                        <div class="col-12 col-md-12">
+                                        <div class="mb-3">
+                                        <h3>Gynecological</a></h3>
+                                        <hr>
+                                        </div>
+                                        </div>
+                                        <div class="col-12 col-md-12">
+                                        <div class="mb-3">
+                                        <div class="col-12 col-md-12 row">
+                                      
+                                           
+                                            <div class="col-12 col-md-4" ng-repeat="g in WholeScreenData.GynecologicalDiseases">
+                                                <div class="mb-3">
+                                                    <label class="mb-2"> {{g.GynecologicalDiseases}}</label>
+                                                    <input type="text" ng-if="(g.Type=='TXTI')" class="form-control" ng-model="g.GynecologicalValue"   placeholder="{{g.GynecologicalDiseases}}" only-numeric/>
+                                                    <input type="text" ng-if="(g.Type=='TXTS')" class="form-control"  ng-model="g.GynecologicalValue"  placeholder="dd/MM/yyyy" maxlength="10" datepickerone/>
+                    
+                                                </div>
+                                            </div>
+                                       
+                                          
+                                      
+                                        </div>	
+    
+                                        </div>
+    
+                                        </div>
+                                        </div>
+
+
+
+                                    <div class="row" style="display: none;">
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+                                    <h3>Specialists Who's Care...you are currently in..</h3>
+                                    <hr>
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                   
+                                        <div class="col-12 col-md-12 row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    Doctor Name
+                                                    </div>
+
+                                                <input type="text" class="form-control" name="txtTreatmentByDoctorDoctorName" ng-class="txtTreatmentByDoctorDoctorName.trim()==''?'is-invalid':(txtTreatmentByDoctorDoctorName==undefined)?'':'is-valid'" ng-model="txtTreatmentByDoctorDoctorName"   maxlength="30" only-aplhanumeric>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        Speciality
+                                                        </div>
+    
+                                                    <input type="text" class="form-control" name="txtTreatmentByDoctorSpecialty" ng-class="txtTreatmentByDoctorSpecialty.trim()==''?'is-invalid':(txtTreatmentByDoctorSpecialty.trim()==undefined)?'':'is-valid'" ng-model="txtTreatmentByDoctorSpecialty"   maxlength="30" only-aplhanumeric>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        Last Appointment {{treatmentByDoctorDate}}
+                                                        </div>
+    <div class="row">
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="txtTreatmentByDoctorAppointmentDate" name="txtTreatmentByDoctorAppointmentDate" ng-class="treatmentByDoctorDate.trim()==''?'is-invalid':(treatmentByDoctorDate==undefined)?'':'is-valid'" ng-model="txtTreatmentByDoctorAppointmentDate" datepickertwo>
+            </div>
+            <div class="col-md-4 mt-2">
+                                                    
+                <input type="hidden" ng-model="hdnTreatByDoctorRowID">
+                <button class="btn btn-primary" ng-click="manageTreatMentByDoctor();" type="button" ng-disabled="isAddingTreatmentByDoctor">
+                    <i class="{{isAddingTreatmentByDoctor?'fa fa-spinner fa-spin': 'fa fa-plus'}}"></i>
+                    {{isAddingTreatmentByDoctor?'wait..':(isSelectedTreatmentByDoctorToUpdate?'UPDATE':'Add')}}
+                    
+                </button>
+                <button type="button" class="btn btn-warning" ng-disabled="isAddingTreatmentByDoctor" ng-if="isSelectedTreatmentByDoctorToUpdate" ng-click="resetTreatMentByDoctor();">
+                    CLEAR
+                </button>
+                
+            </div>
+    </div>
+                                                   
+                                                </div>
+                                              
+                                            </div>	
+                                            <div class="col-12 col-md-12 row mt-2 mb-2">
+                                                
+                                                <label style="color: red;">{{msgTreatmentByDoctor}}</label>
+
+                                            </div>
+                                            <div class="col-12 col-md-12 row mb-4">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-center mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>SN</th>
+                                                                <th>Medicine</th>
+                                                                <th>Dosage</th>
+                                                                <th>Direction</th>
+                                                                <th>Select</th>
+                                                            
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="tm in WholeScreenData.TreatmentByDoctor">
+                                                                <td>{{($index+1)}}</td>
+                                                                <td> {{tm.DoctorName}}</td>
+                                                                <td>{{tm.Speciality}}</td>
+                                                                <td>{{tm.TratmentDate}}</td>
+                                                                <td>
+                                                                    <button class="btn btn-sm bg-info-light" type="button" title="Edit" ng-click="selectTreatMentByDoctor(tm.rID,tm.DoctorName,tm.Speciality,tm.TratmentDate);"><i class="fas fa-edit"></i></button>
+                                                                                                                                    </td>
+                                                                    </tr>
+                                                            
+                                                        </tbody>
+                                                    </table>
+    
+                                                </div>
+                                            </div>
+                                           
+                                    </div>
+                                    </div>
+
+                                    <div class="row">
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+                                    <h3>Family History</h3>
+                                    <p>Select conditions that have occurred in your family.</p>
+                                    <hr>
+                                    </div>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                    <div class="mb-3">
+
+                                    <div class="row">
+                                  
+                                    <div class="col-12 col-sm-6 col-md-6" ng-repeat="fm in WholeScreenData.FamilyHistory">
+                                    <div class="mt-2 mb-2 form-check-box terms-check-box">
+                                    <div class="form-group-flex">
+                                        <label class="custom_check">
+                                            {{fm.Text}}
+                                            <input type="checkbox" name="Terms" ng-model="fm.IsSelected">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    </div>
+
+                                  
+                                    <div class="col-12 col-sm-12 col-md-12" ng-show="fm.IsSelected">
+                                        <div class="mb-3">
+                                            <label class="mb-2 ng-binding">
+                                    Who?
+                                            </label>
+                                            <div class="row">
+                                            <div class="col-12 col-sm-6 col-md-6">
+                                  
+                                                <select class="form-select form-control" ng-model="fm.FamilyRelationId" ng-show="fm.IsSelected">
+                                                <option value="">Select</option>
+                                                <option ng-repeat="rel in WholeScreenData.FamilyRelations" value="{{rel.SetupId}}">{{rel.SetupName}}</option>
+                                                </select>
+                                               
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-6">
+                                                    <input type="text" class="form-control"  ng-show="fm.FamilyRelationId==='1731'" ng-model="fm.Remark" placeholder="Relation Name" maxlength="30" only-aplhanumeric>
+                                                </div>
+                                                </div>
+
+                                   </div>
+
+                                    </div>
+                                </div>
+                                   
+                                    
+                                    </div>
+
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    
+
+
+                                        
+                                    <div class="submit-section pull-right text-right">
+                                    
+                                    <button type="button" class="btn btn-primary btn-sm btnMinWidth" ng-click="submitMedicalhistoryForm();" ng-disabled=" ((frmMedicalHistory.$invalid) ||(ismedicalHistorySubmitting))">
+                                        <i class="{{ismedicalHistorySubmitting?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                                        {{ismedicalHistorySubmitting?'wait..':'SAVE'}}
+                                    </button>
+                                    </div>
+                                    </form>
+                                    <!-- /Medical History Form -->
+                            </div>
+                        </div>
+                    </div>
+                    <!--  /Medical Hostory-->
+                    <!--  Lab Report-->
+                     <div ng-controller="patientdashboardlapreportController"  ng-if="(renderCode=='LABR')">
+                        <div class="card">
+                           <div class="card-header">
+                                                    
+                             <h4 class="card-title">{{renderTitle}}</h4>
+                                               
+                             </div>
+                             
+                                              
+                            <div class="card-body">
+
+                                <form>
+                                    <div class="row">
+                                        
+                                        <div class="col-12 col-md-5">
+                                            <div class="mb-3">
+                                                <label class="mb-2">From Date</label>
+                                                <div class="cal-icon">
+                                                    <input type="text" class="form-control datetimepicker" ng-model="mdlFromDate" datepickerone>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-5">
+                                            <div class="mb-3">
+                                                <label class="mb-2">To Date</label>
+                                                <div class="cal-icon">
+                                                    <input type="text" class="form-control datetimepicker" ng-model="mdlToDate" datepickertwo>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <div class="mt-4 pt-2">
+                                                <!--<a href="" data-bs-toggle="modal" class="btn btn-primary" tabindex="0">Search</a>-->
+                                                <button type="button" class="btn btn-primary btn-sm btnMinWidth" ng-click="getlabrecords();" ng-disabled="(isLabReportsloading)">
+                                                    <i class="{{isLabReportsloading?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                                    {{isLabReportsloading?'wait..':'Get'}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        </div>
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0" ng-if="((LabReportList.length>0) && (!isLabReportsloading))">
+                                <thead>
+                                    <tr >
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Patient Name</th>
+                                        <th>Department</th>
+                                        <!--<th>Sub-Department</th>-->
+                                        <th>Test </th> 
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="lr in LabReportList">
+                                        <td>
+                                            {{($index+1)}}
+                                        </td>
+                                        <td>{{lr.reportcreatedat}}</td>
+                                        <td>{{lr.patientname}}</td>
+                                        <td>{{lr.department}}</td>
+                                        <!--<td>{{lr.subdepartment}}</td>-->
+                                        <td>{{lr.servicename}}</td>
+                                        <td>
+                                            <div class="table-action">
+                                                <span class="badge rounded-pill bg-success-light">
+                                                <a href="{{lr.reporturl}}" title="View" target="_blank">View</a></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                            <table class="table table-hover table-center mb-0" ng-if="((LabReportList.length==0) && (!isLabReportsloading))">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <h2 class="table-avatar"> No Record Found!</h2>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    
+                                
+                                
+                                </form>
+                    
+                                
+                            </div> 
+                           </div>
+
+                </div> 
+                <!-- / Lab Report-->
+
+                 <!--  Pharmacy-->
+                    <div ng-controller="patientdashboardpharmacyController" ng-if="(renderCode=='PHAR')">
+                        <div class="card">
+                           <div class="card-header">
+                                                    
+                             <h4 class="card-title">{{renderTitle}}</h4>
+                                                        
+                             </div>
+                                                
+                             <div class="card-body">
+	
+                                <form>
+                                    <div class="row">
+                                        
+                                        <div class="col-12 col-md-5">
+                                            <div class="mb-3">
+                                                <label class="mb-2">From Date</label>
+                                                <div class="cal-icon">
+                                                    <input type="text" class="form-control datetimepicker" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-5">
+                                            <div class="mb-3">
+                                                <label class="mb-2">To Date</label>
+                                                <div class="cal-icon">
+                                                    <input type="text" class="form-control datetimepicker" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <div class="mt-4 pt-2">
+                                                <a href="" data-bs-toggle="modal" class="btn btn-primary" tabindex="0">Search</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0" style="display: none;">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Order Id</th>
+                                        <th>Pharmacy Name</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                        <th>Payment Gateway</th>
+                                        <th>Status</th>
+                                        <th>Order date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><a href="invoice-view.html">OD1236547890</a></td>
+                                        <td>Medlife Medical</td>
+                                        <td>2</td>
+                                        <td>$150</td>
+                                        <td>Stripe</td>
+                                        <td><span class="badge badge-primary">Order Placed</span></td>
+                                        <td>11 Nov 2023 <span class="d-block text-info">10.00 AM</span></td>
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead>
+                                    <th>
+                                        <h2 class="table-avatar"> No Record Found!</h2>
+                                    </th>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    
+                                
+                                
+                                </form>
+                    
+                                
+                            </div>
+                           </div>
+
+                </div> 
+                <!-- / Pharmacy-->  
+
+                 <!--  Invoice-->
+                 <div ng-controller="patientdashboardinvoiceController" ng-if="(renderCode=='INVO')">
+                     <div class="card">
+                         <div class="card-header">
+
+                             <h4 class="card-title">{{renderTitle}}</h4>
+
+                         </div>
+
+
+                         <div class="card-body">
+
+                             <form>
+                                 <div class="row">
+
+                                     <div class="col-12 col-md-5">
+                                         <div class="mb-3">
+                                             <label class="mb-2">From Date</label>
+                                             <div class="cal-icon">
+                                                 <input type="text" class="form-control datetimepicker" ng-model="mdlFromDate" datepickerone>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-12 col-md-5">
+                                         <div class="mb-3">
+                                             <label class="mb-2">To Date</label>
+                                             <div class="cal-icon">
+                                                 <input type="text" class="form-control datetimepicker" ng-model="mdlToDate" datepickertwo>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-12 col-md-2">
+                                         <div class="mt-4 pt-2">
+                                             <!--<a href="" data-bs-toggle="modal" class="btn btn-primary" tabindex="0">Search</a>-->
+                                             <button type="button" class="btn btn-primary btn-sm btnMinWidth" ng-click="getinvoicerecords();" ng-disabled="(isInvoiceloading)">
+                                                 <i class="{{isInvoiceloading?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                                 {{isInvoiceloading?'wait..':'Get'}}
+                                             </button>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="table-responsive">
+                                         <table class="table table-hover table-center mb-0" ng-if="((InvoiceList.length>0) && (!isInvoiceloading))">
+                                             <thead>
+                                                 <tr>
+                                                     <th>#</th>
+                                                     <th>Date Time</th>
+                                                     <th>Invoice no</th>
+                                                     <th>Amount</th>
+                                                  
+                                                     <th>Action</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr ng-repeat="lr in InvoiceList">
+                                                     <td>
+                                                         {{($index+1)}}
+                                                     </td>
+                                                     <td>{{lr.invoiceDate}}</td>
+                                                     <td>{{lr.InvoiceNo}}</td>
+                                                     <td>{{lr.InvoiceAmount}}</td>
+                                                   
+                                                     <td>
+                                                         <div class="table-action">
+                                                             <span class="badge rounded-pill bg-success-light">
+                                                                 <a href="{{lr.invoiceurl}}" title="View" target="_blank">View</a>
+                                                             </span>
+                                                         </div>
+                                                     </td>
+                                                 </tr>
+
+                                             </tbody>
+                                         </table>
+                                         <table class="table table-hover table-center mb-0" ng-if="((InvoiceList.length==0) && (!isInvoiceloading))">
+                                             <thead>
+                                                 <tr>
+                                                     <th>
+                                                         <h2 class="table-avatar"> No Record Found!</h2>
+                                                     </th>
+                                                 </tr>
+                                             </thead>
+                                         </table>
+                                     </div>
+                                 </div>
+
+
+
+
+                             </form>
+
+
+                         </div>
+                     </div>
+
+            </div> 
+            <!-- / Invoice-->  
+
+            <!--  Image & Document-->
+            <div ng-controller="patientdashboarduploaddocumentController" ng-if="(renderCode=='IMDC')" >
+                    <div class="card">
+                       <div class="card-header">
+                                                
+                         <h4 class="card-title">{{renderTitle}}</h4>
+                                                    
+                         </div>
+                         <!-- Image & Document loading -->	
+                         <div class="container loaderprogress_Container" ng-show="(isUploadDocumentScreenLoading)">
+                            <div class="clearfix text-center loaderprogress" >
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                </div>
+                    </div>
+                    <!-- /Image & Document loading -->
+                                            
+                         <div class="card-body" ng-show="(!isUploadDocumentScreenLoading)">
+                            <form>
+                                <div class="row">
+                                    
+                                    <div class="col-12 col-md-6">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Filter by</label>
+                                            <select class="form-select form-control" ng-model="mdlddldocumentTypeFilter">
+                                                <option  value=''>All</option>
+                                                <option  ng-repeat="dt in documentTypes" value="{{dt.DocumentType}}">{{dt.DocumentTypeName}}</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <div class="mt-4 pt-2">
+                                            <div class="row">
+                                                <div class="col-12 col-md-6">
+                                            <a href="#modal_form_image" data-bs-toggle="modal" class="btn btn-primary" tabindex="0"><i class="fa fa-plus" aria-hidden="true"></i> Add File</a>
+                                            </div>
+                                            <div class="col-12 col-md-6" style="display: none;">
+                                            <a href="#modal_form_show" id="btnViewDocument" data-bs-toggle="modal" class="btn btn-primary w-50 w-25" tabindex="0">View</a>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+        
+        
+        
+                            <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th> Date & Time</th>
+                                            <th> Type</th>
+                                            <th>Description</th>
+                                            <th>Thumbnail</th>
+                                            <th>Added by</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-if="(patientDocuments.length>0)">
+                                        <tr ng-repeat="row in filteredList =(patientDocuments | filter: {FlType: mdlddldocumentTypeFilter})">
+                                            <td>{{($index+1)}}</td>
+                                            <td>{{row.UploadedAt}}</td>
+                                            <td>{{row.Type}}</td>
+                                            <td>{{row.Remarks}}</td>
+                                            <td><img src="{{(row.FileType=='.pdf'?'../assets/img/fileicon/file-pdf.svg':(((row.FileType=='.doc')||(row.FileType=='.docx'))?'../assets/img/fileicon/file-word.svg':(((row.FileType=='.xls')||(row.FileType=='.xlsx'))?'../assets/img/fileicon/file-excel.svg':(row.FileUrl))))}}" width="30" height="30"/>
+                                            </td>
+                                            <td>{{row.UploadedBy}}</td>
+                                            <td><button type="button" class="btn btn-sm bg-success-light" ng-click="downloadDocument(row.Type,row.Remarks,row.FileUrl);" title="Download"><i class="fas fa-download"></i></button>
+                                                <button type="button" class="btn btn-sm bg-info-light" ng-click="viewDocument(row.FileType,row.FileUrl);" title="View"><i class="fas fa-eye"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="filteredList.length === 0"><td colspan="7">No Record Found in the selected filter.</td></tr>
+
+                                        
+                                    </tbody>
+                                    <tbody ng-if="(patientDocuments.length === 0)">
+                                        <tr><td colspan="7"> No Record Found!</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+        
+                            
+                            </form>
+        
+                            <!-- Add Document Modal-->
+                                <div id="modal_form_image" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-modal="true">
+                                    <div class="modal-dialog  modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <form ng-submit="submitUploadDocument();" name="frmUploadDocument" enctype="multipart/form-data" autocomplete="off" method="POST"> 
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Documents and Image Upload</h5>
+                                                    <button type="button" id="btnClosePopUP" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        
+                                                    <div class="col-12 col-md-12">
+                                                        <div class="mb-3">
+                                                            <p class="text-danger">Acceptable file types: .jpeg, .jpg, .png, .pdf, .docx, .doc, .xlsx and .xls (5 MB max per file).</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-12">
+                                                        <div class="mb-3">
+                                                            <label class="control-label mb-10">Browse to the document or Image you intend to upload <span class="text-danger">*</span>
+                                                            </label>
+                                                            <input type="file" name="_document" id="_fdocument" file-model="_mfiledocument" accept=".jpg, .jpeg, .png, .pdf, .doc,.docx, .xls, .xlsx" class="form-control" required>
+                                                        </div>
+                                                        <p style="color: red;" ng-show="fileSizeError">File size exceeds 5MB limit.</p>
+                                                        <p style="color: red;" ng-show="fileTypeError">Invalid File Type (Acceptable file formats are .jpeg, .jpg, .png, .pdf, .docx, .doc, .xlsx and .xls).</p>
+                                                    </div>
+                                                        <div class="col-12 col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="control-label mb-10"> Attachment type <span class="text-danger">*</span></label>
+                                                        <select class="form-select form-control" name="ddldocumenttype" ng-model="mdlddldocumentType" required>
+                                                            <option  value="">Select</option>
+                                                            <option  ng-repeat="dt in documentTypes" value="{{dt.DocumentType}}">{{dt.DocumentTypeName}}</option>
+                                                            
+                                                        </select>    
+                                                    </div>
+                                                </div>
+                                                    <div class="col-12 col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="control-label mb-10">Description <span class="text-danger">*</span></label>
+                                                        <input type="text" name="txtDescription" ng-model="txtDescription" class="form-control"  maxlength="150" minlength="2" required only-aplhanumeric>
+                                                    </div>
+                                                </div>
+                                                
+                                                </div>
+                                                </div>
+                                                <div class="modal-footer text-center">
+                                                    <button type="submit" class="btn btn-primary submit-btn" ng-disabled="((isUploadDocumentUploading) || (frmUploadDocument.$invalid) || (fileSizeError) || (fileTypeError))">
+                                                        <i class="{{isUploadDocumentUploading?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                                                            {{isUploadDocumentUploading?'wait..':'ADD'}}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Add Document Modal-->
+                                <!-- Show Document Modal-->
+                                <div id="modal_form_show" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-modal="true">
+                                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                                        <div class="modal-content">
+                                            
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Preview</h5>
+                                                    <button type="button" id="btnCloseImgPopUP" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body" style="background-color: #0000000d; height: 620px;  overflow: auto;">
+                                                    <div class="container loaderprogress_Container" ng-show="(isPreviewLoading)">
+                                                        <div class="clearfix text-center loaderprogress" >
+                                                            <div class="spinner-border" role="status">
+                                                                <span class="visually-hidden">Loading...</span>
+                                                            </div>
+                                                            </div>
+                                                </div>
+
+                                                       <div class="row">
+                                    
+                                                        <div class="col-12 col-md-12 text-center">
+                                                            <div ng-show="!isPreviewLoading" ng-bind-html="currentDocumentData" width="100%" >
+
+                                                            </div>
+
+                                                            <!-- <iframe ng-show="!isPreviewLoading" width="100%" height="100%"  style="min-height: 500px;" marginheight="0" frameborder="0" ng-src="{{currentDocumentUrl}}" title="Document Preview"></iframe> -->
+                                                            </div>
+
+                                                            </div>
+
+                                                
+                                                    
+                                                </div>
+                                            
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Show Document Modal-->
+                          </div>
+                       </div>
+
+            </div> 
+            <!-- / Image & Document-->    
+
+            <!--  Consents-->
+            <div ng-if="(renderCode=='CONS')">
+                <div class="card">
+                   <div class="card-header">
+                                            
+                     <h4 class="card-title">{{renderTitle}}</h4>
+                                                
+                     </div>
+                                        
+                     <div class="card-body">
+	
+                        <form>
+                            <div class="row">
+                                
+                                <div class="col-12 col-md-5">
+                                    <div class="mb-3">
+                                        <label class="mb-2">From Date</label>
+                                        <div class="cal-icon">
+                                            <input type="text" class="form-control datetimepicker" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <div class="mb-3">
+                                        <label class="mb-2">To Date</label>
+                                        <div class="cal-icon">
+                                            <input type="text" class="form-control datetimepicker" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <div class="mt-4 pt-2">
+                                        <a href="" data-bs-toggle="modal" class="btn btn-primary" tabindex="0">Search</a>
+                                    </div>
+                                </div>
+                                </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center mb-0" style="display: none;">
+                        <thead>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Doctor
+                            </th>
+                            <th>
+                                Referring Doctor
+                            </th>
+                            <th>
+                                Effective Date
+                            </th>
+                            <th>
+                                To Date
+                            </th>
+            
+                            <th>
+                                Requested At
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Sign Date
+                            </th>
+                            <th>
+                                Allow
+                            </th>
+                        </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <th>
+                                <h2 class="table-avatar"> No Record Found!</h2>
+                            </th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            
+            
+                        
+                        
+                        </form>
+            
+                        
+                    </div>
+                   </div>
+
+        </div> 
+        <!-- / Consents-->  
+
+        <!--  Payer Information-->
+            <div ng-if="(renderCode=='PAYR')">
+                <div class="card">
+                   <div class="card-header">
+                                            
+                     <h4 class="card-title">{{renderTitle}}</h4>
+                                                
+                     </div>
+                                        
+                     <div class="card-body">
+                       <!-- Add payer Form -->
+			<form>
+				<div class="row">
+					<div class="col-12 col-md-12">
+						<div class="mb-3">
+						<h3>PayerInformation</h3>
+						
+						<hr>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Payer Category</label>
+							<select class="form-select form-control">
+								<option>Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Payer Name</label>
+							<input type="text" class="form-control" placeholder="Payer Name">
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Payer Type</label>
+							<select class="form-select form-control">
+								<option>Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Effective Start Date</label>
+							<div class="cal-icon">
+								<input type="text" class="form-control datetimepicker">
+							</div>
+							
+					</div>
+				</div>
+					
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Patient Relation</label>
+							<select class="form-select form-control">
+								<option>Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Member ID</label>
+							
+							<input type="text" class="form-control" placeholder="Member ID">
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Group Name</label>
+							<input type="text" class="form-control" placeholder="Group Name">
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Group #</label>
+							<input type="text" class="form-control" placeholder="Group #">
+						</div>
+					</div>
+
+</div>
+
+					<div class="row">
+
+					<div class="col-12 col-md-12">
+						<div class="mb-3">
+						<h3>Subscriber Details</h3>
+						
+						<hr>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">First Name</label>
+							<input type="text" class="form-control" >
+						</div>
+					</div>
+					
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Last Name</label>
+							<input type="text" class="form-control" >
+						</div>
+					</div>
+					
+					
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Date of Birth</label>
+							<div class="cal-icon">
+								<input type="text" class="form-control datetimepicker">
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+						<label class="mb-2">Address</label>
+							<input type="text" class="form-control" >
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">City</label>
+							<input type="text" class="form-control" >
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">State</label>
+							<select class="form-select form-control">
+								<option>Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Zip Code</label>
+							<select class="form-select form-control">
+								<option>Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Country</label>
+							<input type="text" class="form-control" value="Select">
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Email ID</label>
+							<input type="email" class="form-control">
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Cell Phone</label>
+							<input type="text" placeholder="Cell Phone" class="form-control">
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Work Phone</label>
+							<input type="text" class="form-control" placeholder="Work Phone" >
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Home Phone</label>
+							<input type="text" class="form-control" placeholder="Home Phone">
+						</div>
+					</div>
+					
+				</div>
+				<div class="submit-section pull-right text-right">
+					<button type="submit" class="btn btn-primary btn-sm btnMinWidth">Clear</button>
+					<button type="submit" class="btn btn-primary btn-sm btnMinWidth">Save</button>
+				</div>
+
+				<div class="col-12 col-md-12 row">
+					<div class="table-responsive">
+						<table class="table table-hover table-center mb-0" style="display: none;">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Relation</th>
+									<th>Payer Type</th>
+									<th>Payer Name</th>
+									<th>Effective Date</th>
+									
+									<th>Action</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>Self</td>
+									<td>Primary</td>
+									<td>A AND I BENEFIT PLAN ADMINISTRATORS - 93044</td>
+									
+									<td>08-12-2022</td>
+									
+									
+									<td>
+										<div class="table-action">
+											<a href="#" class="btn btn-sm bg-info-light" >	<i class="fas fa-edit"></i> Edit</a>
+											<a href="" class="btn btn-sm bg-danger-light"><i class="fas fa-times"></i> Deactive</a>
+										</div>
+									</td>
+										</tr>
+								
+							</tbody>
+						</table>
+                        <table>
+                            <thead>
+                                <th>
+                                    <h2 class="table-avatar"> No Record Found!</h2>
+                                </th>
+                            </thead>
+                        </table>
+					</div>
+				</div>
+			</form>
+			<!-- /Add payer Form -->
+			
+                      </div>
+                   </div>
+
+        </div> 
+        <!-- / Payer Information-->     
+
+        <!--  Profile-->
+        <div ng-controller="patientdashboardprofileController" ng-if="(renderCode=='PROF')">
+            <div class="card">
+               <div class="card-header">
+                                        
+                 <h4 class="card-title">{{renderTitle}}</h4>
+                                            
+                 </div>
+                                             <!-- Profile Loader  -->	
+                                             <div class="container loaderprogress_Container" ng-show="(isProfileLoading)">
+                                                <div class="clearfix text-center loaderprogress" >
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    </div>
+                                        </div>
+                                        <!-- /Profile Loader  -->
+                                    
+                 <div class="card-body" ng-show="(!isProfileLoading)">
+                   <!-- Profile Settings Form -->
+									<form name="frmPatientProfile" ng-submit="UpdatePatientProfile();">
+										<div class="row">
+											<div class="col-12 col-md-12">
+												<div class="mb-3">
+													<div class="change-avatar">
+														<div class="profile-img">
+															<img ng-if="!isProfileLoading" ng-src="{{userdetails.UserAvtar}}" alt="User Avtar">
+                                                            <img ng-if="isProfileLoading" src="assets/img/user/user-avtar2.png" alt="User Avtar">
+														</div>
+														<div class="upload-img">
+															<div class="change-photo-btn">
+																<span><i class="fa fa-upload"></i> Upload Photo</span>
+																<input type="file" class="upload">
+															</div>
+															<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="mb-3">
+													<label class="mb-2">First Name</label>
+													<input type="text" class="form-control" name="firstName" ng-model="userdetails.FirstName" placeholder="Enter First Name" ng-class="((frmPatientProfile.firstName.$touched && frmPatientProfile.firstName.$invalid)?'is-invalid':(( frmPatientProfile.firstName.$valid && frmPatientProfile.firstName.$touched)?'is-valid':''))" maxlength="50" minlength="2" required only-aplhanumeric>
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="mb-3">
+													<label class="mb-2">Middle Name</label>
+													<input type="text" class="form-control" ng-model="userdetails.MiddleName" maxlength="50" minlength="2"  only-aplhanumeric>
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="mb-3">
+													<label class="mb-2">Last Name</label>
+													<input type="text" class="form-control" name="lastName" ng-model="userdetails.Lastname" ng-class="((frmPatientProfile.lastName.$touched && frmPatientProfile.lastName.$invalid)?'is-invalid':((frmPatientProfile.lastName.$valid && frmPatientProfile.lastName.$touched)?'is-valid':''))" placeholder="Enter Your Last Name" maxlength="50" minlength="2" required only-aplhanumeric>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">Gender</label>
+													
+													<div class="row">
+														<div class="col-12 col-sm-4 col-md-4" ng-repeat="gender in genderlist">
+														<label class="payment-radio credit-card-option txtRadio">
+                                                            <input type="radio" name="radio" ng-value="gender" ng-model="$parent.selectedGender">
+															<span class="checkmark"></span>
+															 {{gender.GenderName}}
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+											
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">Date of Birth</label>
+													<div class="cal-icon">
+														<input type="text" class="form-control datetimepicker" name="dateofbirth" ng-model="userdetails.DOB" ng-class="(((frmPatientProfile.dateofbirth.$touched) &&  (frmPatientProfile.dateofbirth.$invalid))?'is-invalid':((frmPatientProfile.dateofbirth.$touched)?'is-valid':''))" datepicker>
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">Blood Group</label>
+													<select class="form-select form-control" ng-model="userdetails.BloodGroup" name="bloodgroup" ng-class="((frmPatientProfile.bloodgroup.$touched && frmPatientProfile.bloodgroup.$invalid)?'is-invalid':(((frmPatientProfile.bloodgroup.$valid) && (frmPatientProfile.bloodgroup.$dirty))?'is-valid':''))" required>
+                                                        <option value=''>Select</op>
+														<option value="A-">A-</option>
+														<option value="A+">A+</option>
+														<option value="B-">B-</option>
+														<option value="B+">B+</option>
+														<option value="AB-">AB-</option>
+														<option value="AB+">AB+</option>
+														<option value="O-">O-</option>
+														<option value="O+">O+</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">Email ID</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isEmailChecking"></i>
+													<input type="email" class="form-control" ng-model="userdetails.EmailId" name="emailid" minlength="6" maxlength="150" ng-class="(((frmPatientProfile.emailid.$touched && frmPatientProfile.emailid.$invalid) ||  ((!isEmailValid) && (isEmailChecked)))?'is-invalid':(((frmPatientProfile.emailid.$valid)&& (isEmailValid) && (isEmailChecked))?'is-valid':''))" ng-blur="checkEmailAddress();" only-email required>
+                                                    <span  style="color: brown;" ng-show="((!isEmailValid) && (isEmailChecked) && (!isEmailChecking))">Email Id Already Exists!</span>
+                                                     <span style="color: brown;" ng-show="frmPatientProfile.emailid.$dirty&&frmPatientProfile.emailid.$error.emailPattern">Please Enter Valid Email</span>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">Mobile</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isMobileChecking"></i>
+                                                    <label>{{userdetails.DialCode}}</label>
+													<input type="text" class="form-control" id="phone" name="phone" ng-model="userdetails.MobileNo" ng-class="(((frmPatientProfile.phone.$touched && frmPatientProfile.phone.$invalid) ||  ((!isMobileValid) && (isMobileChecked)))?'is-invalid':(((frmPatientProfile.phone.$valid) && (isMobileValid) && (isMobileChecked))?'is-valid':''))" ng-blur="checkMobileNumber();" minlength="7" maxlength="12" only-numeric required>
+                                                    <span  style="color: brown;" ng-show="((frmPatientProfile.phone.$error.minlength))">Minimum 7 characters.</span>
+                                                    <span  style="color: brown;" ng-show="((!isMobileValid) && (isMobileChecked) && (!isMobileChecking))">Mobile Number with Coutry Already Exists!</span>
+												</div>
+											</div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="mb-2">National Id</label>&nbsp;&nbsp;<i class="fa fa-spinner fa-spin" ng-show="isSSNChecking"></i>
+                                                    <input type="text" class="form-control" placeholder="Enter Your National Id" name="celulaid" ng-model="userdetails.SSN"
+                                                     
+                                                     ng-class="((frmPatientProfile.celulaid.$touched) && (isSSNChecked)&& ((!isSSNValid))?'is-invalid':(((frmPatientProfile.celulaid.$valid) && (isSSNChecked) && (userdetails.SSN.trim()!='') )?'is-valid':''))"
+                                                     ng-blur="checkSSN();" ng-change="handleSSNChange();"  minlength="4" maxlength="10"  only-aplhanumeric>
+                                                    <span  style="color: brown;" ng-show="((!isSSNValid) && (isSSNChecked) && (!isSSNChecking))">Celula Id Already Exists!</span>
+                                                </div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+												<label class="mb-2">Address</label>
+													<input type="text" class="form-control" ng-model="userdetails.Add1" name="address" ng-class="((frmPatientProfile.address.$touched && frmPatientProfile.address.$invalid)?'is-invalid':((frmPatientProfile.address.$valid && frmPatientProfile.address.$touched)?'is-valid':''))" placeholder="Enter Address" maxlength="250" minlength="2" required only-aplhanumeric>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">City</label>				
+                                                    <angucomplete-alt  id="txtautoCity"  input-name="txtCity" placeholder="Search City" local-data="citylist" initial-value="userdetails.CityName" selected-object="selectedCityObj"  search-fields="CityName" title-field="CityName" description-field="tDescription" ng-class="((frmPatientProfile.txtCity.$touched && frmPatientProfile.txtCity.$invalid)?'is-invalid':(((frmPatientProfile.txtCity.$valid) && (frmPatientProfile.txtCity.$dirty))?'is-valid':''))" field-required="true"   minlength="1" inputclass="form-control" match-class="highlight" pause="100" override-suggestions="false"/>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">State</label>
+													<input type="text" class="form-control" ng-model="userdetails.StateName" disabled>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">Zip Code</label>
+													<input type="text" class="form-control" ng-model="userdetails.ZipCode" name="zipcode" placeholder="Zipcode" minlength="6" maxlength="6"  only-numeric>
+												</div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div class="mb-3">
+													<label class="mb-2">Country</label>
+													<input type="text" class="form-control" ng-model="userdetails.CountryName" disabled>
+												</div>
+											</div>
+										</div>
+										<div class="submit-section pull-right text-right">
+											
+											
+
+                                            <button class="btn btn-primary btn-sm btnMinWidth" type="submit"  ng-disabled="((frmPatientProfile.$invalid) || (isProcessing) || ((!isMobileValid)&& (frmPatientProfile.phone.$dirty)) || ((!isEmailValid) && (frmPatientProfile.emailid.$dirty)) || ((!isSSNValid)&& (frmPatientProfile.celulaid.$dirty)))"  style="width: 250px;">
+                                    
+                                                <i class="{{ isProcessing?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                                {{isProcessing?'Processing..':'Update'}}
+                                            </button>
+										</div>
+									</form>
+									<!-- /Profile Settings Form -->
+                  </div>
+               </div>
+
+    </div> 
+    <!-- / Profile-->   
+
+        <!--  Family Members-->
+        <div ng-if="(renderCode=='FAMB')">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4 class="card-title">{{renderTitle}}</h4>
+                        </div>
+                        <div class="col-sm-6 mobile-profile-btn-top">
+                            <div class="text-end">
+                                <a href="#modal_form" data-bs-toggle="modal" class="btn btn-primary btn-sm profile-button" tabindex="0">Add Family Members</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+                                    
+                <div class="card-body ">
+
+                    <!-- Dependent Tab -->
+                    <div class="card card-table mb-0">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-center mb-0" style="display: none;">
+                                    <thead>
+                                        <tr>
+                                            <th>Dependent</th>
+                                            <th>Relationship</th>
+                                            <th>Gender</th>
+                                            <th>Number</th>
+                                            <th>Blood Group</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2">
+                                                        <img class="avatar-img rounded-circle" src="assets/img/patients/patient16.jpg" alt="User Image">
+                                                    </span>
+                                                    Christopher
+                                                </h2>
+                                            </td>
+                                            <td>Son</td>
+                                            <td>Male</td>
+                                            <td>303-297-6170</td>
+                                            <td>AB+</td>
+                                            <td>
+                                                <div class="table-action">
+                                                    <a href="#edit_form" class="btn btn-sm bg-info-light" data-bs-toggle="modal">	<i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="javascript:void(0);" class="btn btn-sm bg-danger-light"><i class="fas fa-times"></i> Deactive</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2">
+                                                        <img class="avatar-img rounded-circle" src="assets/img/patients/patient17.jpg" alt="User Image">
+                                                    </span>
+                                                    Tressie
+                                                </h2>
+                                            </td>
+                                            <td>Daughter</td>
+                                            <td>Female</td>
+                                            <td>360-822-9097</td>
+                                            <td>B+</td>
+                                            <td>
+                                                <div class="table-action">
+                                                    <a href="#edit_form" class="btn btn-sm bg-info-light" data-bs-toggle="modal">	<i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="javascript:void(0);" class="btn btn-sm bg-danger-light"><i class="fas fa-times"></i> Deactive</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2">
+                                                        <img class="avatar-img rounded-circle" src="assets/img/patients/patient18.jpg" alt="User Image">
+                                                    </span>
+                                                    Champagne
+                                                </h2>
+                                            </td>
+                                            <td>Father</td>
+                                            <td>Male</td>
+                                            <td>720-841-8299</td>
+                                            <td>B+</td>
+                                            <td>
+                                                <div class="table-action">
+                                                    <a href="#edit_form" class="btn btn-sm bg-info-light" data-bs-toggle="modal">	<i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="javascript:void(0);" class="btn btn-sm bg-danger-light"><i class="fas fa-times"></i> Deactive</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    <span class="avatar avatar-sm me-2">
+                                                        <img class="avatar-img rounded-circle" src="assets/img/patients/patient19.jpg" alt="User Image">
+                                                    </span>
+                                                    Vena
+                                                </h2>
+                                            </td>
+                                            <td>Mother</td>
+                                            <td>Male</td>
+                                            <td>949-583-4370</td>
+                                            <td>A+</td>
+                                            <td>
+                                                <div class="table-action">
+                                                    <a href="#edit_form" class="btn btn-sm bg-info-light" data-bs-toggle="modal">	<i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="javascript:void(0);" class="btn btn-sm bg-danger-light"><i class="fas fa-times"></i> Deactive</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table>
+                                    <thead>
+                                        <th>
+                                            <h2 class="table-avatar"> No Record Found!</h2>
+                                        </th>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Dependent Tab -->
+
+                </div>
+                <!-- Add Dependent Modal-->
+	<div id="modal_form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-modal="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<form action="#" enctype="multipart/form-data" autocomplete="off" method="post"> 
+					<div class="modal-header">
+						<h5 class="modal-title">Add new member</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="control-label mb-10"> Name <span class="text-danger">*</span></label>
+							<input type="text" name="name" class="form-control">
+						</div>
+					</div>
+						<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="control-label mb-10">Relationship </label>
+							<select class="form-select form-control">
+								<option>Select</option>
+								<option>Spouse</option>
+								<option>Mother</option>
+								<option>Father</option>
+								<option>Sun</option>
+								<option>Doughter</option>
+								<option>Other</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="mb-2">Gender</label>
+							
+							<div class="row">
+								<div class="col-12 col-sm-4 col-md-4">
+								<label class="payment-radio credit-card-option txtRadio">
+									<input type="radio" name="radio" checked>
+									<span class="checkmark"></span>
+									 Male
+								</label>
+							</div>
+							<div class="col-12 col-sm-4 col-md-4">
+								<label class="payment-radio credit-card-option txtRadio">
+									<input type="radio" name="radio">
+									<span class="checkmark"></span>
+									 Female
+								</label>
+							</div>
+							<div class="col-12 col-sm-4 col-md-4">
+								<label class="payment-radio credit-card-option txtRadio">
+									<input type="radio" name="radio">
+									<span class="checkmark"></span>
+									 Other
+								</label>
+							</div>
+						</div>
+					</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="mb-3">
+								<label class="mb-2">Blood Group</label>
+								<select class="form-select form-control">
+									<option>A-</option>
+									<option>A+</option>
+									<option>B-</option>
+									<option>B+</option>
+									<option>AB-</option>
+									<option>AB+</option>
+									<option>O-</option>
+									<option>O+</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="mb-3">
+								<label class="mb-2">Email ID</label>
+								<input type="email" class="form-control" value="richard@example.com">
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="mb-3">
+								<label class="mb-2">Mobile</label>
+								<input type="text" value="+1 202-555-0125" class="form-control">
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="control-label mb-10">DOB </label>
+							<input type="text" name="dob" id="dob" value="" readonly="" class="form-control">
+						</div>
+					</div>
+						<div class="col-12 col-md-6">
+						<div class="mb-3">
+							<label class="control-label mb-10">Photo </label>
+							<input type="file" name="profile_image" class="form-control">
+						</div>
+					</div>
+					</div>
+					</div>
+					<div class="modal-footer text-center">
+						<button type="submit" class="btn btn-primary submit-btn">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /Add Dependent Modal-->
+
+	<!-- Edit Dependent Modal-->
+	<div id="edit_form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-modal="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<form action="#" enctype="multipart/form-data" autocomplete="off" method="post"> 
+					<div class="modal-header">
+						<h5 class="modal-title">Edit member</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="mb-3">
+							<label class="control-label mb-10"> Name <span class="text-danger">*</span></label>
+							<input type="text" name="name" class="form-control" value="Christopher">
+						</div>
+						<div class="mb-3">
+							<label class="control-label mb-10">Relationship </label>
+							<input type="text" name="relationship" class="form-control" value="son">
+						</div>
+						<div class="mb-3">
+							<label class="control-label mb-10">Gender </label>
+							<select class="form-select form-control" name="gender">
+								<option value="">Select</option>
+								<option value="Male" selected>Male</option>
+								<option value="Female">Female</option>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label class="control-label mb-10">DOB </label>
+							<input type="text" name="dob" id="editdob" value="01/12/2023" readonly="" class="form-control">
+						</div>
+						<div class="mb-3">
+							<label class="control-label mb-10">Photo </label>
+							<input type="file"  name="profile_image" class="form-control">
+						</div>
+					</div>
+					<div class="modal-footer text-center">
+						<button type="submit" class="btn btn-primary submit-btn">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- /Edit Dependent Modal-->
+
+               </div>
+
+    </div> 
+    <!-- / Family Members-->   
+
+        <!--  Change Password-->
+        <div ng-if="(renderCode=='PAWD')" ng-controller="patientdashboardpasswordController">
+            <div class="card">
+               <div class="card-header">
+                                        
+                 <h4 class="card-title">{{renderTitle}}</h4>
+                                            
+                 </div>
+                                    
+                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                        
+                            <!-- Change Password Form -->
+                            <form name="frmPatientChangePassword" ng-submit="UpdatePatientPassword();">
+                                <div class="mb-3">
+                                    <label class="mb-2">Old Password</label>
+                                    <input type="password" name="oldpassword" id="txtOldPassword" ng-model="password.oldpassword" class="form-control" required minlength="6" maxlength="15">
+                                    <span class="feather-eye-off toggle-password" id="spnOld" ng-click="tooglePasswordView(0);"></span>
+                                    <span  style="color: brown;" ng-show="((frmPatientChangePassword.oldpassword.$error.minlength))">Minimum 6 characters.</span>
+                                    
+                                </div>
+                                <div class="mb-3">
+                                    <label class="mb-2">New Password</label>
+                                    <input type="password" name="newpassword" ng-model="password.newpassword" id="txtPassword" class="form-control" ng-class="((frmPatientChangePassword.newpassword.$touched && frmPatientChangePassword.newpassword.$invalid)?'is-invalid':((frmPatientChangePassword.newpassword.$valid && frmPatientChangePassword.newpassword.$touched)?'is-valid':''))" required minlength="6" maxlength="15">
+                                    <span class="feather-eye-off toggle-password" id="spnNew" ng-click="tooglePasswordView(1);"></span>
+                                    <span  style="color: brown;" ng-show="((frmPatientChangePassword.newpassword.$error.minlength))">Minimum 6 characters.</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="mb-2">Confirm Password</label>
+                                    <input type="password" name="confirmpassword" ng-model="password.confirmpassword" id="txtconfirmPassword" compare-to="password.newpassword" ng-class="(((frmPatientChangePassword.confirmpassword.$touched && frmPatientChangePassword.confirmpassword.$invalid) || (frmPatientChangePassword.confirmpassword.$touched && (frmPatientChangePassword.confirmpassword.$error.compareTo)))?'is-invalid':((frmPatientChangePassword.confirmpassword.$valid  && frmPatientChangePassword.confirmpassword.$touched)?'is-valid':''))"  class="form-control" required minlength="6" maxlength="15">
+                                    <span class="feather-eye-off toggle-password" id="spnCon" ng-click="tooglePasswordView(2);"></span>
+                                    <span  style="color: brown;" ng-show="((frmPatientChangePassword.confirmpassword.$error.minlength))">Minimum 6 characters.</span>
+                                    <span  style="color: brown;" ng-show="((frmPatientChangePassword.confirmpassword.$error.compareTo) && (frmPatientChangePassword.confirmpassword.$dirty) )">Mismatch.</span>
+                                </div>
+                                <div class="submit-section">
+                                    
+                                    <button class="btn btn-primary btn-sm btnMinWidth" type="submit"  ng-disabled="((frmPatientChangePassword.$invalid) || (isProcessing))"  style="width: 250px;">
+                                    
+                                        <i class="{{ isProcessing?'fa fa-spinner fa-spin': 'fa fa-save'}}"></i>
+                                        {{isProcessing?'Processing..':'Update'}}
+                                    </button>
+                                </div>
+                            </form>
+                            <!-- /Change Password Form -->
+                            
+                        </div>
+                    </div>
+                  </div>
+               </div>
+
+    </div> 
+    <!-- / Change Password-->  
+
+
+
+                </div>
+                <!-- / Content Sidebar -->
+            </div>
+
+        </div>		
+    
+    </div>
+    <!-- /Page Content -->
+  </div>
+    <!-- /Dashboard Content -->
+</div>
+<!-- /Controller -->	

@@ -1,0 +1,119 @@
+.angucomplete-holder {
+    position: relative;
+}
+
+.angucomplete-dropdown {
+    border-color: #ececec;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    width: 100%;
+    padding: 6px;
+    cursor: pointer;
+    z-index: 9999;
+    position: absolute;
+    /*top: 32px;
+    left: 0px;
+    */
+    margin-top: 12px;
+    background-color: #ffffff;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.angucomplete-searching {
+    color: #acacac;
+    font-size: 14px;
+}
+
+.angucomplete-description {
+    font-size: 14px;
+    color: #666;
+    font-weight: 400;
+}
+
+.angucomplete-row {
+    padding: 5px;
+    color: #333;
+    margin-bottom: 4px;
+    clear: both;
+}
+
+.angucomplete-selected-row {
+    background-color: #eeeeee;
+    color: #333;
+}
+
+.angucomplete-image-holder {
+    padding-top: 2px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.angucomplete-image {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border-color: #ececec;
+    border-style: solid;
+    border-width: 0px;
+    padding: 0px;
+}
+
+.angucomplete-image-default {
+    /* Add your own default image here
+     background-image: url('/assets/default.png');
+    */
+    background-position: center;
+    background-size: contain;
+    height: 40px;
+    width: 40px;
+}
+.highlight{
+    color: #000 !important;
+    font-weight: 600;
+}
+.autocomplete-City
+{
+    width: 54%;
+    float: right;
+    padding-left: 1px;
+}
+.autocomplete-City-code>.iti
+{    width: 30%;
+    float: left;
+    height: 40px;
+}
+.angucomplete-holder>.ng-invalid
+{
+
+border: 1px solid red ;
+}
+.autocomplete-City> div > input
+{
+    height: 40px;
+    padding: 0 10px 0 10px;
+    border: 0;
+    width: 100%;
+}
+.angucomplete-holder>.ng-valid
+{
+
+border: 1px solid green;
+}
+#txtautoCity>.angucomplete-holder>.ng-valid
+{
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+}
+#txtautoCity>.angucomplete-holder>.ng-valid
+{
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+}
+#txtautoClinicCity>.angucomplete-holder>.ng-invalid
+{
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+}
