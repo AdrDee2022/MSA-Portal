@@ -95,7 +95,6 @@ app.controller('patientregistrationController', ['$rootScope','$scope','$locatio
    }
    $scope.bindCities=function(response)
    {
-       debugger;
        $scope.cmbCity = "";
     if(response.Status)
     {

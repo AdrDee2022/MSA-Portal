@@ -1,6 +1,6 @@
 
 ////QA
-var _appBurl = 'http://localhost:60576/api/';
+var _appBurl = 'https://masportalapi.adroitclient2.com/api/';
 
 // atit will check
 

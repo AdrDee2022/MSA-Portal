@@ -54,7 +54,7 @@ app.controller('providerbookAppointmentController', ['$scope','$location','$rout
     $scope.fetchSlots=function()
     { 
         var c = $scope.saasUser.currentappstandardtimezone;
-            debugger;
+           // debugger;
       $scope.isSloatsFound=true;  
       $scope.isTimeSlotLoading=true;
       let _request={doctorid:$scope.doctor.DoctorId,date:formatDate_MMddYYYY($scope.sDate),locationid:$scope.cmblocation,zoneid:$scope.saasUser.currentappstandardtimezone};
@@ -164,7 +164,7 @@ app.controller('providerbookAppointmentController', ['$scope','$location','$rout
       if($scope.doctorName!='0'){
         
   
-          let _request={doctorname:$scope.doctorName.trim().replace('-', ' ').replaceAll('--','-')};
+          let _request={doctorname:$scope.doctorName.trim().replaceAll('-', ' ').replaceAll('--','-')};
         
         appDataService.getBookAppointmentScreenData($scope,_request,'bindScreenData');
        
