@@ -7,7 +7,7 @@ app.config(['$httpProvider', function ($httpProvider) {
         'Platform': 'WEB',
         'Source':'SAASAPP',
         'Content-Type':'application/json',
-        'Version': '1.0'
+        'Version': '2.06'
       }
       
 }]);

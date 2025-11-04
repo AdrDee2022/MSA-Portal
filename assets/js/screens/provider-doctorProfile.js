@@ -12,7 +12,8 @@ app.controller('providerprofileController',['$scope','$location','$routeParams',
       
     
       if($scope.doctorName!='0'){
-          let _request = { doctorname: $scope.doctorName.trim().replace('-', ' ').replaceAll('--','-'), zoneid: $scope.saasUser.currentappstandardtimezone };
+        debugger;
+          let _request = { doctorname: $scope.doctorName.trim().replaceAll('-', ' ').replaceAll('--','-'), zoneid: $scope.saasUser.currentappstandardtimezone };
           //debugger;
         appDataService.getDoctorProfileScreenData($scope,_request,'bindScreenData');
       }
